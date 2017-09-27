@@ -16,7 +16,7 @@
 <div id="billing_address">		
 	<ul>
 		<li>
-			<p class="onestepcheckout-numbers onestepcheckout-numbers-1"><?= Yii::$service->page->translate->__('Billing address');?></p>
+			<p class="onestepcheckout-numbers onestepcheckout-numbers-1"><?= Yii::$service->page->translate->__('Steam Account');?></p>
 		</li>
 		<li>
 			<div>
@@ -36,6 +36,14 @@
 					<option value=""> <?= Yii::$service->page->translate->__('New Address');?> </option>
 				</select>
 				<ul id="billing_address_list" class="billing_address_list_new" style="display:none;">			
+                    <li class="clearfix">
+						<div class="input-box input-steam">
+							<label for="billing:steam_link"><?= Yii::$service->page->translate->__('Steam Link');?><span class="required">*</span></label>
+							<input value="<?= $cart_address['steam_link'] ?>" id="billing:steam_link" name="billing[steam_link]" class="required-entry input-text" type="text">
+						</div>
+						<div class="clear"></div>
+					</li>
+
 					<li class="clearfix">
 						<div class="input-box input-firstname">
 							<label for="billing:firstname"><?= Yii::$service->page->translate->__('First Name');?><span class="required">*</span></label>
@@ -62,6 +70,7 @@
 							<input  value="<?= $cart_address['telephone'] ?>" id="billing:telephone" class="required-entry input-text" title="Telephone" name="billing[telephone]" type="text">
 						</div>
 					</li>
+                    <!--
 					<li class="clearfix">
 						<div class="input-box input-address">
 							<label for="billing:street1"><?= Yii::$service->page->translate->__('Street');?><span class="required">*</span></label>
@@ -98,7 +107,7 @@
 						</div>
 						
 					</li>
-									
+						-->			
 				</ul>							
 			</div>
 		</li>

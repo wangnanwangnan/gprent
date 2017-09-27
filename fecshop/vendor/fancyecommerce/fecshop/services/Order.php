@@ -27,6 +27,7 @@ class Order extends Service
     public $payment_status_complete         = 'complete';
     public $payment_status_holded           = 'holded';
     public $payment_status_suspected_fraud  = 'suspected_fraud';
+
     // 订单号格式。
     public $increment_id = 1000000000;
     // 将xx分钟内未支付的pending订单取消掉，并释放产品库存的设置
@@ -69,13 +70,21 @@ class Order extends Service
      */
     protected function actionGetStatusArr(){
         return [
+            'pending' => $this->payment_status_pending,
+            'processing' => $this->payment_status_processing,
+            'canceled' => $this->payment_status_canceled,
+            'complete' => $this->payment_status_complete,
+            'holded' => $this->payment_status_holded,
+            'suspected_fraud' => $this->payment_status_suspected_fraud,
+            
+            /*
             $this->payment_status_pending         => $this->payment_status_pending,
             $this->payment_status_processing      => $this->payment_status_processing,
             $this->payment_status_canceled        => $this->payment_status_canceled,
             $this->payment_status_complete        => $this->payment_status_complete,
             $this->payment_status_holded          => $this->payment_status_holded,
             $this->payment_status_suspected_fraud => $this->payment_status_suspected_fraud,
-            
+            */
         ];
         
     }

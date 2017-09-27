@@ -86,6 +86,7 @@ return [
  // 用户注册页面
  'Create an Account'            => '创建新账户',
  'Personal Information'            => '个人账户信息',
+ 'Steam Link'                   => 'Steam交易连接',
  'First Name'                    => '名',
  'Last Name'                    => '姓',
  'Sign Up for Newsletter'        => '订阅邮件',
@@ -307,6 +308,7 @@ return [
  'Please wait, processing your order...' => '正在处理您的订单，请稍候...',
  'Create an account for later use' => '创建帐户以供以后使用',
  'Billing address'                => '帐单地址',
+ 'Steam Account'                => 'STEAM相关个人信息',
  'Street'                        => '街道',
  'New Address'                    => '新地址',
  'Check / Money Order'            => '现金支付',

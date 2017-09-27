@@ -38,4 +38,11 @@ class EditaccountController extends AppfrontController
 
         return $this->render($this->action->id, $data);
     }
+
+    public function actionPay()
+    {
+        $startUrl = Yii::$service->payment->getStandardStartUrl('alipay_standard');
+        Yii::$service->url->redirect($startUrl);
+    }   
+
 }

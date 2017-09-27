@@ -118,10 +118,11 @@ class ZmauthController extends AppfrontController
     public function actionGetzmstatus(){
         $identity = Yii::$app->user->identity;
         
+        $requireZMScore = Yii::$app->params['zmScore'];
         $errcode = 0;
         if(empty($identity['zm_scroe'])){
             $errcode = 1;
-        }elseif($identity['zm_scroe'] < 680){
+        }elseif($identity['zm_scroe'] < $requireZMScore){
             $errcode = 2;
         }
         echo $errcode;

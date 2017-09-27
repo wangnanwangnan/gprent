@@ -145,7 +145,6 @@
 		<div class="buttons-tab">
 			<a href="#tab1" class="tab-link active button"><?= Yii::$service->page->translate->__('Description'); ?></a>
 			<a href="#tab2" class="tab-link button"><?= Yii::$service->page->translate->__('Reviews'); ?></a>
-			<a href="#tab3" class="tab-link button"><?= Yii::$service->page->translate->__('Shipping & Payment'); ?></a>
 		</div>
 		<div class="content-block">
 			<div class="tabs">

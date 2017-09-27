@@ -27,8 +27,8 @@ class Login
         return [
             'loginPageCaptcha' => $loginPageCaptcha,
             'email' => $email,
-            'googleLoginUrl' => Yii::$service->customer->google->getLoginUrl('customer/google/loginv'),
-            'facebookLoginUrl' => Yii::$service->customer->facebook->getLoginUrl('customer/facebook/loginv'),
+            //'googleLoginUrl' => Yii::$service->customer->google->getLoginUrl('customer/google/loginv'),
+            //'facebookLoginUrl' => Yii::$service->customer->facebook->getLoginUrl('customer/facebook/loginv'),
         ];
     }
 

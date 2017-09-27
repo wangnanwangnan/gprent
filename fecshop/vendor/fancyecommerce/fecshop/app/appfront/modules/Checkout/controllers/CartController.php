@@ -111,7 +111,7 @@ class CartController extends AppfrontController
                 $error_str = implode(',', $error_arr);
                 echo json_encode([
                     'status' => 'fail',
-                    'content'=> $error_str,
+                    'content'=> $error_arr,
                 ]);
                 exit;
             } else {
@@ -170,7 +170,7 @@ class CartController extends AppfrontController
                 } else {
                     echo json_encode([
                         'status' => 'success',
-                        'content'=> 'cacle coupon success',
+                        'content'=> 'cancle coupon success',
                     ]);
                     $innerTransaction->commit();
                     exit;

@@ -23,17 +23,18 @@ use fecshop\app\appfront\helper\Format;
 						<div class="col-1">
 							<div class="box">
                                 <div class="box-title">
-                                    <h2><?= Yii::$service->page->translate->__('Shipping Address');?></h2>
+                                    <h2>联系方式</h2>
                                 </div>
                                 <div class="box-content">
                                     <address><?=  $customer_firstname ?> <?=  $customer_lastname ?><br>
-                                    <?=  $customer_address_street1 ?><br><?=  $customer_address_street2 ?><br><?=  $customer_address_city ?>,<?=  $customer_address_state_name ?>,<?=  $customer_address_country_name ?><br>
+                                    <!--<?=  $customer_address_street1 ?><br><?=  $customer_address_street2 ?><br><?=  $customer_address_city ?>,<?=  $customer_address_state_name ?>,<?=  $customer_address_country_name ?><br>-->
                                     <?= Yii::$service->page->translate->__('T:');?><?=  $customer_telephone ?>
 
                                     </address>
                                 </div>
                             </div>				
                         </div>
+                        <!--
 						<div class="col-2">
 							<div class="box">
 								<div class="box-title">
@@ -42,7 +43,9 @@ use fecshop\app\appfront\helper\Format;
 								<div class="box-content">
 								<?=  $shipping_method ?>             
 								</div>
-							</div>				</div>
+							</div>				
+                        </div>
+                        -->
 						<div class="col-2">
 							<div class="box box-payment">
 								<div class="box-title">

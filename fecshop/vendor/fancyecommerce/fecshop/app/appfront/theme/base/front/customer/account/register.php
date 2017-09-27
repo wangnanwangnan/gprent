@@ -68,7 +68,7 @@
 						<div class="field">
 							<label for="confirmation" ><?= Yii::$service->page->translate->__('Invite'); ?></label>
 							<div class="input-box">
-								<input name="editForm[parent_invite_code]" title="Invite Code" id="invite" class="input-text required-entry validate-cpassword" type="text">
+								<input name="editForm[parent_invite_code]" title="Invite Code" id="invite" class="input-text" type="text">
 							</div>
 						</div>
 						

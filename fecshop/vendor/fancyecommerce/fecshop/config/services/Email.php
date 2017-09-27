@@ -103,18 +103,8 @@ return [
                         'mailerConfig'  => 'default',
                     ],
                     // 登录用户发送邮件的模板的设置。
-                    'remind' => [
-                        'enable' => true,
-                        // 邮件内容的动态数据提供部分
-                        //'widget'        => 'fecshop\services\email\widgets\customer\account\login\Body',
-                        // 邮件内容的view部分
-                        'viewPath'    => '@fecshop/services/email/views/customer/account/login',
-                        // 如果不定义 mailerConfig，则会使用email service里面的默认配置
-                        'mailerConfig'  => 'default',
-                    ],
-                    // 登录用户发送邮件的模板的设置。
                     'login' => [
-                        'enable' => true,
+                        'enable' => false,
                         // 邮件内容的动态数据提供部分
                         'widget'        => 'fecshop\services\email\widgets\customer\account\login\Body',
                         // 邮件内容的view部分

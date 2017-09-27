@@ -45,6 +45,14 @@
                                     <?php } ?>
                                 </div>
 							</li>
+                        
+                            <?php
+                             $requireZMScore = Yii::$app->params['zmScore'];
+                             $requireZMScoreLow = Yii::$app->params['zmScoreLow'];
+                             if($zm_scroe < $requireZMScore && $zm_scroe > $requireZMScoreLow){
+                                 echo '<li>您的芝麻分不足，<a href="/customer/editaccount/pay" target="_blank" style="color:red">点击这里</a>充值信用押金</li>';
+                             }
+                             ?>
 
 							<li>
 								<label for="email" class="required"><?= Yii::$service->page->translate->__('Email Address');?></label>

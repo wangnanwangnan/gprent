@@ -73,7 +73,7 @@ class Register
     {
         if ($param) {
             //Email::sendRegisterEmail($param);
-            Yii::$service->email->customer->sendRegisterEmail($param);
+            //Yii::$service->email->customer->sendRegisterEmail($param);
         }
     }
     /**

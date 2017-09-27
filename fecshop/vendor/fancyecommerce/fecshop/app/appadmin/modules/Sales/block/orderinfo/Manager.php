@@ -283,6 +283,13 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
                                 }
                             }
                         }
+                    }else{
+                        $orderStatusArr = Yii::$service->order->getStatusArr();
+                        if(isset($orderStatusArr[$val])){
+                            $val = $orderStatusArr[$val];
+                        }else{
+                            $val = $val;
+                        }
                     }
 
                     if (isset($field['lang']) && !empty($field['lang'])) {

@@ -24,7 +24,16 @@ class Index
             Yii::$service->url->redirectHome();
         }
         $order = Yii::$service->order->getInfoByIncrementId($increment_id);
-        $this->sendRentUserMail($order);
+        
+        //支付成功通知
+        $this->noticePaySuccess($order);
+        //$this->sendRentUserMail($order);
+        
+        //更新用户租借额度
+        $this->updateUserCost($order);
+        //$custoner_id = $order['customer_id'];
+        //$customerModel = $this->_customerModel->findIdentity($customer_id);
+        //$customerModel->summation_cost = ;
 
         // 清空购物车。这里针对的是未登录用户进行购物车清空。
         if (Yii::$app->user->isGuest) {
@@ -37,6 +46,31 @@ class Index
             'increment_id' => $increment_id,
             'order'            => $order,
         ];
+    }
+
+    public function updateUserCost($order){
+        $custoner_id = $order['customer_id'];
+
+        if($custoner_id == 2){
+        }
+    }
+
+    public function noticePaySuccess($order){
+        $custoner_id = $order['customer_id'];
+        $customer = Yii::$service->customer->getByPrimaryKey($custoner_id);
+        
+        $emailArr = ['617990822@qq.com', '2366629496@qq.com', '15632055895@163.com'];
+        foreach($emailArr as $email){
+        
+            $htmlBody = '用户'.$customer['realname'].'刚刚订单支付成功，总价为'.$order['grand_total'].'，竟快发货';
+            $sendInfo = [
+                        'to'            => $email,
+                        'subject'       => '有人已经付款完成！',
+                        'htmlBody'      => $htmlBody,
+                        'senderName'    => Yii::$service->store->currentStore,
+                    ];
+            Yii::$service->email->send($sendInfo, 'default');
+        }
     }
 
     public function sendRentUserMail($order){

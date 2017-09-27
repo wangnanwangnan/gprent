@@ -68,10 +68,12 @@
 		</div>
 		<div class="clear"></div>
 		<div class="third_login">
+        <!--
 			<div class="fago_login">
 				<img onclick="facebooklogin()" src="<?= Yii::$service->image->getImgUrl("images/facebook.jpg") ?>" /><br/>
 				<img onclick="googlelogin()"src="<?=Yii::$service->image->getImgUrl("images/google.jpg") ?>" /><br/>
 			</div>
+            -->
 			<?= \fec\helpers\CRequest::getCsrfInputHtml();  ?>
 			<div class="col2-set">
 				<div class="col-1 new-users">

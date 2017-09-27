@@ -20,7 +20,15 @@
 		<li>
 			<div>
 				<ul id="billing_address_list" class="billing_address_list_new" style="">			
-					<li class="clearfix">
+				<li class="clearfix">
+						<div class="input-box input-steam">
+							<label for="billing:steam_link"><?= Yii::$service->page->translate->__('Steam Link');?><span class="required">*</span></label>
+							<input value="<?= $cart_address['steam_link'] ?>" id="billing:steam_link" name="billing[steam_link]" class="required-entry input-text" type="text">
+						</div>
+						<div class="clear"></div>
+					</li>
+	
+                <li class="clearfix">
 						<div class="input-box input-firstname">
 							<label for="billing:firstname"><?= Yii::$service->page->translate->__('First Name');?><span class="required">*</span></label>
 							<input value="<?= $cart_address['first_name'] ?>" id="billing:firstname" name="billing[first_name]" class="required-entry input-text" type="text">
@@ -46,6 +54,7 @@
 							<input value="<?= $cart_address['telephone'] ?>" id="billing:telephone" class="required-entry input-text" title="Telephone" name="billing[telephone]" type="text">
 						</div>
 					</li>
+                    <!--
 					<li class="clearfix">
 						<div class="input-box input-address">
 							<label for="billing:street1"><?= Yii::$service->page->translate->__('Street');?><span class="required">*</span></label>
@@ -81,6 +90,7 @@
 							<input value="<?= $cart_address['zip'] ?>" class="validate-zip-international required-entry input-text" id="billing:zip" name="billing[zip]" title="Zip Code" type="text">
 						</div>
 					</li>
+                    -->
 					<?php if(!Yii::$app->user->isGuest):  ?>
 					
 					<?php else: ?>

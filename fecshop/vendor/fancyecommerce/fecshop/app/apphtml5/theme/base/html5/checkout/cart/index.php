@@ -52,7 +52,7 @@ use fecshop\app\apphtml5\helper\Format;
 									<div class="cart_qty">
 										<a  externalhref="javascript:void(0)" class="cartqtydown changeitemqty" rel="<?= $product_one['item_id']; ?>" num="<?= $product_one['qty']; ?>">-</a>
 										<input name="cart[qty]" size="4" title="Qty" class="input-text qty" rel="<?= $product_one['item_id']; ?>" maxlength="12" value="<?= $product_one['qty']; ?>">
-										<a externalhref="javascript:void(0)" class="cartqtyup changeitemqty" rel="<?= $product_one['item_id']; ?>" num="<?= $product_one['qty']; ?>">+</a>
+										<a externalhref="javascript:void(0)" class="cartqtyup changeitemqty" rel="<?= $product_one['item_id']; ?>" num="<?= $product_one['qty']; ?>">+</a>  天
 										<div class="clear"></div>
 									</div>
 									<a  externalhref="javascript:void(0)"  rel="<?= $product_one['item_id']; ?>" title="Remove item" class="btn-remove btn-remove2"><span class="icon icon-remove"></span></a>
@@ -116,16 +116,8 @@ use fecshop\app\apphtml5\helper\Format;
 						<div class="proceed_to_checkout">
 							
 							<div class="row no-gutter">
-								<div class="col-50">
-									<button onclick="alert('手机端暂时体验版本，租用请用电脑打开www.gprent.cn');return false;location.href='<?= Yii::$service->url->getUrl('checkout/onepage');  ?>'" type="button" title="Proceed to Checkout" class="button btn-proceed-checkout btn-checkout"><span><span><?= Yii::$service->page->translate->__('Proceed to Pay');?></span></span></button>
-							
-								</div>
-								<div class="col-50">
-									<a  external class="express_paypal" href="<?= Yii::$service->url->getUrl('payment/paypal/express/start');    ?>">
-										<img src="<?= Yii::$service->image->getImgUrl('/images/pay.png') ?>"  />
-									</a>
-									
-								</div>
+									<button onclick="location.href='<?= Yii::$service->url->getUrl('checkout/onepage');  ?>'" type="button" title="Proceed to Checkout" class="button btn-proceed-checkout btn-checkout"><span><span><?= Yii::$service->page->translate->__('Proceed to Pay');?></span></span></button>
+							<!-- alert('手机端暂时体验版本，租用请用电脑打开www.gprent.cn');return false;-->
 							</div>
 						</div>
 					</div>

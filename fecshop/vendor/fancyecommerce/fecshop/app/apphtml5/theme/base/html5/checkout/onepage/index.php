@@ -41,7 +41,7 @@
 					</div>
 
 					<div class="onestepcheckout-column-middle">
-						<div class="shipping_method_html">
+						<div class="shipping_method_html" style="display:none">
 							<?php # shipping部分
 								$shippingView = [
 									'view'	=> 'checkout/onepage/index/shipping.php'
