@@ -68,6 +68,7 @@ use fecshop\app\apphtml5\helper\Format;
 					<div class="col2-set">
 						<div class="col-1">
 						</div>
+                        <!--
 						<div class="col-2">
 							<form id="discount-coupon-form" >
 								<div class="discount">
@@ -88,6 +89,7 @@ use fecshop\app\apphtml5\helper\Format;
 							
 							
 						</div>
+                        -->
 					</div>
 					<div class="cart_cost">
 						<div class="row no-gutter">

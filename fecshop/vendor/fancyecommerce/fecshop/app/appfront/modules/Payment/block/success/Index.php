@@ -49,10 +49,20 @@ class Index
     }
 
     public function updateUserCost($order){
-        $custoner_id = $order['customer_id'];
-
-        if($custoner_id == 2){
+        $customer_id = $order['customer_id'];
+        //$order_id = $order['order_id'];
+        $customerModel = Yii::$service->customer->getByPrimaryKey($customer_id);
+        //获取订单下所有的商品价格
+        //$order_info = Yii::$service->order->getOrderInfoById($order_id);
+        $total_cost_price = 0;
+        if($order){
+            foreach($order['items'] as $pinfo){
+                $total_cost_price += $pinfo['cost_price'];
+            }
         }
+        $customerModel->summation_cost = $customerModel->summation_cost+$total_cost_price;
+        $customerModel->save();
+
     }
 
     public function noticePaySuccess($order){

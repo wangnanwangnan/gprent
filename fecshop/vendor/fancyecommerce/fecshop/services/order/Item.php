@@ -43,11 +43,11 @@ class Item extends Service
         foreach ($items as $k=>$one) {
             $product_id = $one['product_id'];
             $product_one = Yii::$service->product->getByPrimaryKey($product_id);
-
             $productSpuOptions = $this->getProductSpuOptions($product_one);
             //var_dump($productSpuOptions);
             $items[$k]['spu_options'] = $productSpuOptions;
             $items[$k]['custom_option'] = $product_one['custom_option'];
+            $items[$k]['cost_price'] = $product_one['cost_price'];
             $items[$k]['custom_option_info'] = $this->getProductOptions($items[$k]);
             $items[$k]['image'] = $this->getProductImage($product_one, $one);
         }

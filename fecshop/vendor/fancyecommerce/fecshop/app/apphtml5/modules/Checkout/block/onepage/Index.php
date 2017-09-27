@@ -506,7 +506,7 @@ class Index
             }
             $this->_state = $state;
         }
-        if ($this->_country && $this->_state) {
+        //if ($this->_country && $this->_state) {
             $shippings = $this->getShippings($shipping_method);
             $payments = $this->getPayment();
             /**
@@ -555,6 +555,6 @@ class Index
                 'reviewOrderHtml'    => $reviewOrderHtml,
             ]);
             exit;
-        }
+        //}
     }
 }
