@@ -14,6 +14,8 @@ class Order
         
         $orderProducts = $orderInfo['products'];
         
+
+
         /*
         $customer_id = Yii::$app->user->id;
         $filter = [
@@ -33,6 +35,10 @@ class Order
 */
         $productPrice = 0;
         foreach($orderProducts as $info){
+            if($info['qty'] > 20){
+                echo '<script>alert("内测阶段，所有商品最多只能租用20天，请修改'.$info['name'].'的租用天数，请谅解");window.history.go(-2);</script>';
+                exit;
+            }
 
             $primaryVal = $info['product_id'];
             $product = Yii::$service->product->getByPrimaryKey($primaryVal);
