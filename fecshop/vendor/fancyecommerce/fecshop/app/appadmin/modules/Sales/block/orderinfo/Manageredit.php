@@ -95,8 +95,23 @@ class Manageredit
         $order_id = $editForm['order_id'];
         $orderModel = Yii::$service->order->getByPrimaryKey($order_id);
         if(is_array($editForm) && $orderModel['order_id']){
+            $order_start = $orderModel->order_status;
             foreach($editForm as $k => $v){
                 if(isset($orderModel[$k])){
+                    //判断是否修改订单状态 如果修改判断是否换回来物品 是 则将用户累计租赁金额还原
+                    if($k == 'order_status' && $v == 'complete' && $order_start == 'holded'){
+                        $order_info = Yii::$service->order->getOrderInfoById($order_id);
+                        $customer_id = $order_info['customer_id'];
+                        $total_cost_price = 0;
+                        foreach($order_info['products'] as $pinfo){
+                            $total_cost_price += $pinfo['cost_price'];
+                        }
+                        $customerModel = Yii::$service->customer->getByPrimaryKey($customer_id);
+                        if($customerModel->summation_cost >= $total_cost_price){
+                            $customerModel->summation_cost = $customerModel->summation_cost-$total_cost_price;
+                            $customerModel->save();
+                        }
+                    }
                     $orderModel[$k] = $v;
                 }
             } 
