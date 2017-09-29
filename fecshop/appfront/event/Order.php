@@ -14,10 +14,17 @@ class Order
         
         $orderProducts = $orderInfo['products'];
         
+        $level = 0;
+        $identity = Yii::$app->user->identity;
+        if($identity){
+            $level = $identity->level;
+        }
+        $level_info = Yii::$app->params['level'][$level];
+        $maxCountAddToCart = $level_info['day_num'];
 
 
-        /*
         $customer_id = Yii::$app->user->id;
+        /*
         $filter = [
             'where'            => [
                 ['customer_id' => $customer_id],
@@ -32,25 +39,38 @@ class Order
                 
             }
         }
-*/
+        */
+
         $productPrice = 0;
         foreach($orderProducts as $info){
-            if($info['qty'] > 20){
+            if($info['qty'] > $maxCountAddToCart){
                 echo '<script>alert("内测阶段，所有商品最多只能租用20天，请修改'.$info['name'].'的租用天数，请谅解");window.history.go(-2);</script>';
                 exit;
             }
-
+            //获取订单的商品总金额
             $primaryVal = $info['product_id'];
             $product = Yii::$service->product->getByPrimaryKey($primaryVal);
-            $productPrice += $product['remark'];
+            $productPrice += $product['cost_price'];
             
-            //print_r($product['remark']);exit;
+            
         //    if($info['qty'] > 1 && in_array($info['sku'], $special_sku_arr)){
         //        echo '<script>alert("'.$info['name'].'为特价商品，租借时间不能超过一天，请修改");window.history.go(-2);</script>';
         //        exit;
             //}
         }
-//echo $productPrice;exit;
+
+
+        //获取用户累计租聘金额
+        $customerModel = Yii::$service->customer->getByPrimaryKey($customer_id);
+        if($customerModel){
+            $t_price = $productPrice+$customerModel->summation_cost;
+
+            if($t_price > 2000){
+                $p = 2000-$customerModel->summation_cost;
+                echo '<script>alert("所有在租商品总金额不能超过2000，还可以租'.$p.'以内的道具 继续租用，请谅解");window.history.go(-2);</script>';
+                exit;
+            }
+        }
 
 /*
         if($productNum >1){
