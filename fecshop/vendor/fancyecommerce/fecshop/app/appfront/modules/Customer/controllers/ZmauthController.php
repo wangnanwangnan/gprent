@@ -43,7 +43,7 @@ class ZmauthController extends AppfrontController
         
         //搜索是否该用户已经被验证
         $db = \Yii::$app->db;
-        $sql = "select id from customer where identity_card = '".$identity_card."' limit 1 ";
+        $sql = "select id from customer where identity_card = '".$identity_card."' and zm_scroe != 0 limit 1 ";
         $data = $db->createCommand($sql,[])->queryOne();
         
         $is_exist = 0;
@@ -63,7 +63,7 @@ class ZmauthController extends AppfrontController
         
         //搜索是否该用户已经被验证
         $db = \Yii::$app->db;
-        $sql = "select id from customer where identity_card = '".$identity_card."' limit 1 ";
+        $sql = "select id from customer where identity_card = '".$identity_card."' and zm_scroe != 0 limit 1 ";
         $data = $db->createCommand($sql,[])->queryOne();
         
 
@@ -105,7 +105,8 @@ class ZmauthController extends AppfrontController
             $identity->zm_transaction_id = $transaction_id;
         
             $customer_level = 0;
-            if($score >= 700){
+            $zmScore = Yii::$app->params['zmScore'];
+            if($score >= $zmScore){
                 $customer_level = 1;
             }
             $identity->level = $customer_level;
