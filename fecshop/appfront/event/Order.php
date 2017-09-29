@@ -21,6 +21,7 @@ class Order
         }
         $level_info = Yii::$app->params['level'][$level];
         $maxCountAddToCart = $level_info['day_num'];
+        $maxPriceAddToCart = $level_info['rent_price'];
 
 
         $customer_id = Yii::$app->user->id;
@@ -44,7 +45,7 @@ class Order
         $productPrice = 0;
         foreach($orderProducts as $info){
             if($info['qty'] > $maxCountAddToCart){
-                echo '<script>alert("内测阶段，所有商品最多只能租用20天，请修改'.$info['name'].'的租用天数，请谅解");window.history.go(-2);</script>';
+                echo '<script>alert("内测阶段，所有商品最多只能租用'.$maxCountAddToCart.'天，请修改'.$info['name'].'的租用天数，请谅解");window.history.go(-2);</script>';
                 exit;
             }
             //获取订单的商品总金额
@@ -65,9 +66,9 @@ class Order
         if($customerModel){
             $t_price = $productPrice+$customerModel->summation_cost;
 
-            if($t_price > 2000){
-                $p = 2000-$customerModel->summation_cost;
-                echo '<script>alert("所有在租商品总金额不能超过2000，还可以租'.$p.'以内的道具 继续租用，请谅解");window.history.go(-2);</script>';
+            if($t_price > $maxPriceAddToCart){
+                $p = $maxPriceAddToCart-$customerModel->summation_cost;
+                echo '<script>alert("所有在租商品总金额不能超过'.$maxPriceAddToCart.'，还可以租'.$p.'以内的道具 继续租用，请谅解");window.history.go(-2);</script>';
                 exit;
             }
         }
