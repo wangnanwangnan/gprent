@@ -104,6 +104,12 @@ class ZmauthController extends AppfrontController
             $identity->zm_scroe = $score;
             $identity->zm_transaction_id = $transaction_id;
         
+            $customer_level = 0;
+            if($score >= 700){
+                $customer_level = 1;
+            }
+            $identity->level = $customer_level;
+
             if($identity->save()){
                 $this->redirect('/customer/editaccount');
             }
