@@ -20,7 +20,7 @@ return [
 
     'level' => [
         0 => [
-            'day_num' => 18,
+            'day_num' => 10,
             'rent_price' => 800,
         ],
         1 => [
