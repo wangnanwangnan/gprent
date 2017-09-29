@@ -22,7 +22,7 @@ class Info extends Service
     /**
      * 单个sku加入购物车的最大个数。
      */
-    public $maxCountAddToCart = 100;
+    public $maxCountAddToCart = 20;
 
     // 上架状态产品加入购物车时，
     // 如果addToCartCheckSkuQty设置为true，则需要检查产品qty是否>购买qty，
@@ -43,6 +43,14 @@ class Info extends Service
      */
     public function checkProductBeforeAdd($item, $product)
     {
+        $level = 0;
+        $identity = Yii::$app->user->identity;
+        if($identity){
+            $level = $identity->level;
+        }
+        $level_info = Yii::$app->params['level'][$level];
+        $this->maxCountAddToCart = $level_info['day_num'];
+
         $qty = $item['qty'];
         $product_id = $item['product_id'];
         $custom_option_sku = $item['custom_option_sku'];

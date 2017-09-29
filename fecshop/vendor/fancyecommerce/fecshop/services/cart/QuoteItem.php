@@ -252,6 +252,15 @@ class QuoteItem extends Service
      */
     public function addOneItem($item_id)
     {
+        $level = 0;
+        $identity = Yii::$app->user->identity;
+        if($identity){
+            $level = $identity->level;
+        }
+        $level_info = Yii::$app->params['level'][$level];
+        $maxCountAddToCart = $level_info['day_num'];
+
+
         $cart_id = Yii::$service->cart->quote->getCartId();
         if ($cart_id) {
             $one = $this->_itemModel->find()->where([
@@ -260,6 +269,11 @@ class QuoteItem extends Service
             ])->one();
             if ($one['item_id']) {
                 $one['qty'] = $one['qty'] + 1;
+                //一次最多购买 20
+                if($one['qty'] > $maxCountAddToCart){
+                     return false;
+                }
+
                 $one->save();
                 // 重新计算购物车的数量
                 Yii::$service->cart->quote->computeCartInfo();
