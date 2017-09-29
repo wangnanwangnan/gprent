@@ -62,7 +62,7 @@ class Info extends Service
         }
         // 加入购物车的产品个数超出 购物车中产品的最大个数。
         if ($qty > $this->maxCountAddToCart) {
-            Yii::$service->helper->errors->add('The number of products added to the shopping cart can not exceed '.$this->maxCountAddToCart);
+            Yii::$service->helper->errors->add('最多可以租用 '.$this->maxCountAddToCart.' 天');
 
             return false;
         }
