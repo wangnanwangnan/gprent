@@ -309,7 +309,8 @@ class Coupon extends Service
                 if ($type == 1) { // 百分比
                     $base_discount_cost = $discount / 100 * $dc_price;
                 } elseif ($type == 2) { // 直接折扣
-                    $base_discount_cost = $dc_price - $discount;
+                    //$base_discount_cost = $dc_price - $discount;
+                    $base_discount_cost = $discount;
                 }
                 $curr_discount_cost = Yii::$service->page->currency->getCurrentCurrencyPrice($base_discount_cost);
             }
