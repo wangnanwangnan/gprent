@@ -6,7 +6,7 @@ return [
     //'user.passwordResetTokenExpire' => 3600,
     
     'zmScore' => '680',
-    'zmScoreLow' => '600',
+    'zmScoreLow' => '630',
 
     'memberCard' => [
                         'store' => 'www.gprent.cn',

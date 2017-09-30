@@ -10,7 +10,7 @@ class Order
         $productNum = count($orderInfo['products']);
         
         //print_r($orderInfo);exit;
-        //$special_sku_arr = ['10001, 10002, 10003, 10005, 10006'];
+        $special_sku_arr = ['10001', '10002', '10003', '10005', '10006', '20003', '20002', '10008'];
         
         $orderProducts = $orderInfo['products'];
         
@@ -44,6 +44,11 @@ class Order
 
         $productPrice = 0;
         foreach($orderProducts as $info){
+            if($info['qty'] > 5 && in_array($info['sku'], $special_sku_arr)){
+                echo '<script>alert("'.$info['name'].'为特价商品，租借时间不能超过五天，请修改此商品租借天数");window.history.go(-2);</script>';
+                exit;
+            }
+
             if($info['qty'] > $maxCountAddToCart){
                 echo '<script>alert("内测阶段，所有商品最多只能租用'.$maxCountAddToCart.'天，请修改'.$info['name'].'的租用天数，请谅解");window.history.go(-2);</script>';
                 exit;
@@ -52,12 +57,6 @@ class Order
             $primaryVal = $info['product_id'];
             $product = Yii::$service->product->getByPrimaryKey($primaryVal);
             $productPrice += $product['cost_price'];
-            
-            
-        //    if($info['qty'] > 1 && in_array($info['sku'], $special_sku_arr)){
-        //        echo '<script>alert("'.$info['name'].'为特价商品，租借时间不能超过一天，请修改");window.history.go(-2);</script>';
-        //        exit;
-            //}
         }
 
 

@@ -121,7 +121,7 @@ Array
             $diff = $returnTime - $currentTime;
 
             if($diff < $atonceTime){
-                $htmlBody = $complete['customer_lastname'].$complete['customer_firstname'].'的道具将在'.$returnDate.'到期，别忘记收回（'.$beginDate.'-'.$returnDate.'），Steam链接：'.$complete['steam_link'].'，电话：'.$complete['customer_telephone'].'，邮箱：'.$complete['customer_email'];
+                $htmlBody = $complete['customer_lastname'].$complete['customer_firstname'].'的道具将在'.$returnDate.'到期，别忘记收回（'.$beginDate.'-'.$returnDate.'），Steam链接：'.$complete['steam_link'].'，电话：'.$complete['customer_telephone'].'，邮箱：'.$complete['customer_email'].'，订单号：'.$complete['increment_id'];
                 foreach($emailArr as $email){
                     $sendInfo = [
                         'to'        => $email,
