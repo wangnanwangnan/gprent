@@ -36,21 +36,26 @@ class Order
         }
         */
 
+        $customer_id = Yii::$app->user->id;
+        $customerModel = Yii::$service->customer->getByPrimaryKey($customer_id);
+        $customer_level = $customerModel->level;
+        $customer_level_info = Yii::$app->params['level'][$customer_level];
+        
         $productPrice = 0;
         $special_num = 0;
         foreach($orderProducts as $info){
             $product = Yii::$service->product->getByPrimaryKey($info['product_id']);
             
-            if($special_num >= 1){
-                echo '<script>alert("特价商品只能同时租一件，请修改");window.history.go(-2);</script>';
+            if($special_num >= $customer_level_info['special_num']){
+                echo '<script>alert("特价商品只能同时租'.$customer_level_info['special_num'].'件，请修改");window.history.go(-2);</script>';
                 exit;
             }
             if(!empty($product->special_price)){
                 $special_num += 1;
             }
 
-            if($info['qty'] > 5 && !empty($product->special_price)){
-                echo '<script>alert("'.$info['name'].'为特价商品，租借时间不能超过五天，请修改此商品租借天数");window.history.go(-2);</script>';
+            if($info['qty'] > $customer_level_info['special_days'] && !empty($product->special_price)){
+                echo '<script>alert("'.$info['name'].'为特价商品，根据您的用户级别，租借时间不能超过'.$customer_level_info['special_days'].'天，请修改此商品租借天数");window.history.go(-2);</script>';
                 exit;
             }
 
@@ -66,10 +71,8 @@ class Order
         }
 
         //获取用户累计租聘金额
-        $customer_id = Yii::$app->user->id;
-        $customerModel = Yii::$service->customer->getByPrimaryKey($customer_id);
         if($customerModel){
-            $t_price = $productPrice+$customerModel->summation_cost;
+            $t_price = $productPrice + $customerModel->summation_cost;
 
             if($t_price > $maxPriceAddToCart){
                 $p = $maxPriceAddToCart-$customerModel->summation_cost;
