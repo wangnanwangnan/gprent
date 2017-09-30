@@ -7,11 +7,6 @@ class Order
 {
     public static function before($orderInfo){
         
-        $productNum = count($orderInfo['products']);
-        
-        //print_r($orderInfo);exit;
-        $special_sku_arr = ['10001', '10002', '10003', '10005', '10006', '20003', '20002', '10008'];
-        
         $orderProducts = $orderInfo['products'];
         
         $level = 0;
@@ -24,7 +19,6 @@ class Order
         $maxPriceAddToCart = $level_info['rent_price'];
 
 
-        $customer_id = Yii::$app->user->id;
         /*
         $filter = [
             'where'            => [
@@ -43,8 +37,19 @@ class Order
         */
 
         $productPrice = 0;
+        $special_num = 0;
         foreach($orderProducts as $info){
-            if($info['qty'] > 5 && in_array($info['sku'], $special_sku_arr)){
+            $product = Yii::$service->product->getByPrimaryKey($info['product_id']);
+            
+            if($special_num >= 1){
+                echo '<script>alert("特价商品只能同时租一件，请修改");window.history.go(-2);</script>';
+                exit;
+            }
+            if(!empty($product->special_price)){
+                $special_num += 1;
+            }
+
+            if($info['qty'] > 5 && !empty($product->special_price)){
                 echo '<script>alert("'.$info['name'].'为特价商品，租借时间不能超过五天，请修改此商品租借天数");window.history.go(-2);</script>';
                 exit;
             }
@@ -57,10 +62,11 @@ class Order
             $primaryVal = $info['product_id'];
             $product = Yii::$service->product->getByPrimaryKey($primaryVal);
             $productPrice += $product['cost_price'];
+
         }
 
-
         //获取用户累计租聘金额
+        $customer_id = Yii::$app->user->id;
         $customerModel = Yii::$service->customer->getByPrimaryKey($customer_id);
         if($customerModel){
             $t_price = $productPrice+$customerModel->summation_cost;
@@ -73,6 +79,7 @@ class Order
         }
 
 /*
+        $productNum = count($orderInfo['products']);
         if($productNum >1){
             echo '<script>alert("下单失败！内测阶段,每人最多只可租借一件商品");window.history.go(-2);</script>';
             exit;
