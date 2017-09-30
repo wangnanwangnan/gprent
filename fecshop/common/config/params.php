@@ -22,10 +22,14 @@ return [
         0 => [
             'day_num' => 10,
             'rent_price' => 800,
+            'special_num' => 1,
+            'special_days' => 5,
         ],
         1 => [
             'day_num' => 20,
             'rent_price' => 2000,
+            'special_num' => 1,
+            'special_days' => 5,
         ],
     ],
 ];

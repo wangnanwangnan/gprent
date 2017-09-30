@@ -17,6 +17,8 @@ use Yii;
  */
 class Index
 {
+    protected $_customerMemberModelName = '\fecshop\models\mysqldb\customer\Member';
+    
     public function getLastData()
     {
         $increment_id = Yii::$service->order->getSessionIncrementId();
@@ -25,11 +27,16 @@ class Index
         }
         $order = Yii::$service->order->getInfoByIncrementId($increment_id);
         
+        //如果订单为会员卡押金
+        if($order['is_membercard'] == 1){
+            $this->insertCustomerMember($order);
+        }
+
         //支付成功通知
         $this->noticePaySuccess($order);
         //$this->sendRentUserMail($order);
-        
-        //更新用户租借额度
+
+        //更新用户租借额度 特价商品数量
         $this->updateUserCost($order);
         //$custoner_id = $order['customer_id'];
         //$customerModel = $this->_customerModel->findIdentity($customer_id);
@@ -48,6 +55,16 @@ class Index
         ];
     }
 
+    public function insertCustomerMember($order){
+        //如果为会员卡押金
+        $customerMemberModel = new $this->_customerMemberModelName();
+        $customerMemberModel['customer_id'] = Yii::$app->user->identity->id;
+        $customerMemberModel['level']       = 1;
+        $customerMemberModel['order_id']    = $order['order_id'];
+        
+        $customerMemberModel->save();
+    }
+
     public function updateUserCost($order){
         $customer_id = $order['customer_id'];
         //$order_id = $order['order_id'];
@@ -55,11 +72,16 @@ class Index
         //获取订单下所有的商品价格
         //$order_info = Yii::$service->order->getOrderInfoById($order_id);
         $total_cost_price = 0;
+        $special_lock = $customerModel->special_lock;
         if($order){
             foreach($order['items'] as $pinfo){
                 $total_cost_price += $pinfo['cost_price'];
+                if($pinfo['special_price']){
+                    $special_lock += 1;
+                }
             }
         }
+        $customerModel->special_lock = $special_lock;
         $customerModel->summation_cost = $customerModel->summation_cost+$total_cost_price;
         $customerModel->save();
 
