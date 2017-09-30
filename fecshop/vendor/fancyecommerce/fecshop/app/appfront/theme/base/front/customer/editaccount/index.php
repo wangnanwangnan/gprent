@@ -41,7 +41,7 @@
                                         echo '芝麻信用评估：'.$zm_scroe;
                                     }else{
                                     ?>
-                                    <a style='color:#f05b72' id="go-zmauth" href='javascript:void(0)'><?= Yii::$service->page->translate->__('Zm Go Authorize');?>></a>
+                                    <a style='color:#f05b72' id="go-zmauth" href='javascript:void(0)'><?= Yii::$service->page->translate->__('Zm Go Authorize');?></a>
                                     <?php } ?>
                                 </div>
 							</li>
@@ -49,8 +49,12 @@
                             <?php
                              $requireZMScore = Yii::$app->params['zmScore'];
                              $requireZMScoreLow = Yii::$app->params['zmScoreLow'];
-                             if($zm_scroe < $requireZMScore && $zm_scroe > $requireZMScoreLow){
-                                 echo '<li>您的芝麻分不足，<a href="/customer/editaccount/pay" target="_blank" style="color:red">点击这里</a>充值信用押金</li>';
+                             if($zm_scroe < $requireZMScore && $zm_scroe >= $requireZMScoreLow){
+                                 if($is_level){
+                                    echo '<li>您的押金 '.$cash_pledge.'，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>退押金</li>';
+                                 }else{
+                                    echo '<li>您的芝麻分不足，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>充值信用押金</li>';
+                                 }
                              }
                              ?>
 
@@ -139,7 +143,7 @@
       <label for="realname">真实姓名</label>
       <input type="text" name="realname" id="realname" value="" class="text ui-widget-content ui-corner-all">
       <label for="identity_card">身份证号</label>
-      <input type="text" name="identity_card" id="identity_card" value="" class="text ui-widget-content ui-corner-all">
+      <input type="text" name="identity_card" id="identity_card" value="" class="text ui-widget-content ui-corner-all" style="text-transform: uppercase;">
  
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
       <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
@@ -329,9 +333,6 @@
         
         $('#zm_realname').val(realname);
         $('#zm_identity_card').val(identity_card);
-        
-        
-
         
         $.ajax({
             url:'/customer/zmauth/exist',
