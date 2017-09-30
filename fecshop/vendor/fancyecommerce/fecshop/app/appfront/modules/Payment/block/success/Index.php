@@ -76,7 +76,8 @@ class Index
         if($order){
             foreach($order['items'] as $pinfo){
                 $total_cost_price += $pinfo['cost_price'];
-                if($pinfo['special_price']){
+                $product = Yii::$service->product->getByPrimaryKey($pinfo['product_id']);
+                if(!empty($product->special_price)){
                     $special_lock += 1;
                 }
             }
