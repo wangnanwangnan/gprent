@@ -12,7 +12,7 @@ return [
                         'store' => 'www.gprent.cn',
                         'subject' => 'Gprent信用押金',
                         'member_level' => [
-                                            '1' => 0.01,
+                                            '1' => 98,
                                             '2' => 100,
                                             '3' => 200
                                         ]

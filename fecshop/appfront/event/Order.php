@@ -42,17 +42,18 @@ class Order
         $customer_level_info = Yii::$app->params['level'][$customer_level];
         
         $productPrice = 0;
-        $special_num = 0;
+        $special_num = $customerModel->special_lock;
+        
         foreach($orderProducts as $info){
             $product = Yii::$service->product->getByPrimaryKey($info['product_id']);
 
+            if(!empty($product->special_price)){
+                $special_num += 1;
+            }
             
             if($special_num > $customer_level_info['special_num']){
                 echo '<script>alert("特价商品只能同时租'.$customer_level_info['special_num'].'件，请修改");window.history.go(-2);</script>';
                 exit;
-            }
-            if(!empty($product->special_price)){
-                $special_num += 1;
             }
 
             if($info['qty'] > $customer_level_info['special_days'] && !empty($product->special_price)){
