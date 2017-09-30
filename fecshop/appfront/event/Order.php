@@ -45,8 +45,9 @@ class Order
         $special_num = 0;
         foreach($orderProducts as $info){
             $product = Yii::$service->product->getByPrimaryKey($info['product_id']);
+
             
-            if($special_num >= $customer_level_info['special_num']){
+            if($special_num > $customer_level_info['special_num']){
                 echo '<script>alert("特价商品只能同时租'.$customer_level_info['special_num'].'件，请修改");window.history.go(-2);</script>';
                 exit;
             }
