@@ -177,26 +177,26 @@ class Index extends AppadminbaseBlock implements AppadminbaseBlockInterface
                 'align'        => 'center',
 
             ],
+            /*
             [
                 'orderField'    => 'sku',
                 'width'            => '150',
                 'align'        => 'center',
             ],
-
+            */
             [
                 'orderField'    => 'qty',
                 'label'            => '库存数',
                 'width'            => '50',
                 'align'        => 'center',
             ],
-
+/*
             [
                 'orderField'    => 'weight',
                 'label'            => '重量',
                 'width'            => '50',
                 'align'        => 'center',
             ],
-
             [
                 'orderField'    => 'status',
                 'label'            => '状态',
@@ -204,6 +204,7 @@ class Index extends AppadminbaseBlock implements AppadminbaseBlockInterface
                 'align'        => 'center',
                 'display'        => $this->_productHelper->getStatusArr(),
             ],
+*/
 
             [
                 'orderField'    => 'cost_price',
@@ -225,13 +226,14 @@ class Index extends AppadminbaseBlock implements AppadminbaseBlockInterface
                 'width'            => '50',
                 'align'        => 'center',
             ],
-
+/*
             [
                 'orderField'    => 'created_user_id',
                 'label'            => '创建人',
                 'width'            => '50',
                 'align'        => 'center',
             ],
+*/
             [
                 'orderField'    => 'created_at',
                 'label'            => '创建时间',
@@ -239,6 +241,7 @@ class Index extends AppadminbaseBlock implements AppadminbaseBlockInterface
                 'align'        => 'center',
                 'convert'        => ['int' => 'datetime'],
             ],
+ /*
             [
                 'orderField'    => 'updated_at',
                 'label'            => '更新时间',
@@ -246,7 +249,7 @@ class Index extends AppadminbaseBlock implements AppadminbaseBlockInterface
                 'align'        => 'center',
                 'convert'        => ['int' => 'datetime'],
             ],
-
+*/
         ];
 
         return $table_th_bar;
