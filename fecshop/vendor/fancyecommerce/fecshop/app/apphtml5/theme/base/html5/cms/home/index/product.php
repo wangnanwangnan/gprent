@@ -24,7 +24,7 @@
                         </a>
                     </p>
 					<p class="product_name" style="">
-						价格：<?= $product['remark'] ?>元
+						价格：<?= $product['cost_price'] ?>元
 					</p>
                     <p style="color: #333;">
                         <?php

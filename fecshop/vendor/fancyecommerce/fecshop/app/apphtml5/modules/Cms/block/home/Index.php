@@ -45,7 +45,7 @@ class Index
                 'sku', 'spu', 'name', 'image',
                 'price', 'special_price',
                 'special_from', 'special_to',
-                'url_key', 'score', 'remark',
+                'url_key', 'score', 'remark', 'cost_price',
             ];
             $filter['where'] = ['in', 'sku', $skus];
             $products = Yii::$service->product->getProducts($filter);

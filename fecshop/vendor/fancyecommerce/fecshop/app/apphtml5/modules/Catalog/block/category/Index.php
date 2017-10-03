@@ -432,7 +432,7 @@ class Index
                 'sku', 'spu', 'name', 'image',
                 'price', 'special_price',
                 'special_from', 'special_to',
-                'url_key', 'score', 'remark'
+                'url_key', 'score', 'remark', 'cost_price'
             ];
         $category_query = Yii::$app->getModule('catalog')->params['category_query'];
         if (is_array($category_query['sort'])) {

@@ -53,7 +53,7 @@
 									</a>
 								</div>
 								<div class="c_name" style="height:35px">
-									价格：<?= $product['remark'] ?>元
+									价格：<?= $product['cost_price'] ?>元
 								</div>
 								<?php
 									$config = [
@@ -63,7 +63,7 @@
 										'special_price' => $product['special_price'],
 										'special_from' => $product['special_from'],
 										'special_to' => $product['special_to'],
-										'remark' => $product['remark'],
+										'cost_price' => $product['cost_price'],
 									];
 									echo Yii::$service->page->widget->renderContent('category_product_price',$config);
 								?>

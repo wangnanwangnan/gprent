@@ -113,6 +113,7 @@ class Product extends Service
                     'special_price' => $special_price,
                     'url'            => Yii::$service->url->getUrl($url_key),
                     'remark'        => $one['remark'],
+                    'cost_price'    => $one['cost_price'],
                 ];
             }
         }

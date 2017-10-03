@@ -84,7 +84,8 @@ class Index
             'description'               => Yii::$service->store->getStoreAttrVal($this->_product['description'], 'description'),
             '_id'                       => $this->_product['_id'],
             'buy_also_buy'              => $this->getProductBySkus($skus),
-            'remark'                       => $this->_product['remark'],
+            'remark'                    => $this->_product['remark'],
+            'cost_price'                => $this->_product['cost_price'],
         ];
     }
     public function getGroupAttrArr($groupAttr){

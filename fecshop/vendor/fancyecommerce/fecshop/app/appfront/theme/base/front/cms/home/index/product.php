@@ -19,10 +19,10 @@
 						</a>
 					</p>
                     
-                    <? if(isset($product['remark']) && !empty(trim($product['remark']))){ ?>
+                    <? if(isset($product['cost_price']) && !empty(trim($product['cost_price']))){ ?>
                      <p class="proName">
                          <a href="<?= $product['url'] ?>">
-                             价格：<?= $product['remark'] ?>元
+                             价格：<?= $product['cost_price'] ?>元
                          </a>
                      </p>
                      <? } ?>

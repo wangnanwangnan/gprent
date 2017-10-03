@@ -421,7 +421,7 @@ class Index
                 'sku', 'spu', 'name', 'image',
                 'price', 'special_price',
                 'special_from', 'special_to',
-                'url_key', 'score', 'remark'
+                'url_key', 'score', 'remark', 'cost_price',
             ];
         //vendor/fancyecommerce/fecshop/app/appfront/modules/Catalog/block/category/Index.php
         $category_query = Yii::$app->getModule('catalog')->params['category_query'];
