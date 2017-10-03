@@ -9,6 +9,7 @@
 
 namespace fecshop\app\appadmin\modules\Sales\block\orderinfo;
 
+use fec\helpers\CRequest;
 use fec\helpers\CUrl;
 use Yii;
 
@@ -45,7 +46,15 @@ class Manageredit
     public function getViewOrderInfo($order_info){
         // 订单状态部分
         $orderStatusArr = Yii::$service->order->getStatusArr();
-        //var_dump($orderStatusArr);exit;
+        
+        $itemInfo = $order_info['products'];
+        foreach($itemInfo as $item){
+            $item_id = $item['item_id'];
+            
+            $item['item_status'] = ($item['item_status']) ? $item['item_status'] : $order_info['order_status'];
+            $order_info['item_status_options'][$item_id] = $this->getOptions($orderStatusArr, $item['item_status']);
+        }
+        
         $order_info['order_status_options'] = $this->getOptions($orderStatusArr,$order_info['order_status']);
     
         // 货币部分
@@ -92,8 +101,24 @@ class Manageredit
     
     public function save(){
         $editForm = Yii::$app->request->post('editForm');
+        $editItem = Yii::$app->request->post('editItem');
         $order_id = $editForm['order_id'];
         $orderModel = Yii::$service->order->getByPrimaryKey($order_id);
+
+        $item_status_all = '';
+        if($orderModel->order_status != $editForm['order_status']){
+            $item_status_all = $editForm['order_status'];
+            $orderModel->pay_updated_at = time();
+        }
+        
+        if(is_array($editItem)){
+            foreach($editItem['item_status'] as $itemId => $itemVal){
+                $itemModel = Yii::$service->order->item->getByPrimaryKey($itemId);
+                $itemModel->item_status = ($item_status_all) ? $item_status_all : $itemVal;
+                $itemModel->save();
+            }
+        }
+        
         if(is_array($editForm) && $orderModel['order_id']){
             $order_start = $orderModel->order_status;
             foreach($editForm as $k => $v){
@@ -114,9 +139,10 @@ class Manageredit
                     }
                     $orderModel[$k] = $v;
                 }
-            } 
+            }
             $orderModel->save();
         }
+
         echo  json_encode([
             'statusCode'=>'200',
             'message'=>'save success',
@@ -124,8 +150,33 @@ class Manageredit
         exit;
     }
     
-    
-    
-    
+    // 批量删除
+    public function delete()
+    {
+        $this->_primaryKey = 'order_id';
+        $ids = '';
+        if ($id = CRequest::param($this->_primaryKey)) {
+            $ids = $id;
+        } elseif ($ids = CRequest::param($this->_primaryKey.'s')) {
+            $ids = explode(',', $ids);
+        }
+
+        $this->_service = Yii::$service->order;
+        $this->_service->remove($ids);
+        $errors = Yii::$service->helper->errors->get();
+        if (!$errors) {
+            echo  json_encode([
+                'statusCode'=>'200',
+                'message'=>'remove data  success',
+            ]);
+            exit;
+        } else {
+            echo  json_encode([
+                'statusCode'=>'300',
+                'message'=>$errors,
+            ]);
+            exit;
+        }
+    }
     
 }

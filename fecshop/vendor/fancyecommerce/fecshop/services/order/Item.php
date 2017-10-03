@@ -26,6 +26,31 @@ class Item extends Service
     public function __construct(){
         list($this->_itemModelName,$this->_itemModel) = \Yii::mapGet($this->_itemModelName);  
     }
+
+    /**
+     * @property $primaryKey | Int
+     * @return Object($this->_orderModel)
+     * 通过主键值，返回Order Model对象
+     */
+    protected function actionGetByPrimaryKey($primaryKey)
+    {
+        $one = $this->_itemModel->findOne($primaryKey);
+        $primaryKey = $this->getPrimaryKey();
+        if ($one[$primaryKey]) {
+            return $one;
+        } else {
+            return new $this->_orderModelName();
+        }
+    }
+    
+    /**
+     * 得到item 表的id字段。
+     */
+    protected function actionGetPrimaryKey()
+    {
+        return 'item_id';
+    }
+
     /**
      * @property $order_id | Int
      * @property $onlyFromTable | 从数据库取出不做处理

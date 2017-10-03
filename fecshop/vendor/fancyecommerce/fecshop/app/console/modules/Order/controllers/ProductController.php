@@ -104,23 +104,52 @@ Array
         $completeArr = Yii::$service->order->coll($filter);
         
         $emailArr = ['617990822@qq.com', '2366629496@qq.com'];
-        $remindTime = 3600 * 24;
-        $atonceTime = 7200;
+        //$emailArr = ['617990822@qq.com'];
+        //$remindTime = 3600 * 24;
         $currentTime = time();
-        $delayedTime = 3600;
-        foreach($completeArr['coll'] as $complete){
-            $begiTime = $complete['created_at'];
-            $rentTime = $complete['items_count'] * 3600 * 24;
-            
-            $returnTime = $begiTime + $rentTime + $delayedTime;
+        $oneHour = 3600;
 
-            $beginDate = date('Y-m-d H:i:s', $begiTime);
+        foreach($completeArr['coll'] as $complete){
+            $beginTime = $complete['pay_updated_at'];
+            $beginDate = date('Y-m-d H:i:s', $beginTime);
+            $order_item = Yii::$service->order->item->getByOrderId($complete['order_id']);
+            foreach($order_item as $item_info){
+                if($item_info['item_status'] == 'complete'){
+                    continue;
+                }
+
+                $dayNum = $item_info['qty'];
+                $rentItemTime = $dayNum * 3600 * 24;
+                $item_name = $item_info['name'];        
+                
+                $returnItemTime = $beginTime + $rentItemTime;
+                $returnItemDate = date('Y-m-d H:i:s', $returnItemTime);
+                $diff = $returnItemTime - $currentTime;
+
+                //小于1小时提醒
+                if($diff < $oneHour){
+                    $htmlBody = $complete['customer_lastname'].$complete['customer_firstname'].'的道具('.$item_name.')将在'.$returnItemDate.'到期(总计：'.$dayNum.'天)，别忘记收回（'.$beginDate.'－'.$returnItemDate.'），Steam链接：'.$complete['steam_link'].'，电话：'.$complete['customer_telephone'].'，邮箱：'.$complete['customer_email'].'，订单号：'.$complete['increment_id'];
+                    foreach($emailArr as $email){
+                        $sendInfo = [
+                            'to'        => $email,
+                            'subject'    => '道具将马上到期！请及时收回',
+                            'htmlBody'    => $htmlBody,
+                            'senderName'=> Yii::$service->store->currentStore,
+                        ];
+                        $r = Yii::$service->email->send($sendInfo, 'default');
+                    }
+                }
+            }
+
+            /*
+            $rentTime = $complete['items_count'] * 3600 * 24;
+            $returnTime = $beginTime + $rentTime;
             $returnDate = date('Y-m-d H:i:s', $returnTime);
             
-            //小于24小时提醒
             $diff = $returnTime - $currentTime;
-
-            if($diff < $atonceTime){
+            
+            //小于1小时提醒
+            if($diff < $oneHour){
                 $htmlBody = $complete['customer_lastname'].$complete['customer_firstname'].'的道具将在'.$returnDate.'到期，别忘记收回（'.$beginDate.'-'.$returnDate.'），Steam链接：'.$complete['steam_link'].'，电话：'.$complete['customer_telephone'].'，邮箱：'.$complete['customer_email'].'，订单号：'.$complete['increment_id'];
                 foreach($emailArr as $email){
                     $sendInfo = [
@@ -132,6 +161,7 @@ Array
                     Yii::$service->email->send($sendInfo, 'default');
                 }
             }
+            */
             /*
             elseif($diff < $remindTime){
                 $htmlBody = $complete['customer_lastname'].$complete['customer_firstname'].'的道具将在'.$returnDate.'到期，别忘记收回（'.$beginDate.'-'.$returnDate.'），Steam链接：'.$complete['steam_link'].'，电话：'.$complete['customer_telephone'].'，邮箱：'.$complete['customer_email'];

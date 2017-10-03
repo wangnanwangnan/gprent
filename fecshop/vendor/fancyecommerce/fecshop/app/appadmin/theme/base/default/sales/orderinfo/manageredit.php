@@ -310,12 +310,15 @@ use fecshop\app\appfront\helper\Format;
 									<th class="a-right">价格</th>
 									<th class="a-center">个数</th>
 									<th class="a-right">总金额</th>
+									<th class="a-right">状态</th>
 								</tr>
 							</thead>
 							
 							<tbody class="odd">
 								<?php if(is_array($order['products']) && !empty($order['products'])){  ?>
-									<?php foreach($order['products'] as $product){ ?>
+									<?php foreach($order['products'] as $product){ 
+                                            $item_id = $product['item_id'];    
+                                    ?>
 									<tr id="order-item-row" class="border first">	
 										<td>
 											<a href="<?= '#' //Yii::$service->url->getUrl($product['redirect_url']) ; ?>">
@@ -363,6 +366,9 @@ use fecshop\app\appfront\helper\Format;
 											</span>
 											<br>
 										</td>
+                                        <td>
+							                <span><select name="editItem[item_status][<?=$item_id?>]"><?= $order['item_status_options']["$item_id"] ?></select></span>
+                                        </td>
 									</tr>
 									<?php } ?>
 								<?php } ?>
