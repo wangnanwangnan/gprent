@@ -43,7 +43,8 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
 
     public function getLastData()
     {
-
+        $this->_param['is_delete'] = 0;
+        
         // hidden section ,that storage page info
         $pagerForm = $this->getPagerForm();
         // search section
@@ -74,6 +75,12 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
     {
         $data = [
 
+            [    // 字符串类型
+                'type'=>'inputtext',
+                'title'=>'是否删除',
+                'name'=>'is_delete',
+                'columns_type' =>'int',
+            ],
             [    // 字符串类型
                 'type'=>'inputtext',
                 'title'=>'订单号',
@@ -302,8 +309,8 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
             }
             $str .= '<td>
 						<a title="编辑" target="dialog" class="btnEdit" mask="true" drawable="true" width="1000" height="580" href="'.$this->_editUrl.'?'.$this->_primaryKey.'='.$one[$this->_primaryKey].'" >编辑</a>
-						<!-- <a title="删除" target="ajaxTodo" href="'.$this->_deleteUrl.'?'.$csrfString.'&'.$this->_primaryKey.'='.$one[$this->_primaryKey].'" class="btnDel">删除</a>
-						-->
+						<a title="删除" target="ajaxTodo" href="'.$this->_deleteUrl.'?'.$csrfString.'&'.$this->_primaryKey.'='.$one[$this->_primaryKey].'" class="btnDel">删除</a>
+						
 					</td>';
             $str .= '</tr>';
         }

@@ -46,11 +46,18 @@ class Manageredit
     //删除订单
     public function delete()
     {
-        $order_ids = Yii::$app->request->get('order_ids');
+        $this->_primaryKey = 'order_id';
+        $order_ids = '';
+        if ($id = CRequest::param($this->_primaryKey)) {
+            $order_ids = (array)$id;
+        } elseif ($ids = CRequest::param($this->_primaryKey.'s')) {
+            $order_ids = explode(',', $ids);
+        }
+        //$order_ids = Yii::$app->request->get('order_ids');
         if($order_ids){
-            $arr_id = explode(',',$order_ids);
+            //$arr_id = explode(',',$order_ids);
             $order = new Order();
-            foreach($arr_id as $order_id){
+            foreach($order_ids as $order_id){
                 $res = $order->updateAll(['is_delete' => 1],'order_id = :order_ids',[':order_ids' => $order_id]);
             }
             if($res){
@@ -178,6 +185,7 @@ class Manageredit
     }
     
     // 批量删除
+    /*
     public function delete()
     {
         $this->_primaryKey = 'order_id';
@@ -205,5 +213,5 @@ class Manageredit
             exit;
         }
     }
-    
+    */
 }
