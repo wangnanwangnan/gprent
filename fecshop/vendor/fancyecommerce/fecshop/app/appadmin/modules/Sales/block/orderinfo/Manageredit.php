@@ -11,7 +11,7 @@ namespace fecshop\app\appadmin\modules\Sales\block\orderinfo;
 
 use fec\helpers\CUrl;
 use Yii;
-
+use fecshop\models\mysqldb\Order;
 /**
  * block cms\article.
  * @author Terry Zhao <2358269014@qq.com>
@@ -40,6 +40,33 @@ class Manageredit
             //'lang_attr'	=> $this->_lang_attr,
             'saveUrl' 	    => Yii::$service->url->getUrl('sales/orderinfo/managereditsave'),
         ];
+    }
+
+    //删除订单
+    public function delete()
+    {
+        $order_ids = Yii::$app->request->get('order_ids');
+        if($order_ids){
+            $arr_id = explode(',',$order_ids);
+            $order = new Order();
+            foreach($arr_id as $order_id){
+                $res = $order->updateAll(['is_delete' => 1],'order_id = :order_ids',[':order_ids' => $order_id]);
+            }
+            if($res){
+            echo  json_encode([
+                'statusCode'=>'200',
+                'message'=>'remove data  success',
+            ]);
+            exit;
+            }else{
+            echo  json_encode([
+                'statusCode'=>'300',
+                'message'=>$res->errors,
+            ]);
+            exit;
+            }
+            exit;
+        }
     }
     
     public function getViewOrderInfo($order_info){
