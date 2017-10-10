@@ -206,13 +206,6 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
                 //'lang'			=> true,
             ],
             [
-                'orderField'    => 'customer_firstname',
-                'label'            => '用户名',
-                'width'            => '50',
-                'align'        => 'left',
-                //'lang'			=> true,
-            ],
-            [
                 'orderField'    => 'customer_telephone',
                 'label'            => '电话',
                 'width'            => '50',

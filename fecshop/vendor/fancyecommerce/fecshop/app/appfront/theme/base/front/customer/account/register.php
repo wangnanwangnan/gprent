@@ -19,12 +19,14 @@
 				<ul class="form-list">
 					<li class="fields">
 						<div class="customer-name">
+                            <!--
 							<div class="field name-firstname">
 								<label for="firstname" class="required"><em>*</em><?= Yii::$service->page->translate->__('First Name'); ?></label>
 								<div class="input-box">
 									<input id="firstname" name="editForm[firstname]" value="<?= $firstname ?>" title="First Name" maxlength="255" class="input-text required-entry" type="text">
 								</div>
 							</div>
+                            -->
 							<div class="field name-lastname">
 								<label for="lastname" class="required"><em>*</em><?= Yii::$service->page->translate->__('Last Name'); ?></label>
 								<div class="input-box">
@@ -154,7 +156,7 @@ $(document).ready(function(){
 		});
 		
 		//first name lenght check;
-		firstname 	= $("#firstname").val();
+		//firstname 	= $("#firstname").val();
 		lastname 	= $("#lastname").val();
 		password  	= $("#password").val();
 		confirmation= $("#confirmation").val();
@@ -162,10 +164,11 @@ $(document).ready(function(){
 		maxNameLength = <?= $maxNameLength ? $maxNameLength : 30 ?>;
 		minPassLength = <?= $minPassLength ? $minPassLength : 4 ?>;  
 		maxPassLength = <?= $maxPassLength ? $maxPassLength : 30 ?>; 
-		firstNameLength = firstname.length;
+		//firstNameLength = firstname.length;
 		lastNameLength  = lastname.length;
 		passwordLength  = password.length;
 		//firstname length validate
+        /*
 		if(firstNameLength < minNameLength || firstNameLength > maxNameLength){
 			if(!$("#firstname").hasClass("validation-failed")){
 				//alert(111);
@@ -174,6 +177,7 @@ $(document).ready(function(){
 				validate = 0;		
 			}
 		}
+        */
 		//lastname length validate
 		if(lastNameLength < minNameLength || lastNameLength > maxNameLength){
 			if(!$("#lastname").hasClass("validation-failed")){
