@@ -44,7 +44,10 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
     public function getLastData()
     {
         $this->_param['is_delete'] = 0;
-        
+        $oStatus = Yii::$app->request->get('s');
+        if($oStatus){
+            $this->_param['order_status'] = $oStatus;
+        }
         // hidden section ,that storage page info
         $pagerForm = $this->getPagerForm();
         // search section
@@ -81,6 +84,13 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
                 'name'=>'is_delete',
                 'columns_type' =>'int',
             ],
+            [    // 字符串类型
+                'type'=>'inputtext',
+                'title'=>'订单状态',
+                'name'=>'order_status',
+                'columns_type' =>'string',
+            ],
+
             [    // 字符串类型
                 'type'=>'inputtext',
                 'title'=>'订单号',
