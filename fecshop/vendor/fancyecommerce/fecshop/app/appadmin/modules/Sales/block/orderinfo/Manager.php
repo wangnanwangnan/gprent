@@ -137,7 +137,7 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
                 'label'            => '创建时间',
                 'width'            => '50',
                 'align'        => 'left',
-                'convert'        => ['int' => 'date'],
+                'convert'        => ['int' => 'datetime'],
                 //'lang'			=> true,
             ],
 
@@ -151,7 +151,7 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
 
             [
                 'orderField'    => 'items_count',
-                'label'            => '总数',
+                'label'            => '总天数',
                 'width'            => '50',
                 'align'        => 'left',
                 //'lang'			=> true,
@@ -173,6 +173,7 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
                 //'lang'			=> true,
             ],
 
+/*
             [
                 'orderField'    => 'payment_method',
                 'label'            => '支付方式',
@@ -180,7 +181,6 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
                 'align'        => 'left',
                 //'lang'			=> true,
             ],
-/*
             [
                 'orderField'    => 'shipping_method',
                 'label'            => '货运方式',
@@ -197,32 +197,25 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
                 //'lang'			=> true,
             ],
 
-            [
-                'orderField'    => 'customer_address_country',
-                'label'            => '国家',
-                'width'            => '50',
-                'align'        => 'left',
-                //'lang'			=> true,
-            ],
-            [
-                'orderField'    => 'customer_email',
-                'label'            => '邮箱',
-                'width'            => '50',
-                'align'        => 'left',
-                //'lang'			=> true,
-            ],
 */
+            [
+                'orderField'    => 'customer_lastname',
+                'label'            => '用户姓',
+                'width'            => '50',
+                'align'        => 'left',
+                //'lang'			=> true,
+            ],
+            [
+                'orderField'    => 'customer_firstname',
+                'label'            => '用户名',
+                'width'            => '50',
+                'align'        => 'left',
+                //'lang'			=> true,
+            ],
             [
                 'orderField'    => 'customer_telephone',
                 'label'            => '电话',
                 'width'            => '50',
-                'align'        => 'left',
-                //'lang'			=> true,
-            ],
-            [
-                'orderField'    => 'steam_link',
-                'label'            => 'steam链接',
-                'width'            => '300',
                 'align'        => 'left',
                 //'lang'			=> true,
             ],
