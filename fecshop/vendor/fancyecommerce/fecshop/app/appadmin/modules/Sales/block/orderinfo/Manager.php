@@ -212,6 +212,13 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
                 'align'        => 'left',
                 //'lang'			=> true,
             ],
+            [
+                'orderField'    => 'order_items',
+                'label'            => '商品信息',
+                'width'            => '50',
+                'align'        => 'left',
+                //'lang'			=> true,
+            ],
 
         ];
 
@@ -232,6 +239,15 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
         }
         $users = Yii::$service->adminUser->getIdAndNameArrByIds($user_ids);
         foreach ($data as $one) {
+            //获取订单商品信息
+            $order_items_arr = [];
+            $order_items = $this->_service->getInfoByIncrementId($one['increment_id']);
+            if($order_items['items']){
+                foreach($order_items['items'] as $key => $info){
+                    $order_items_arr[$key] = $info['name'].'-'.$info['qty'].'天';
+                }
+            }
+            $one['order_items'] = implode(',',$order_items_arr);
             $str .= '<tr target="sid_user" rel="'.$one[$this->_primaryKey].'">';
             $str .= '<td><input name="'.$this->_primaryKey.'s" value="'.$one[$this->_primaryKey].'" type="checkbox"></td>';
             foreach ($fileds as $field) {
