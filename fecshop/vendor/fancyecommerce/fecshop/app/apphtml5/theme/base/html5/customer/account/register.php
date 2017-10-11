@@ -19,6 +19,7 @@
 	<form action="<?= Yii::$service->url->getUrl('customer/account/register'); ?>" method="post" id="register-form" class="account-form">
 		<?= \fec\helpers\CRequest::getCsrfInputHtml();  ?>
 		<ul>
+            <!--
 			<li>
 				<div class="item-content">
 					<div class="item-media">
@@ -31,6 +32,7 @@
 					</div>
 				</div>
 			</li>
+            -->
 			<li>
 				<div class="item-content">
 					<div class="item-media">
@@ -167,7 +169,7 @@ $(document).ready(function(){
 		});
 		
 		//first name lenght check;
-		firstname 	= $("#firstname").val();
+		//firstname 	= $("#firstname").val();
 		lastname 	= $("#lastname").val();
 		password  	= $("#password").val();
 		confirmation= $("#confirmation").val();
@@ -175,10 +177,11 @@ $(document).ready(function(){
 		maxNameLength = <?= $maxNameLength ? $maxNameLength : 30 ?>;
 		minPassLength = <?= $minPassLength ? $minPassLength : 4 ?>;  
 		maxPassLength = <?= $maxPassLength ? $maxPassLength : 30 ?>; 
-		firstNameLength = firstname.length;
+		//firstNameLength = firstname.length;
 		lastNameLength  = lastname.length;
 		passwordLength  = password.length;
 		//firstname length validate
+        /*
 		if(firstNameLength < minNameLength || firstNameLength > maxNameLength){
 			if(!$("#firstname").hasClass("validation-failed")){
 				//alert(111);
@@ -186,7 +189,7 @@ $(document).ready(function(){
 				$("#firstname").addClass("validation-failed");
 				validate = 0;		
 			}
-		}
+		}*/
 		//lastname length validate
 		if(lastNameLength < minNameLength || lastNameLength > maxNameLength){
 			if(!$("#lastname").hasClass("validation-failed")){
