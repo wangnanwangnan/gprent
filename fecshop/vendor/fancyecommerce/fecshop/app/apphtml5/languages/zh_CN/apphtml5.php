@@ -88,7 +88,7 @@ return [
  'Personal Information'            => '个人账户信息',
  'Steam Link'                   => 'Steam交易连接',
  'First Name'                    => '名',
- 'Last Name'                    => '姓',
+ 'Last Name'                    => '姓名',
  'Sign Up for Newsletter'        => '订阅邮件',
  'Login Information'            => '登录信息',
  'Confirm Password'                => '确认密码',
