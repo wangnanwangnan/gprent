@@ -65,7 +65,7 @@ return [
  // 用户登录页面
  'Login or Create an Account'    => '登录 创建用户',
  'New Customers'                => '新用户',
- 'By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.' => '在我们的店铺里面注册账户，您可以快速的下单，保存您的货运地址，查看或追踪您的订单信息，等等',
+ 'By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.' => '在我们的店铺里面注册账户，您可以快速的下单，保存您的交易地址，查看或追踪您的订单信息，等等',
  'register'                        => '注册',
  'Registered Customers'            => '已注册用户',
  'If you have an account with us, please log in.' => '如果您已经注册了一个用户，请直接登录',
@@ -110,15 +110,16 @@ return [
  'From your My Account Dashboard you have the ability to view a snapshot of your recent account activity and update your account information. Select a link below to view or edit information.' => '您可以在我的帐户信息中心查看最近帐户活动的快照，并更新您的帐户信息。 选择以下链接可查看或编辑信息。',
  'Contact Information'            => '联系信息',
  'Edit'                            => '编辑',
- 'My Address Book'                => '我的货运地址',
- 'You Can Manager Your Address'    => '您可以编辑您的货运地址',
- 'Manager Addresses'            => '编辑货运地址',
+ 'My Address Book'                => '我的交易地址',
+ 'You Can Manager Your Address'    => '您可以编辑您的交易地址',
+ 'Manager Addresses'            => '编辑交易地址',
  'My Order'                        => '我的订单',
  'You Can View Your Order'        => '您可以查看您的订单信息',
  'View'                            => '查看',
  'Account Dashboard'            => '帐户中心',
+ 'Account Zmauth'            => '芝麻账户认证',
  'Account Information'            => '账户信息',
- 'Address Book'                    => '货运地址',
+ 'Address Book'                    => '交易地址',
  'My Product Reviews'            => '我的产品评论',
 
 // 账户中心密码找回
@@ -141,11 +142,13 @@ return [
  // 用户中心 - 账户信息 - 编辑
  'Edit Account Information'        => '编辑账号信息',
  'Change Password'                => '更改密码',
+ 'Zm Go Authorize'                     => '立即授权',
+ 'Zm Authinfo'                     => '芝麻授权信息',
  'Current Password'                => '当前密码',
  'New Password'                    => '新密码',
  'Confirm New Password'            => '确认新密码',
 
- // 用户中心 - 货运地址 - 编辑
+ // 用户中心 - 交易地址 - 编辑
  'Country'                        => '国家',
  'State'                        => '省',
  'City'                            => '城市',
@@ -154,7 +157,7 @@ return [
  'Zip Code'                        => '邮政编码',
  'Is Default'                    => '默认',
  'Save'                            => '保存',
- // 用户中心 - 货运地址 - 列表
+ // 用户中心 - 交易地址 - 列表
  'Operation'                    => '操作',
  'Delete'                        => '删除',
  'Default'                        => '默认',
@@ -174,7 +177,7 @@ return [
  'pending'                        => '未付款',
  'suspected_fraud'                => '涉嫌欺诈',
  'processing'                    => '已付款',
- 'Shipping Address'                => '货运地址',
+ 'Shipping Address'                => '交易地址',
  'T:'                            => '手机/电话：',
  'Payment Method'                => '支付方式',
  'Shipping Method'                => '货运方式',
