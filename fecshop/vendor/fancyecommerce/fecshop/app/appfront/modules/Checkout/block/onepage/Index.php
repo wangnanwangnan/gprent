@@ -119,6 +119,13 @@ class Index
         if (isset($cart['customer_address_street2']) && !empty($cart['customer_address_street2'])) {
             $address_info['street2'] = $cart['customer_address_street2'];
         }
+        if(!empty($identity['steamid'])){
+            $account = 'steamID:'.$identity['steamid'];
+            $trackLink = 'https://steamcommunity.com/profiles/'.$identity['steamid'].'/tradeoffers/privacy#trade_offer_access_url';
+            
+            $address_info['trackLink'] = $trackLink;
+        }
+
         $this->_address = $address_info;
         $this->_address_list = Yii::$service->customer->address->currentAddressList();
         //var_dump($this->_address_list);

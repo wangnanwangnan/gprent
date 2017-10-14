@@ -29,6 +29,7 @@ use yii\web\IdentityInterface;
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
+ * @property int $steamid
  * @property string $password write-only password
  */
 /**

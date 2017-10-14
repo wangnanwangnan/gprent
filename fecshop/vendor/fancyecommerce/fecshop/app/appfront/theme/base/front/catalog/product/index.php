@@ -29,7 +29,7 @@
 						</div>
 					</div>
 					<div class="rbc_cold"><?= Yii::$service->page->translate->__('Item Code:'); ?> <?= $sku; ?></div>
-					<div class="item_code">产品原价：<?= $remark ?>元</div>
+					<div class="item_code">产品原价：<?= $cost_price ?>元</div>
 					
 					<div class="price_info">
 						<?php # 价格部分

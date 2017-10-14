@@ -80,8 +80,19 @@ class Edit
             $this->_address = [];
         }
         $this->getIsDefault();
+        $this->getSteamidForLink();
 
         return $this->_address;
+    }
+
+    public function getSteamidForLink()
+    {
+        $identity = Yii::$app->user->identity;
+        if(!empty($identity['steamid'])){
+            $account = 'steamID:'.$identity['steamid'];
+            $trackLink = 'https://steamcommunity.com/profiles/'.$identity['steamid'].'/tradeoffers/privacy#trade_offer_access_url';
+            $this->_address['trackLink'] = $trackLink;
+        }
     }
 
     public function getIsDefault()
@@ -140,28 +151,24 @@ class Edit
     {
         $arr = [];
         $email = isset($address['email']) ? $address['email'] : '';
-        $first_name = isset($address['first_name']) ? $address['first_name'] : '';
+        //$first_name = isset($address['first_name']) ? $address['first_name'] : '';
         $last_name = isset($address['last_name']) ? $address['last_name'] : '';
         $telephone = isset($address['telephone']) ? $address['telephone'] : '';
-        $country = isset($address['country']) ? $address['country'] : '';
-        $state = isset($address['state']) ? $address['state'] : '';
+        //$country = isset($address['country']) ? $address['country'] : '';
+        //$state = isset($address['state']) ? $address['state'] : '';
         //$company = isset($address['company']) ? $address['company'] : '';
         //$fax = isset($address['fax']) ? $address['fax'] : '';
-        $street1 = isset($address['street1']) ? $address['street1'] : '';
-        $street2 = isset($address['street2']) ? $address['street2'] : '';
+        //$street1 = isset($address['street1']) ? $address['street1'] : '';
+        //$street2 = isset($address['street2']) ? $address['street2'] : '';
 
-        $city = isset($address['city']) ? $address['city'] : '';
-        $zip = isset($address['zip']) ? $address['zip'] : '';
+        //$city = isset($address['city']) ? $address['city'] : '';
+        //$zip = isset($address['zip']) ? $address['zip'] : '';
+        $steam_link = isset($address['steam_link']) ? $address['steam_link'] : '';
         $is_default = isset($address['is_default']) ? $address['is_default'] : '';
         if (!$email) {
             $error[] = ['email'];
         } else {
             $arr['email'] = $email;
-        }
-        if (!$first_name) {
-            $error[] = ['first_name'];
-        } else {
-            $arr['first_name'] = $first_name;
         }
         if (!$last_name) {
             $error[] = ['last_name'];
@@ -172,6 +179,12 @@ class Edit
             $error[] = ['telephone'];
         } else {
             $arr['telephone'] = $telephone;
+        }
+        /*
+        if (!$first_name) {
+            $error[] = ['first_name'];
+        } else {
+            $arr['first_name'] = $first_name;
         }
         if (!$country) {
             $error[] = ['country'];
@@ -198,17 +211,18 @@ class Edit
         } else {
             $arr['zip'] = $zip;
         }
+        */
         if (!empty($error)) {
-            $str = implode(',', $error).' can not empty';
+            $str = implode(',', $error).' 不能为空';
             Yii::$service->page->message->addError($str);
 
             return;
         }
+        if ($steam_link) {
+            $arr['steam_link'] = $steam_link;
+        }
         if ($street2) {
             $arr['street2'] = $street2;
-        }
-        if ($is_default) {
-            $arr['is_default'] = $is_default;
         }
         if ($is_default) {
             $arr['is_default'] = $is_default;
@@ -220,7 +234,7 @@ class Edit
         $identity = Yii::$app->user->identity;
         $arr['customer_id'] = $identity['id'];
         Yii::$service->customer->address->save($arr);
-
+        
         return Yii::$service->url->redirectByUrlKey('customer/address');
     }
 }

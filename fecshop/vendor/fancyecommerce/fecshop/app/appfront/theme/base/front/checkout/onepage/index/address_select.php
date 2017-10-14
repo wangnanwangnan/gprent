@@ -40,7 +40,12 @@
 						<div class="input-box input-steam">
 							<label for="billing:steam_link"><?= Yii::$service->page->translate->__('Steam Link');?><span class="required">*</span></label>
 							<input value="<?= $cart_address['steam_link'] ?>" id="billing:steam_link" name="billing[steam_link]" class="required-entry input-text" type="text">
-						</div>
+						<?php
+                            if(!empty($cart_address['trackLink'])){
+                                echo '<br><a href="'.$cart_address[trackLink].'" style="color:#0b84d3;" target="_black"> 前往steam获取交易链接 >></a>';
+                            }
+                        ?>
+                        </div>
 						<div class="clear"></div>
 					</li>
 					<li class="clearfix">

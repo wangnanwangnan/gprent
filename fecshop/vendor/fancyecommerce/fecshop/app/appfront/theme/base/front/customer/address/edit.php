@@ -18,10 +18,11 @@
 							<li>
 								<label class="required" for="email"><?= Yii::$service->page->translate->__('Email Address');?></label>
 								<div class="input-box">
-									<input class="input-text required-entry" maxlength="255" title="Email" value="<?= $email ?>" name="address[email]" id="customer_email"   type="text">
+									<input class="input-text required-entry" maxlength="255" title="Email" value="<?= $email ?>" name="address[email]" id="customer_email" type="text">
 									
 								</div>
 							</li>
+                            <!--
 							<li class="">
 								<div class="field name-firstname">
 									<label class="required" for="firstname"><?= Yii::$service->page->translate->__('First Name');?></label>
@@ -30,6 +31,7 @@
 									</div>
 								</div>
 							</li>
+                            -->
 							<li>
 								<div class="field name-lastname">
 									<label class="required" for="lastname"><?= Yii::$service->page->translate->__('Last Name');?></label>
@@ -49,7 +51,7 @@
 									</div>
 							</li>
 							
-							
+							<!--
 							<li>
 								<div class="field name-lastname">
 										<label class="required" for="lastname"><?= Yii::$service->page->translate->__('Country');?></label>
@@ -112,8 +114,22 @@
 										</div>
 									</div>
 							</li>
+							-->
 							
-							
+							<li>
+								<div class="field name-lastname">
+										<label class="required" for="SteamLink">Steam链接</label>
+                                        <div class="input-box">
+											<input class="input-text required-entry" maxlength="255" title="SteamLink" value="<?= $steam_link ?>" name="address[steam_link]" id="SteamLink" type="text">
+										
+                                        <?php
+                                            if(!empty($trackLink)){
+                                                echo '<a href="'.$trackLink.'" style="color:#0b84d3;" target="_black"> 前往steam获取交易链接 >></a>';
+										    }
+                                        ?>
+                                        </div>
+									</div>
+							</li>
 							<li>
 								<div class="field name-lastname">
 									<div class="input-box">
@@ -200,7 +216,7 @@
 		if(i){
 			jQuery(".addressedit").submit();
 		}else{
-			alert("You Must Fill All Field");
+			alert("带星号的字断需要全部填写");
 		}
 	}
 	

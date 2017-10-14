@@ -12,6 +12,15 @@
                 'currency'         => 'CNY',
                 'sitemapDir' => '@apphtml5/web/cn/sitemap.xml',
             ],
+            'wap-test.gprent.cn' => [
+                'language'         => 'zh_CN',
+                'languageName'     => '中文',
+                'localThemeDir'    => '@apphtml5/theme/terry/theme01',
+                'thirdThemeDir'    => [],
+                'currency'         => 'CNY',
+                'sitemapDir' => '@apphtml5/web/cn/sitemap.xml',
+            ],
+
         ],
 
     ],

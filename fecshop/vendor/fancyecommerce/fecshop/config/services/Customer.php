@@ -59,6 +59,11 @@ return [
                 'class'        => 'fecshop\services\customer\Google',
 
             ],
+
+            'steam' => [
+                'class' => 'fecshop\services\customer\Steam',
+            ],
+
         ],
     ],
 ];

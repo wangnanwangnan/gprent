@@ -11,6 +11,7 @@ namespace fecshop\app\appfront\modules\Customer\controllers;
 
 use fecshop\app\appfront\modules\AppfrontController;
 use Yii;
+use common\helper\LightOpenID;
 
 /**
  * @author Terry Zhao <2358269014@qq.com>
@@ -45,6 +46,19 @@ class AccountController extends AppfrontController
      */
     public function actionLogin()
     {
+        $steam = Yii::$app->request->get('steam');
+        if($steam == 1){
+            Yii::$service->customer->steam->login();
+            $openid = new LightOpenID($_SERVER['SERVER_NAME']);
+            
+            if(!$openid->mode) {
+                $openid->identity = 'http://steamcommunity.com/openid';
+                header('Location: ' . $openid->authUrl());
+            }
+
+
+        }
+
         /*
         $emailArr = ['617990822@qq.com', '2366629496@qq.com'];
         
@@ -74,6 +88,57 @@ class AccountController extends AppfrontController
         $data = $this->getBlock()->getLastData($param);
 
         return $this->render($this->action->id, $data);
+    }
+    /**
+     * steam注册并登陆.
+     */
+    public function actionRegisterbysteam()
+    {
+        if (!Yii::$app->user->isGuest) {
+            return Yii::$service->url->redirectByUrlKey('customer/account');
+        }
+        
+        //Array ( [lastname] => test61 [email] => test61@gp.cn [password] => 111111 [confirmation] => 111111 [parent_invite_code] => [captcha] => 8035 [invite_code] => KNwqfS )        
+        $session = Yii::$app->session;
+        $steamid = $session['steamid'];
+        
+        $steamKey = Yii::$app->params['steam']['key'];
+        $steamGetPlayerSummariesUrl = Yii::$app->params['steam']['GetPlayerSummariesUrl'];
+        $url = $steamGetPlayerSummariesUrl.'?key='.$steamKey.'&steamids='.$steamid;
+        $steamContents = file_get_contents($url);
+        $steamResponse = json_decode($steamContents, true);
+        
+        $steamInfoArr = $steamResponse['response']['players'][0];
+        $param['lastname']      = $steamInfoArr['personaname'];
+        $param['email']         = $steamInfoArr['steamid'].'@gprent.cn';
+        $param['password']      = 'gprent';
+        $param['confirmation']  = 'gprent';
+        $param['steamid']       = $steamInfoArr['steamid'];
+        $param['steam_avatar']   = $steamInfoArr['avatarfull'];
+
+        //看是否已经注册过
+        $isRegister = Yii::$service->customer->getUserIdentityByEmail($param['email']);
+        if(!empty($isRegister)){
+            $registerStatus = true;
+        }else{
+            $registerStatus = $this->getBlock()->registerbysteam($param);
+        }
+        if ($registerStatus) {
+            $params_register = Yii::$app->getModule('customer')->params['register'];
+            // 注册成功后，是否自动登录
+            if (isset($params_register['successAutoLogin']) && $params_register['successAutoLogin']) {
+                Yii::$service->customer->login($param);
+            }
+            if (!Yii::$app->user->isGuest) {
+                // 注册成功后，跳转的页面，如果值为false， 则不跳转。
+                $urlKey = 'customer/account';
+                if (isset($params_register['loginSuccessRedirectUrlKey']) && $params_register['loginSuccessRedirectUrlKey']) {
+                    $urlKey = $params_register['loginSuccessRedirectUrlKey'];
+                }
+
+                return Yii::$service->customer->loginSuccessRedirect($urlKey);
+            }
+        }
     }
 
     /**
