@@ -44,7 +44,9 @@ class CustomerRegister extends Customer
         //    ['email', 'email'],
         //    ['email', 'string', 'max' => 255],
         //	['email', 'validateEmail'],
+            ['steamid', 'default'],
             ['invite_code', 'string', 'min' => 6, 'max' => 6],
+            ['steam_avatar', 'string', 'min' => 6, 'max' => 255],
             ['parent_invite_code', 'string', 'min' => 6, 'max' => 6],
 
         //	['role', 'required'],
