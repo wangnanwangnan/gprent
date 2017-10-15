@@ -50,7 +50,9 @@
 										<h3>
                                             <?= Yii::$service->page->translate->__('My Address Book'); ?>
                                             <?php if(!empty($trackLink)){
-                                                        echo '<a href="'.$trackLink.'" style="color:#0b84d3;" target="_black"> 前往steam获取交易链接 >></a>';
+                                                        echo '<a href="'.$trackLink.'" style="color:#0b84d3;" target="_blank"> 前往steam获取交易链接 >></a>';
+                                                    }else{
+                                                        echo '<a href="/customer/account/login?steam=1" style="color:#0b84d3;" target="_blank"> 绑定steam帐号 >></a>';
                                                     }
                                             ?>
                                         </h3>

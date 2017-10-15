@@ -49,16 +49,15 @@ class AccountController extends AppfrontController
         $steam = Yii::$app->request->get('steam');
         if($steam == 1){
             Yii::$service->customer->steam->login();
+            /*
             $openid = new LightOpenID($_SERVER['SERVER_NAME']);
             
             if(!$openid->mode) {
                 $openid->identity = 'http://steamcommunity.com/openid';
-                header('Location: ' . $openid->authUrl());
+                header('Location: ' . $openid->authUrl());exit;
             }
-
-
+            */
         }
-
         /*
         $emailArr = ['617990822@qq.com', '2366629496@qq.com'];
         
@@ -94,10 +93,8 @@ class AccountController extends AppfrontController
      */
     public function actionRegisterbysteam()
     {
-        if (!Yii::$app->user->isGuest) {
-            return Yii::$service->url->redirectByUrlKey('customer/account');
-        }
         
+
         //Array ( [lastname] => test61 [email] => test61@gp.cn [password] => 111111 [confirmation] => 111111 [parent_invite_code] => [captcha] => 8035 [invite_code] => KNwqfS )        
         $session = Yii::$app->session;
         $steamid = $session['steamid'];
@@ -110,14 +107,31 @@ class AccountController extends AppfrontController
         
         $steamInfoArr = $steamResponse['response']['players'][0];
         $param['lastname']      = $steamInfoArr['personaname'];
-        $param['email']         = $steamInfoArr['steamid'].'@gprent.cn';
+        $param['email']         = $steamid.'@gprent.cn';
         $param['password']      = 'gprent';
         $param['confirmation']  = 'gprent';
-        $param['steamid']       = $steamInfoArr['steamid'];
+        $param['steamid']       = $steamid;
         $param['steam_avatar']   = $steamInfoArr['avatarfull'];
+        
+        //是否为绑定
+        if (!Yii::$app->user->isGuest) {
+            $isRegister = Yii::$service->customer->getUserIdentityBySteamid($steamid);
+            if(!empty($isRegister)){
+                echo '<script>alert("该账号已经被绑定，请直接用steam帐号登陆");window.location.href="/customer/account";</script>';
+                exit;
+            }else{
+                $identity = Yii::$app->user->identity;
+            
+                $identity->steamid = $steamid;
+                $identity->steam_avatar = $steamInfoArr['avatarfull'];
+                $identity->lastname = $steamInfoArr['personaname'];
+                $identity->save();
+            }
+            return Yii::$service->url->redirectByUrlKey('customer/account');
+        }
 
         //看是否已经注册过
-        $isRegister = Yii::$service->customer->getUserIdentityByEmail($param['email']);
+        $isRegister = Yii::$service->customer->getUserIdentityBySteamid($steamid);
         if(!empty($isRegister)){
             $registerStatus = true;
         }else{

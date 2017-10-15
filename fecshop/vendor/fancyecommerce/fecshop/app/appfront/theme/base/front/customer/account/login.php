@@ -23,10 +23,7 @@
 
                         <p>在我们的店铺里面注册账户，可以快速租用你感兴趣的游戏道具，以及添加新愿望单等等</p>
                     </div>
-                    <!--
 					<button onclick="window.location='<?= Yii::$service->url->getUrl('customer/account/register') ?>';" type="button" title="Create an Account" class="redBtn"><em><span><i></i><?= Yii::$service->page->translate->__('register'); ?></span></em></button>
-				-->
-                    <a href='?steam=1'><img src='http://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png'></a>
 
                 </div>   
 				<div class="col-2 registered-users">
@@ -76,9 +73,7 @@
 						</div>
 						<div class="clear"></div>
 						<div class="fago_login">
-                        <!--
                             <a href='?steam=1'><img src='http://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png'></a>
-                        -->
                         <!--
 							<img onclick="facebooklogin()" src="<?= Yii::$service->image->getImgUrl("images/facebook.jpg") ?>" /><br/>
 							<img onclick="googlelogin()"src="<?=Yii::$service->image->getImgUrl("images/google.jpg") ?>" /><br/>
