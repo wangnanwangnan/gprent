@@ -103,15 +103,16 @@ Array
                     ];
         $completeArr = Yii::$service->order->coll($filter);
         
-        $emailArr = ['617990822@qq.com', '2366629496@qq.com'];
+        //$emailArr = ['617990822@qq.com', '2366629496@qq.com'];
+        $emailArr = ['gprent@163.com', '2366629496@qq.com'];
         //$emailArr = ['617990822@qq.com'];
         //$remindTime = 3600 * 24;
         $currentTime = time();
         $oneHour = 3600;
 
         foreach($completeArr['coll'] as $complete){
-            $beginTime = $complete['pay_updated_at'];
-            $beginDate = date('Y-m-d H:i:s', $beginTime);
+            //$beginTime = $complete['pay_updated_at'];
+            //$beginDate = date('Y-m-d H:i:s', $beginTime);
             $order_item = Yii::$service->order->item->getByOrderId($complete['order_id']);
             foreach($order_item as $item_info){
                 if($item_info['item_status'] == 'complete'){
@@ -121,6 +122,9 @@ Array
                 $dayNum = $item_info['qty'];
                 $rentItemTime = $dayNum * 3600 * 24;
                 $item_name = $item_info['name'];        
+                
+                $beginTime = $item_info['updated_at'];
+                $beginDate = date('Y-m-d H:i:s', $beginTime);
                 
                 $returnItemTime = $beginTime + $rentItemTime;
                 $returnItemDate = date('Y-m-d H:i:s', $returnItemTime);
