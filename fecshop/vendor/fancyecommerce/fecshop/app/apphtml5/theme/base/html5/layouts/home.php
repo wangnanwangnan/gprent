@@ -20,6 +20,7 @@ $jsOptions = [
 			'js/sm.min.js',
 			'js/sm-extend.min.js',
             'js/fec.js', 
+            'js/jquery-ui.min.js',
 		],
 	],
 ];
@@ -30,6 +31,7 @@ $cssOptions = [
 	# css config 1.
 	[
 		'css'	=>[
+            'jquery-ui.min.css',
 			'css/sm.min.css',
 			'css/sm-extend.min.css',
 			'css/fec.css',

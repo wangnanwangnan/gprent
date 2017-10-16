@@ -16,6 +16,8 @@ $jsOptions = [
 		//	'condition'=> 'lt IE 9',
 		],
 		'js'	=>[
+            'js/jquery-3.0.0.min.js',
+            'js/jquery-ui.min.js',
 			'js/zepto.min.js',
 			'js/sm.min.js',
 			'js/sm-extend.min.js',
@@ -30,6 +32,7 @@ $cssOptions = [
 	# css config 1.
 	[
 		'css'	=>[
+            'css/jquery-ui.min.css',
 			'css/sm.min.css',
 			'css/sm-extend.min.css',
 			'css/fec.css',

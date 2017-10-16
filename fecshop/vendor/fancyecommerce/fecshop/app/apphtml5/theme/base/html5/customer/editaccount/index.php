@@ -21,6 +21,37 @@
 	<form method="post" id="form-validate" autocomplete="off" action="<?=  $actionUrl ?>">
 		<?= \fec\helpers\CRequest::getCsrfInputHtml();  ?>
 		<ul>
+	        <li>
+                    <label for="zmauth"><?= Yii::$service->page->translate->__('Zm Authinfo');?></label>
+					<div class="input-box">
+                    芝麻信用是依法成立的独立信用评估及管理机构。授权后得到分数越高，代表信用越好。
+                            <?php
+                        if($zm_scroe) {
+                            echo '芝麻信用评估：'.$zm_scroe;
+                       }else{
+                        ?>
+                        <a style='color:#f05b72' id="go-zmauth" href='javascript:void(0)'><?= Yii::$service->page->translate->__('Zm Go Authorize');?></a>
+                        <?php } ?>
+                    </div>
+            </li>
+            <li>
+                <div class="item-content">
+                <?php
+
+                    $requireZMScore = Yii::$app->params['zmScore'];
+                     $requireZMScoreLow = Yii::$app->params['zmScoreLow'];
+                     if($zm_scroe < $requireZMScore && $zm_scroe >= $requireZMScoreLow){
+                         if($is_level==1){
+                            echo '<li>您的押金 '.$cash_pledge.'，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>退押金</li>';
+                         }else{
+                            echo '<li>您的芝麻分不足，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>充值信用押金</li>';
+                         }
+                     }
+
+
+                ?>
+                </div>
+            </li>
 			<li>
 				<div class="item-content">
 					<div class="item-media">
@@ -121,6 +152,27 @@
 		
 	</form>
 </div>
+
+<div style="display:none" id="dialog-form" title="提交身份信息">
+  <form>
+    <fieldset>
+      <label for="realname">真实姓名</label>
+      <input type="text" name="realname" id="realname" value="" class="text ui-widget-content ui-corner-all">
+      <label for="identity_card">身份证号</label>
+      <input type="text" name="identity_card" id="identity_card" value="" class="text ui-widget-content ui-corner-all">
+ 
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+
+<form id='zmauth_submit' style="display:nonea" action='/customer/zmauth' method='post' target='_blank'>
+    <input type="text" name='zm_realname' id='zm_realname'>
+    <input type="text" name='zm_identity_card' id='zm_identity_card'>
+</form>
+
+
 
 <script>
 <?php $this->beginBlock('customer_account_info_update') ?> 
@@ -246,6 +298,119 @@
 			}
 		});
 	});
+$( function() {
+    var dialog, form,
+ 
+      // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
+      emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+      name = $( "#name" ),
+      email = $( "#email" ),
+      password = $( "#password" ),
+      allFields = $( [] ).add( name ).add( email ).add( password ),
+      tips = $( ".validateTips" );
+ 
+    function updateTips( t ) {
+      tips
+        .text( t )
+        .addClass( "ui-state-highlight" );
+      setTimeout(function() {
+        tips.removeClass( "ui-state-highlight", 1500 );
+      }, 500 );
+    }
+ 
+    function checkLength( o, n, min, max ) {
+      if ( o.val().length > max || o.val().length < min ) {
+        o.addClass( "ui-state-error" );
+        updateTips( "Length of " + n + " must be between " +
+          min + " and " + max + "." );
+        return false;
+      } else {
+        return true;
+      }
+    }
+ 
+    function checkRegexp( o, regexp, n ) {
+      if ( !( regexp.test( o.val() ) ) ) {
+        o.addClass( "ui-state-error" );
+        updateTips( n );
+        return false;
+      } else {
+        return true;
+      }
+    }
+ 
+    function zmauth() {
+      var valid = true;
+      allFields.removeClass( "ui-state-error" );
+ /*
+      valid = valid && checkLength( name, "username", 3, 16 );
+      valid = valid && checkLength( email, "email", 6, 80 );
+      valid = valid && checkLength( password, "password", 5, 16 );
+ 
+      valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
+      valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
+      valid = valid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+ */
+    
+    if ( valid ) {
+        var realname = $('#realname').val();
+        var identity_card= $('#identity_card').val();
+        
+        $('#zm_realname').val(realname);
+        $('#zm_identity_card').val(identity_card);
+        
+        
+
+        
+        $.ajax({
+            url:'/customer/zmauth/exist',
+            type:'POST',
+            data:{zm_realname:realname, zm_identity_card:identity_card},
+            success:function(is_exist){
+                if(is_exist == 1){
+                    alert('提交失败！该用户已经被认证过');
+                    return false;
+                }
+                $('#zmauth_submit').submit();
+            }                
+        })       
+        
+
+        //dialog.dialog( "close" );
+      }
+      return valid;
+    }
+ 
+    dialog = $( "#dialog-form" ).dialog({
+      autoOpen: false,
+      height: 400,
+      width: 550,
+      modal: true,
+      buttons: {
+        "授权": zmauth,
+        "取消": function() {
+          dialog.dialog( "close" );
+        }
+      },
+      close: function() {
+        form[ 0 ].reset();
+        allFields.removeClass( "ui-state-error" );
+      }
+    });
+ 
+    form = dialog.find( "form" ).on( "submit", function( event ) {
+      event.preventDefault();
+      zmauth();
+    });
+ 
+    //$( "#create-user" ).button().on( "click", function() {
+    $( "#go-zmauth" ).on( "click", function() {
+        //dialog.dialog( "open" );
+        alert('芝麻认证请在电脑端进入网站操作，认证完成后即可手机操作');
+        return false;
+    });
+});
+
 <?php $this->endBlock(); ?>  
 </script>  
 <?php $this->registerJs($this->blocks['customer_account_info_update'],\yii\web\View::POS_END);//将编写的js代码注册到页面底部 ?>

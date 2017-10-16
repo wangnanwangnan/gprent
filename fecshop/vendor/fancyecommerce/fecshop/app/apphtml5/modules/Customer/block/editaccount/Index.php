@@ -17,8 +17,39 @@ use Yii;
  */
 class Index
 {
+    protected $_customerMemberModelName = '\fecshop\models\mysqldb\customer\Member';
     public function getLastData()
     {
+ 
+        $identity = Yii::$app->user->identity;
+
+        //判断芝麻信用
+        $requireZMScore = Yii::$app->params['zmScore'];
+        $requireZMScoreLow = Yii::$app->params['zmScoreLow'];
+        $is_level = 0;//是否缴纳押金
+        $cash_pledge = 0;//押金金额
+        //如果信用不够 判断是否交押金
+        if($identity['zm_scroe'] >= $requireZMScoreLow && $identity['zm_scroe'] <= $requireZMScore)
+        {   
+            $customerMemberModel = new $this->_customerMemberModelName();
+            $customerMemberInfo = $customerMemberModel->find()->where(['customer_id' => $identity['id'],'is_cancel' => 0])->one();
+            if($customerMemberInfo){
+                $is_level = $customerMemberInfo->is_level;
+                //押金 金额
+                $cash_pledge = Yii::$app->params['memberCard']['member_level'][1];
+            }
+        }
+
+        return [
+            'firstname'     => $identity['firstname'],
+            'email'         => $identity['email'],
+            'lastname'      => $identity['lastname'],
+            'zm_scroe'      => $identity['zm_scroe'],
+            'is_level'      => $is_level,
+            'cash_pledge'   => $cash_pledge,
+            'actionUrl'     => Yii::$service->url->getUrl('customer/editaccount'),
+        ];
+/*
         $identity = Yii::$app->user->identity;
 
         return [
@@ -27,8 +58,8 @@ class Index
             'lastname'        => $identity['lastname'],
             'actionUrl'        => Yii::$service->url->getUrl('customer/editaccount'),
         ];
+        */
     }
-
     /**
      * @property $editForm|array
      * 保存修改后的用户信息。
