@@ -48,6 +48,8 @@ class AccountController extends AppfrontController
     {
         $steam = Yii::$app->request->get('steam');
         if($steam == 1){
+            //邀请码放在session里
+
             Yii::$service->customer->steam->login();
             /*
             $openid = new LightOpenID($_SERVER['SERVER_NAME']);
@@ -93,9 +95,6 @@ class AccountController extends AppfrontController
      */
     public function actionRegisterbysteam()
     {
-        
-
-        //Array ( [lastname] => test61 [email] => test61@gp.cn [password] => 111111 [confirmation] => 111111 [parent_invite_code] => [captcha] => 8035 [invite_code] => KNwqfS )        
         $session = Yii::$app->session;
         $steamid = $session['steamid'];
         

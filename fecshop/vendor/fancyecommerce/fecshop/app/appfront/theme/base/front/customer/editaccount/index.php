@@ -47,31 +47,43 @@
 							</li>
                         
                             <?php
+                            /*
                              $requireZMScore = Yii::$app->params['zmScore'];
                              $requireZMScoreLow = Yii::$app->params['zmScoreLow'];
                              if($zm_scroe < $requireZMScore && $zm_scroe >= $requireZMScoreLow){
                                  if($is_level){
-                                    echo '<li>您的押金 '.$cash_pledge.'，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>退押金</li>';
+                                    echo '<li>您的押金 '.$cash_pledge.'，<a href="/customer/editaccount/backmoney"  style="color:red">点击这里</a>退押金</li>';
                                  }else{
                                     echo '<li>您的芝麻分不足，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>充值信用押金</li>';
                                  }
                              }
+                             */
                              ?>
+                            
+                            <?php
+                                if(!empty($steamid)){
+                            ?>
+							<li>
+								<label for="email">steamID</label>
+								<div class="input-box">
+                                    <?= $steamid ?>
+								</div>
+							</li>
+							<li>
+								<label for="email">steam用户名</label>
+								<div class="input-box">
+                                    <?= $lastname ?>
+								</div>
+							</li>
 
+                            <?php
+                                }else{
+                            ?>
 							<li>
 								<label for="email" class="required"><?= Yii::$service->page->translate->__('Email Address');?></label>
 								<div class="input-box">
 									<input style="color:#ccc;" readonly="true" id="customer_email" name="editForm[email]" value="<?= $email ?>" title="Email" maxlength="255" class="input-text required-entry" type="text">
 								</div>
-							</li>
-							<li class="">
-                                <div class="field name-firstname">
-                                    <label for="firstname" class="required"><?= Yii::$service->page->translate->__('First Name');?></label>
-                                    <div class="input-box">
-                                        <input id="firstname" name="editForm[firstname]" value="<?= $firstname ?>" title="First Name" maxlength="255" class="input-text required-entry" type="text">
-                                        <div class="validation-advice" id="required_current_firstname" style="display:none;"><?= Yii::$service->page->translate->__('This is a required field.');?></div>
-                                    </div>
-                                </div>
 							</li>
 							<li>
 								<div class="field name-lastname">
@@ -82,6 +94,18 @@
                                     </div>
                                 </div>
 							</li>
+                            <?php } ?>
+                            <!--
+							<li class="">
+                                <div class="field name-firstname">
+                                    <label for="firstname" class="required"><?= Yii::$service->page->translate->__('First Name');?></label>
+                                    <div class="input-box">
+                                        <input id="firstname" name="editForm[firstname]" value="<?= $firstname ?>" title="First Name" maxlength="255" class="input-text required-entry" type="text">
+                                        <div class="validation-advice" id="required_current_firstname" style="display:none;"><?= Yii::$service->page->translate->__('This is a required field.');?></div>
+                                    </div>
+                                </div>
+							</li>
+                            -->
 							<li class="control">
 								<input name="editForm[change_password]" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="Change Password" class="checkbox" type="checkbox">
 								<label style="display:inline;" for="change_password"><?= Yii::$service->page->translate->__('Change Password');?></label>
@@ -172,10 +196,10 @@
 		$check_current_firstname = true;
 		$check_current_lastname = true;
 		
-		$firstname = $('#firstname').val();
+		//$firstname = $('#firstname').val();
 		$lastname = $('#lastname').val();
 		$check_confir_password_with_pass = true;
-		
+		/*
 		if($firstname == ''){
 		   $('#firstname').addClass('validation-failed');
 		   $('#required_current_firstname').show();
@@ -185,7 +209,7 @@
 		   $('#required_current_firstname').hide();
 		   $check_current_firstname = true;
 		}
-		
+		*/
 		if($lastname == ''){
 		   $('#lastname').addClass('validation-failed');
 		   $('#required_current_lastname').show();

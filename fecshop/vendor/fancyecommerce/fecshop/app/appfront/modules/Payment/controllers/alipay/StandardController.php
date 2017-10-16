@@ -40,25 +40,6 @@ class StandardController extends AppfrontController
         $reviewStatus = Yii::$service->payment->alipay->review();
         if($reviewStatus){
             $successRedirectUrl = Yii::$service->payment->getStandardSuccessRedirectUrl();
-         /*
-            //邮件通知
-            $emailArr = ['617990822@qq.com', '2366629496@qq.com'];
-  
-            foreach($emailArr as $email){
-               $sendInfo = [
-                   'to'        => $email,
-                   'subject'    => '有人已经付款完成！',
-                   'htmlBody'    => '有人已经付款完成',
-                   'senderName'=> Yii::$service->store->currentStore,
-               ];
-               Yii::$service->email->send($sendInfo, 'default');
-                    
-                //$emailInfo['email'] = $email;
-                //Yii::$service->email->customer->sendLoginEmail($emailInfo);
-                //$emailInfo['customer_email'] = $email;
-                //Yii::$service->email->order->sendCreateEmail($emailInfo);
-            }
-           */ 
             return Yii::$service->url->redirect($successRedirectUrl);
         }else{
             echo Yii::$service->helper->errors->get('<br/>');

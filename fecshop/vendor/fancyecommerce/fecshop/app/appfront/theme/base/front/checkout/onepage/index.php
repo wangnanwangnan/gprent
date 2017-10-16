@@ -188,10 +188,10 @@
 					if(data.status == 'success'){
 						$(".couponType").val($succ_coupon_type);
 						hml = $('.add_coupon_submit').html();
-						if(hml == 'Add Coupon'){
-							$('.add_coupon_submit').html('<?= Yii::$service->page->translate->__('Cancel Coupon');?>');
+						if(hml == '添加优惠券'){
+							$('#onestepcheckout-coupon-add').html('<?= Yii::$service->page->translate->__('Cancel Coupon');?>');
 						}else{
-							$('.add_coupon_submit').html('<?= Yii::$service->page->translate->__('Add Coupon');?>');
+							$('#onestepcheckout-coupon-add').html('<?= Yii::$service->page->translate->__('Add Coupon');?>');
 						}
 						$(".coupon_add_log").html("");
 						ajaxreflush();
@@ -305,8 +305,6 @@
 					$("#onestepcheckout-form").submit();
 				}
 			}else{
-				//alert(11);
-				//alert(j);
 				$("#onestepcheckout-form .required-entry").each(function(){
 					value = $(this).val();
 					if(!value){

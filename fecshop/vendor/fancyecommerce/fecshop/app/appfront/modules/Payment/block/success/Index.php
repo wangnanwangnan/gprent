@@ -31,11 +31,12 @@ class Index
         if($order['is_membercard'] == 1){
             $this->insertCustomerMember($order);
         }
-
         //支付成功通知
         $this->noticePaySuccess($order);
+        //佣金
         //$this->sendRentUserMail($order);
-
+        //优惠券
+        $this->sendCouponUserMail($order);
         //更新用户租借额度 特价商品数量
         $this->updateUserCost($order);
         //$custoner_id = $order['customer_id'];
@@ -105,7 +106,6 @@ class Index
             Yii::$service->email->send($sendInfo, 'default');
         }
     }
-
     public function sendRentUserMail($order){
         $custoner_id = $order['customer_id'];
         $customer = Yii::$service->customer->getByPrimaryKey($custoner_id);
@@ -124,7 +124,51 @@ class Index
                         'senderName'    => Yii::$service->store->currentStore,
                     ];
             Yii::$service->email->send($sendInfo, 'default');
-            exit;
+        }
+    }
+    public function getRandomString($len)
+    {
+        $chars = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXY3456789";
+        mt_srand(10000000*(double)microtime());
+        for ($i = 0, $str = '', $lc = strlen($chars)-1; $i < $len; $i++){
+            $str .= $chars[mt_rand(0, $lc)];  
+        }
+        return $str;
+    }
+    //发送优惠券
+    public function sendCouponUserMail($order){
+        $customer_id = $order['customer_id'];
+        $customer = Yii::$service->customer->getByPrimaryKey($customer_id);
+        $parent_invite_code = $customer->parent_invite_code;
+        //$parent_invite_code = 'qwerty';
+        if(!empty($parent_invite_code)){
+            //判断是否已经有过订单了 第一次下单生成优惠券
+            $orderInfo = Yii::$service->order->getFristOrder($customer_id);
+            $orderNum = count($orderInfo);
+            if($orderNum == 1){
+                //生成优惠券
+                $coupon = [];
+                $coupon_code = $this->getRandomString(6);
+                $coupon['coupon_code'] = $coupon_code;
+                $coupon['users_per_customer'] = 1;
+                $coupon['type'] = 1;
+                $coupon['conditions'] = 5;
+                $coupon['discount'] = 60;
+                $coupon['expiration_date'] = strtotime('+7 day');
+                $one = Yii::$service->cart->coupon->save($coupon);
+                if($one){
+                    $parentCustomer = Yii::$service->customer->getUserIdentityByInviteCode($parent_invite_code);           
+                    $parentCustomerEmail = $parentCustomer->email;
+                    $htmlBody = '你邀请的用户'.$customer['realname'].'刚刚下了订单，Gprent赠送一张优惠券'.$coupon_code.'(六折优惠券 满5元可用)  有效期7天 赶快去享受去吧。。。';
+                    $sendInfo = [
+                                'to'            => $parentCustomerEmail,
+                                'subject'       => '你邀请的用户已经租用物品了呦，Gprent赠送一张优惠券，请注意查收！',
+                                'htmlBody'      => $htmlBody,
+                                'senderName'    => Yii::$service->store->currentStore,
+                            ];
+                    Yii::$service->email->send($sendInfo, 'default');
+                }
+            }
         }
     }
 }

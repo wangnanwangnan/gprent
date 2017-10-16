@@ -61,11 +61,13 @@ class Edit
             $email = $identity['email'];
             $this->_address['email'] = $email;
         }
+        /*
         if (!isset($this->_address['first_name']) || empty($this->_address['first_name'])) {
             $identity = Yii::$app->user->identity;
             $first_name = $identity['firstname'];
             $this->_address['first_name'] = $first_name;
         }
+        */
         if (!isset($this->_address['last_name']) || empty($this->_address['last_name'])) {
             $identity = Yii::$app->user->identity;
             $last_name = $identity['lastname'];

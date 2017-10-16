@@ -35,7 +35,7 @@ class Index
             $customerMemberModel = new $this->_customerMemberModelName();
             $customerMemberInfo = $customerMemberModel->find()->where(['customer_id' => $identity['id'],'is_cancel' => 0])->one();
             if($customerMemberInfo){
-                $is_level = $customerMemberInfo->is_level;
+                $is_level = $customerMemberInfo->level;
                 //押金 金额
                 $cash_pledge = Yii::$app->params['memberCard']['member_level'][1];
             }
@@ -49,8 +49,10 @@ class Index
             'is_level'      => $is_level,
             'cash_pledge'   => $cash_pledge,
             'actionUrl'     => Yii::$service->url->getUrl('customer/editaccount'),
+            'steamid'       => $identity['steamid'],
         ];
-    } 
+    }
+    
     /**
      * @property $editForm|array
      * 保存修改后的用户信息。
@@ -66,12 +68,19 @@ class Index
             $password = $editForm['password'] ? $editForm['password'] : '';
             $confirmation = $editForm['confirmation'] ? $editForm['confirmation'] : '';
             $change_password = $editForm['change_password'] ? $editForm['change_password'] : '';
-
+/*
             if (!$firstname || !$lastname) {
                 Yii::$service->page->message->addError('first name and last name can not empty');
 
                 return;
             }
+*/
+            if (!$lastname) {
+                Yii::$service->page->message->addError('last name can not empty');
+
+                return;
+            }
+
 
             if ($change_password) {
                 if (!$current_password) {
