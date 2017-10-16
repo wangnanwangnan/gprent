@@ -65,7 +65,11 @@ class AR extends Service
             }
         }
         $offset = ($pageNum - 1) * $numPerPage;
-        $query->limit($numPerPage)->offset($offset);
+        
+        if($numPerPage != 0){
+            $query->limit($numPerPage)->offset($offset);
+        }
+        
         if ($orderBy) {
             $query->orderBy($orderBy);
         }

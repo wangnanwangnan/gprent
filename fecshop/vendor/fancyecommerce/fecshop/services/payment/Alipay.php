@@ -52,6 +52,7 @@ class Alipay extends Service
     const TRADE_FINISHED = 'TRADE_FINISHED';
     
     protected $_ipnMessageModelName = '\fecshop\models\mysqldb\IpnMessage';
+    protected $_customerMemberModelName = '\fecshop\models\mysqldb\customer\Member';
     protected $_ipnMessageModel;
     
     /**
@@ -235,19 +236,34 @@ class Alipay extends Service
             Yii::$service->payment->setPaymentMethod($this->_order['payment_method']);
         }
         // 如果订单状态已经是processing，那么，不需要更改订单状态了。
-        if ($this->_order['order_status'] == Yii::$service->order->payment_status_processing){
-            
-            return true;
-        }
+        //if ($this->_order['order_status'] == Yii::$service->order->payment_status_processing){
+            //return true;
+        //}
         $order = $this->_order;        
         if (isset($order['increment_id']) && $order['increment_id']) {
             // 如果支付成功，则更改订单状态为支付成功
-            $order->order_status = Yii::$service->order->payment_status_processing;
+            //$order->order_status = Yii::$service->order->payment_status_processing;
+            $order->order_status = 'processing';
             $order->txn_id = $trade_no; // 支付宝的交易号
             // 更新订单信息
             $order->save();
+
             // 得到当前的订单信息
             $orderInfo = Yii::$service->order->getOrderInfoByIncrementId($order['increment_id']);
+            //如果为会员卡押金
+            if($orderInfo['is_membercard'] == 1){
+                $customerMemberModel = new $this->_customerMemberModelName();
+                $customerMemberModel['customer_id'] = Yii::$app->user->identity->id;
+                $customerMemberModel['level']       = 1;
+                $customerMemberModel['order_id']    = $orderInfo['order_id'];
+                
+                $customerMemberModel->save();
+
+                $startUrl = '/customer/editaccount';
+                Yii::$service->url->redirect($startUrl);
+            
+            }
+
             // 发送新订单邮件
             Yii::$service->email->order->sendCreateEmail($orderInfo);
         
@@ -277,13 +293,16 @@ class Alipay extends Service
         
         // 根据订单得到json格式的支付宝支付参数。
         $bizContent = $this->getStartBizContentAndSetPaymentMethod();
+        
+        $is_membercard = 0;
         if(!$bizContent){
             Yii::$service->helper->errors->add('generate alipay bizContent error');
         }
+
         // 设置支付成功返回的url 和 支付消息接收url
         // 在调用这个函数之前一定要先设置 Yii::$service->payment->setPaymentMethod($payment_method);
         $returnUrl = Yii::$service->payment->getStandardReturnUrl();
-        $notifyUrl = Yii::$service->payment->getStandardIpnUrl();    
+        $notifyUrl = Yii::$service->payment->getStandardIpnUrl();
         /*
         echo $returnUrl;
         echo '#';
@@ -304,6 +323,11 @@ class Alipay extends Service
      */
     protected function getStartBizContentAndSetPaymentMethod(){
         $currentOrderInfo = Yii::$service->order->getCurrentOrderInfo();
+        //$extend_params = ['is_membercard' => 0];
+        if(isset($currentOrderInfo['is_membercard']) && !empty($currentOrderInfo['is_membercard'])){
+            //$extend_params = ['is_membercard' => 1];
+        }
+
         if(isset($currentOrderInfo['products']) && is_array($currentOrderInfo['products'])){
             $subject_arr = [];
             foreach($currentOrderInfo['products'] as $product){
@@ -317,10 +341,11 @@ class Alipay extends Service
                 Yii::$service->payment->setPaymentMethod($currentOrderInfo['payment_method']);
                 return json_encode([
                     // param 参看：https://docs.open.alipay.com/common/105901
-                    'out_trade_no' => $increment_id,
-                    'product_code' => $this->_productCode,
-                    'total_amount' => $total_amount,
-                    'subject'      => $subject,
+                    'out_trade_no'  => $increment_id,
+                    'product_code'  => $this->_productCode,
+                    'total_amount'  => $total_amount,
+                    'subject'       => $subject,
+                    //'extend_params' => $extend_params,
                     //'body'         => '',
                 ]);
             }

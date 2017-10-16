@@ -276,7 +276,7 @@ class Coupon extends Service
                     }
                     $users_per_customer = $couponModel['users_per_customer'];
                     // 次数限制
-                    if ($times_used < $users_per_customer) {
+                    if ($times_used <= $users_per_customer) {
                         return true;
                     } else {
                         Yii::$service->helper->errors->add('The coupon has exceeded the maximum number of uses');

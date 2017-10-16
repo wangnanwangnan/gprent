@@ -436,6 +436,26 @@ class Payment extends Service
             }
         }
     }
+   
+    /**
+     * @property $payment_method | String 支付方式。
+     * @return 返回进行数据交互的express的signature。
+     */
+    public function getMembercardReturnUrl($payment_method = '')
+    {
+        if (!$payment_method) {
+            $payment_method = $this->getPaymentMethod();
+        }
+        if ($payment_method) {
+            $paymentConfig = $this->paymentConfig;
+            if (isset($paymentConfig['standard'][$payment_method]['membercard_return_url'])) {
+                if (!empty($paymentConfig['standard'][$payment_method]['membercard_return_url'])) {
+                    return $this->getUrl($paymentConfig['standard'][$payment_method]['membercard_return_url']);
+                }
+            }
+        }
+    }
+
 
     /**
      * @property $payment_method | String 支付方式。

@@ -171,6 +171,18 @@ class Order extends Service
             return false;
         }
     }
+    
+    //判断用户是不是第一次下单
+    protected function actionGetFristOrder($customer_id)
+    {
+        $one = $this->_orderModel->findOne(['customer_id' => $customer_id]);
+        $primaryKey = $this->getPrimaryKey();
+        if ($one[$primaryKey]) {
+            return $one;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * @property $reflush | boolean 是否从数据库中重新获取，如果是，则不会使用类变量中计算的值
@@ -412,7 +424,42 @@ class Order extends Service
         
     }
     
-    
+    protected function actionGenerateMemberCardOrder(){
+        $subject = Yii::$app->params['memberCard']['subject'];
+        
+        //会员等级为1（信用押金为1级会员）
+        $memberLevel = 1;
+
+        $price = Yii::$app->params['memberCard']['member_level'][$memberLevel];
+
+        $cartInfo['store'] = $subject = Yii::$app->params['memberCard']['store'];
+        $cartInfo['products'][0] = array(
+                    'name' => $subject
+                );
+        
+        $payment_method = 'alipay_standard';
+        $myOrder = new $this->_orderModelName();
+        
+        $myOrder['order_status']    = $this->payment_status_pending;
+        $myOrder['payment_method'] = $payment_method;
+        $myOrder['created_at']      = time();
+        $myOrder['updated_at']      = time();
+        $myOrder['customer_id']     = Yii::$app->user->identity->id;
+        $myOrder['base_grand_total'] = $price;
+        $myOrder['is_membercard'] = 1;
+        $myOrder->save();
+        
+        $order_id = $myOrder['order_id'];
+        if(!$increment_id){
+            $increment_id = $this->generateIncrementIdByOrderId($order_id);
+            $myOrder['increment_id'] = $increment_id;
+            $myOrder->save();
+        }
+
+        Yii::$service->order->item->saveOrderItems($cartInfo['products'], $order_id, $cartInfo['store']);
+        $this->setSessionIncrementId($increment_id);
+
+    }
 
     /**
      * @property $address | Array 货运地址
@@ -435,8 +482,8 @@ class Order extends Service
         $currency_rate  = $currency_info['rate'];
         $country        = $address['country'];
         $state          = $address['state'];
-        //echo "$shipping_method,$country,$state";exit;
         $cartInfo       = Yii::$service->cart->getCartInfo($shipping_method, $country, $state);
+
         // 检查cartInfo中是否存在产品
         if (!is_array($cartInfo) && empty($cartInfo)) {
             Yii::$service->helper->errors->add('current cart product is empty');
@@ -471,6 +518,7 @@ class Order extends Service
         }else{
             $myOrder = new $this->_orderModelName();
         }
+        
         $myOrder['order_status']        = $this->payment_status_pending;
         $myOrder['store']               = $cartInfo['store'];
         $myOrder['created_at']          = time();
@@ -514,6 +562,7 @@ class Order extends Service
         $myOrder['coupon_code']             = $cartInfo['coupon_code'];
         $myOrder['payment_method']          = $payment_method;
         $myOrder['shipping_method']         = $shipping_method;
+        
         $myOrder->save();
         $order_id = $myOrder['order_id'];
         if(!$increment_id){

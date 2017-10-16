@@ -194,7 +194,9 @@ class Steam extends Component
 
 	public function login()
 	{
-		$steamauth['apikey'] = "3DC2EC41F468ADAB42B8A549A1BB0CF3"; // Your Steam WebAPI-Key found at http://steamcommunity.com/dev/apikey
+        $steamKey = Yii::$app->params['steam']['key'];
+
+		$steamauth['apikey'] = $steamKey; // Your Steam WebAPI-Key found at http://steamcommunity.com/dev/apikey
 		//$steamauth['domainname'] = ""; // The main URL of your website displayed in the login page
 		$steamauth['logoutpage'] = ""; // Page to redirect to after a successfull logout (from the directory the SteamAuth-folder is located in) - NO slash at the beginning!
 		$steamauth['loginpage'] = "http://www.gprent.cn/customer/account/registerbysteam"; // Page to redirect to after a successfull login (from the directory the SteamAuth-folder is located in) - NO slash at the beginning!
@@ -209,6 +211,7 @@ class Steam extends Component
 		if(!$openid->mode) {
 			$openid->identity = 'http://steamcommunity.com/openid'; 
 			header('Location: ' . $openid->authUrl()); 
+            exit;
 		} elseif ($openid->mode == 'cancel') {
 			echo 'User has canceled authentication!';
 		} else {

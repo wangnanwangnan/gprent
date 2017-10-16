@@ -293,6 +293,16 @@ class Customer extends Service
             return false;
         }
     }
+    
+    protected function actionGetUserIdentityBySteamid($steamid)
+    {
+        $one = $this->_customerModel->findBySteamid($steamid);
+        if ($one['steamid']) {
+            return $one;
+        } else {
+            return false;
+        }
+    }
 
     protected function actionGetUserIdentityByInviteCode($invite_code)
     {
