@@ -70,7 +70,7 @@ class EditaccountController extends AppfrontController
             if($customerMemberInfo){
                 $customerMemberInfo->is_cancel = 1;
                 if($customerMemberInfo->save()){
-                    Yii::$service->page->message->addError('退款申请成功');
+                    Yii::$service->page->message->addCorrect('退款申请成功');
                 }
             }
         }

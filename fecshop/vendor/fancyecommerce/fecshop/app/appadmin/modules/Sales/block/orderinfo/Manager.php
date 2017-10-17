@@ -13,6 +13,7 @@ use fec\helpers\CUrl;
 use fecshop\app\appadmin\interfaces\base\AppadminbaseBlockInterface;
 use fecshop\app\appadmin\modules\AppadminbaseBlock;
 use Yii;
+use fecshop\models\mysqldb\Customer;
 
 /**
  * block cms\article.
@@ -237,6 +238,8 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
         foreach ($data as $one) {
             $user_ids[] = $one['created_person'];
         }
+        $blacklist = Yii::$app->params['blacklist'];
+        $Customer = new Customer();
         $users = Yii::$service->adminUser->getIdAndNameArrByIds($user_ids);
         foreach ($data as $one) {
             //获取订单商品信息
@@ -247,9 +250,18 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
                     $order_items_arr[$key] = $info['name'].'-'.$info['qty'].'天';
                 }
             }
+            //判断是否黑名单
+            $style = '';
+            $nameStr = '';
+            $user_info = $Customer->find()->where(['id' => $one['customer_id']])->one();
+            if(in_array($user_info['identity_card'],$blacklist)){
+                $style = 'style="color:red"';
+                $nameStr = '(诈骗犯)';
+            }
+
             $one['order_items'] = implode(',',$order_items_arr);
-            $str .= '<tr target="sid_user" rel="'.$one[$this->_primaryKey].'">';
-            $str .= '<td><input name="'.$this->_primaryKey.'s" value="'.$one[$this->_primaryKey].'" type="checkbox"></td>';
+            $str .= '<tr '.$style.' target="sid_user" rel="'.$one[$this->_primaryKey].'">';
+            $str .= '<td><input name="'.$this->_primaryKey.'s" value="'.$one[$this->_primaryKey].'" type="checkbox">'.$nameStr.'</td>';
             foreach ($fileds as $field) {
                 $orderField = $field['orderField'];
                 $display = $field['display'];

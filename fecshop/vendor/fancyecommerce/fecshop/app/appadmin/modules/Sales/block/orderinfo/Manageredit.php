@@ -13,6 +13,8 @@ use fec\helpers\CRequest;
 use fec\helpers\CUrl;
 use Yii;
 use fecshop\models\mysqldb\Order;
+use fecshop\services\product\ProductMongodb;
+
 /**
  * block cms\article.
  * @author Terry Zhao <2358269014@qq.com>
@@ -145,12 +147,33 @@ class Manageredit
             $orderModel->pay_updated_at = time();
         }
         
+        $ProductMongodb = new ProductMongodb();
         if(is_array($editItem)){
+            $cost_price = 0;
             foreach($editItem['item_status'] as $itemId => $itemVal){
                 $itemModel = Yii::$service->order->item->getByPrimaryKey($itemId);
+                $currentItemStatus = $itemModel->item_status;
+                
+                if($currentItemStatus == 'holded'){
+                    if(($item_status_all && $item_status_all == 'complete') || ($itemVal == 'complete')){
+                        $product_id = $itemModel->product_id;
+                        $product_info = $ProductMongodb->getByPrimaryKey($product_id);
+                        $cost_price += $product_info->cost_price;
+                    }
+                }
+
                 $itemModel->item_status = ($item_status_all) ? $item_status_all : $itemVal;
                 $itemModel->save();
             }
+            $order_info = Yii::$service->order->getOrderInfoById($order_id);
+            $customer_id = $order_info['customer_id'];
+            
+            $customerModel = Yii::$service->customer->getByPrimaryKey($customer_id);
+            if($customerModel->summation_cost >= $cost_price){
+                $customerModel->summation_cost = $customerModel->summation_cost - $cost_price;
+                $customerModel->save();
+            }
+
         }
         
         if(is_array($editForm) && $orderModel['order_id']){
@@ -158,6 +181,7 @@ class Manageredit
             foreach($editForm as $k => $v){
                 if(isset($orderModel[$k])){
                     //判断是否修改订单状态 如果修改判断是否换回来物品 是 则将用户累计租赁金额还原
+                    /*
                     if($k == 'order_status' && $v == 'complete' && $order_start == 'holded'){
                         $order_info = Yii::$service->order->getOrderInfoById($order_id);
                         $customer_id = $order_info['customer_id'];
@@ -171,6 +195,7 @@ class Manageredit
                             $customerModel->save();
                         }
                     }
+                    */
                     $orderModel[$k] = $v;
                 }
             }
