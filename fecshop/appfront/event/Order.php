@@ -93,7 +93,8 @@ class Order
     }
     
     public static function after($orderInfo){
-        $emailArr = ['617990822@qq.com', '2366629496@qq.com'];
+        //$emailArr = ['617990822@qq.com', '2366629496@qq.com'];
+        $emailArr = ['gprent@163.com', '2366629496@qq.com'];
         
         foreach($emailArr as $email){
             $sendInfo = [

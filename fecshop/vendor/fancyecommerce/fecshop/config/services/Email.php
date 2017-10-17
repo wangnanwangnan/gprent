@@ -56,10 +56,10 @@ return [
             //在邮件中显示的Store的名字
             'storeName'    => 'GPrent',
             // 在邮件中显示的电话
-            'phone'            => '13810407216',
+            //'phone'            => '13810407216',
             // 在邮件中显示的联系邮箱地址。
             'contacts'    => [
-                'emailAddress' => '617990822@qq.com',
+                'emailAddress' => 'gprent@163.com',
             ],
 
         ],
@@ -133,7 +133,7 @@ return [
                         'widget'        => 'fecshop\services\email\widgets\customer\contacts\Body',
                         // 邮件内容的view部分
                         'viewPath'    => '@fecshop/services/email/views/customer/contacts',
-                        'address'    => '617990822@qq.com',
+                        'address'    => 'gprent@163.com',
                         // 如果不定义 mailerConfig，则会使用email service里面的默认配置
                         //'mailerConfig'  => 'default',
                     ],

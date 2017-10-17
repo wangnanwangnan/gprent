@@ -90,6 +90,11 @@ class Customer extends ActiveRecord implements IdentityInterface
     {
         return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
     }
+    
+    public static function findBySteamid($steamid)
+    {
+        return static::findOne(['steamid' => $steamid, 'status' => self::STATUS_ACTIVE]);
+    }
 
     public static function findByInviteCode($invite_code)
     {

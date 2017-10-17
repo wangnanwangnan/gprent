@@ -13,7 +13,7 @@ return [
             // 默认通用配置
             'default' => [
                 'class'     => 'yii\swiftmailer\Mailer',
-                
+                /*
                 'transport' => [
                     'class'       => 'Swift_SmtpTransport',
                     'host'        => 'smtp.qq.com',            //SMTP Host
@@ -22,7 +22,7 @@ return [
                     'port'        => '587',                    //SMTP 端口
                     'encryption'  => 'tls',
                 ],
-
+*/
                 /*
                 'transport' => [
                     'class'       => 'Swift_SmtpTransport',
@@ -33,16 +33,16 @@ return [
                     'encryption'  => 'tls',
                 ],
                 */
-         /*       
+                
                 'transport' => [
                     'class'       => 'Swift_SmtpTransport',
                     'host'        => 'smtp.163.com',            //SMTP Host
                     'username'    => 'gprent@163.com',   //SMTP 账号
-                    'password'    => 'Gprent!@#',    //SMTP 密码
-                    'port'        => '25',                    //SMTP 端口
-                    //'encryption'  => 'ssl',
+                    'password'    => 'Gprent123',    //SMTP 密码
+                    'port'        => '465',                    //SMTP 端口
+                    'encryption'  => 'ssl',
                 ],
-*/
+
                 /*
                 'transport' => [
                     'class'       => 'Swift_SmtpTransport',
