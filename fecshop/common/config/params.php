@@ -6,7 +6,7 @@ return [
     //'user.passwordResetTokenExpire' => 3600,
     
     'zmScore' => '680',
-    'zmScoreLow' => '650',
+    'zmScoreLow' => '640',
 
     'memberCard' => [
                         'store' => 'www.gprent.cn',
@@ -32,7 +32,10 @@ return [
             'special_days' => 5,
         ],
     ],
-
+    //黑名单
+    'blacklist' => [
+        '370782199904217438'
+    ],
     'steam' => [
         'key' => '3DC2EC41F468ADAB42B8A549A1BB0CF3',
         'GetPlayerSummariesUrl' => 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/',
