@@ -64,6 +64,7 @@
 					</div>
 				</div>
 			</li>
+            <!--
 			<li>
 				<div class="item-content">
 					<div class="item-media">
@@ -77,6 +78,7 @@
 					</div>
 				</div>
 			</li>
+            -->
 			<li>
 				<div class="item-content">
 					<div class="item-media">
@@ -167,7 +169,7 @@
   </form>
 </div>
 
-<form id='zmauth_submit' style="display:nonea" action='/customer/zmauth' method='post' target='_blank'>
+<form id='zmauth_submit' style="display:none" action='/customer/zmauth' method='post' target='_blank'>
     <input type="text" name='zm_realname' id='zm_realname'>
     <input type="text" name='zm_identity_card' id='zm_identity_card'>
 </form>
@@ -191,10 +193,10 @@
 		$check_current_firstname = true;
 		$check_current_lastname = true;
 		
-		$firstname = $('#firstname').val();
+		//$firstname = $('#firstname').val();
 		$lastname = $('#lastname').val();
 		$check_confir_password_with_pass = true;
-		
+		/*
 		if($firstname == ''){
 		   $('#firstname').addClass('validation-failed');
 		   $('#required_current_firstname').show();
@@ -204,7 +206,7 @@
 		   $('#required_current_firstname').hide();
 		   $check_current_firstname = true;
 		}
-		
+		*/
 		if($lastname == ''){
 		   $('#lastname').addClass('validation-failed');
 		   $('#required_current_lastname').show();

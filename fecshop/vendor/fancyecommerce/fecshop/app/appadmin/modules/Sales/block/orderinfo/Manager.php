@@ -14,7 +14,7 @@ use fecshop\app\appadmin\interfaces\base\AppadminbaseBlockInterface;
 use fecshop\app\appadmin\modules\AppadminbaseBlock;
 use Yii;
 use fecshop\models\mysqldb\Customer;
-
+use fecshop\models\mysqldb\customer\Member;
 /**
  * block cms\article.
  * @author Terry Zhao <2358269014@qq.com>
@@ -45,9 +45,14 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
     public function getLastData()
     {
         $this->_param['is_delete'] = 0;
+        $this->_param['is_membercard'] = 0;
         $oStatus = Yii::$app->request->get('s');
         if($oStatus){
             $this->_param['order_status'] = $oStatus;
+        }
+        $is_membercard = Yii::$app->request->get('ismember');
+        if($is_membercard){
+            $this->_param['is_membercard'] = $is_membercard;
         }
         // hidden section ,that storage page info
         $pagerForm = $this->getPagerForm();
@@ -91,7 +96,12 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
                 'name'=>'order_status',
                 'columns_type' =>'string',
             ],
-
+            [    // 字符串类型
+                'type'=>'inputtext',
+                'title'=>'押金订单',
+                'name'=>'is_membercard',
+                'columns_type' =>'string',
+            ],
             [    // 字符串类型
                 'type'=>'inputtext',
                 'title'=>'订单号',
@@ -124,6 +134,13 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
                 'width'            => '50',
                 'align'        => 'center',
 
+            ],
+            [
+                'orderField'    => 'zm_scroe',
+                'label'            => '芝麻分',
+                'width'            => '20',
+                'align'        => 'left',
+                //'lang'			=> true,
             ],
             [
                 'orderField'    => 'increment_id',
@@ -241,6 +258,9 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
         $blacklist = Yii::$app->params['blacklist'];
         $Customer = new Customer();
         $users = Yii::$service->adminUser->getIdAndNameArrByIds($user_ids);
+        
+        $member = new Member();
+
         foreach ($data as $one) {
             //获取订单商品信息
             $order_items_arr = [];
@@ -253,12 +273,25 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
             //判断是否黑名单
             $style = '';
             $nameStr = '';
+            $one['zm_scroe'] = 0; // 芝麻信用分
             $user_info = $Customer->find()->where(['id' => $one['customer_id']])->one();
             if(in_array($user_info['identity_card'],$blacklist)){
                 $style = 'style="color:red"';
                 $nameStr = '(诈骗犯)';
+
             }
 
+            //是否押金订单 并且判断是否申请退押金
+            $memberStart = "";
+            if($one['is_membercard'] == 1){
+                //查询押金订单状态
+                $member_info = $member->find()->where(['order_id' => $one['increment_id']])->one();
+                if($member_info['is_cancel'] == 1){
+                    $nameStr .= "(申请退押金)";
+                }
+            }
+
+            $one['zm_scroe'] = $user_info['zm_scroe'];
             $one['order_items'] = implode(',',$order_items_arr);
             $str .= '<tr '.$style.' target="sid_user" rel="'.$one[$this->_primaryKey].'">';
             $str .= '<td><input name="'.$this->_primaryKey.'s" value="'.$one[$this->_primaryKey].'" type="checkbox">'.$nameStr.'</td>';

@@ -160,6 +160,10 @@ class Manageredit
                         $product_info = $ProductMongodb->getByPrimaryKey($product_id);
                         $cost_price += $product_info->cost_price;
                     }
+                
+                }elseif($currentItemStatus == 'processing'){
+                    if($itemVal == 'holded'){
+                    }
                 }
 
                 $itemModel->item_status = ($item_status_all) ? $item_status_all : $itemVal;

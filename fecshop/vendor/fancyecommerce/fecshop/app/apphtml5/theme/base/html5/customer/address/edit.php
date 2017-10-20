@@ -34,7 +34,7 @@
 					</div>
 				</div>
 			</li>				
-			
+	<!--		
 			<li>
 				<div class="item-content">
 					<div class="item-media">
@@ -47,7 +47,7 @@
 					</div>
 				</div>
 			</li>	
-			
+		-->	
 			<li>
 				<div class="item-content">
 					<div class="item-media">
@@ -73,7 +73,7 @@
 					</div>
 				</div>
 			</li>	
-			
+		<!--	
 			<li>
 				<div class="item-content">
 					<div class="item-media">
@@ -143,7 +143,7 @@
 				</div>
 			</li>		
 			
-			
+			-->
 			<li>
 				<div class="item-content">
 					<div class="item-media">
@@ -151,12 +151,16 @@
 					</div>
 					<div class="item-inner">
 						<div class="item-input">
-							<input class="input-text required-entry" maxlength="255" placeholder="zip" value="<?= $zip ?>" name="address[zip]" id="zip" type="text">
+						    <input class="input-text required-entry"  placeholder="steam交易链接"  maxlength="255" title="SteamLink" value="<?= $steam_link ?>" name="address[steam_link]" id="SteamLink" type="text">
+                            <?php
+                                if(!empty($trackLink)){
+                                    echo '<a href="'.$trackLink.'" style="color:#0b84d3;" target="_black"> 前往steam获取交易链接 >></a>';
+								}
+                            ?>
 						</div>
 					</div>
 				</div>
 			</li>	
-			
 			
 			<li class="control">
 				<div class="change_password_label item-content">

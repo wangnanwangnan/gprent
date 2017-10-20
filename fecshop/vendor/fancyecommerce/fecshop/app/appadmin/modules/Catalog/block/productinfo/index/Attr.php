@@ -227,6 +227,33 @@ class Attr
                 'require' => 1,
                 'default' => 1,
             ],
+            
+            [
+                'label'=>'steam classid',
+                'name'=>'steam_classid',
+                'display'=>[
+                    'type' => 'inputString',
+                ],
+                'require' => 0,
+            ],
+            
+            [
+                'label'=>'steam的物品id',
+                'name'=>'steam_assetid',
+                'display'=>[
+                    'type' => 'inputString',
+                ],
+                'require' => 0,
+            ],
+            
+            [
+                'label'=>'IGXE物品链接',
+                'name'=>'igxe_url',
+                'display'=>[
+                    'type' => 'inputString',
+                ],
+                'require' => 0,
+            ],
 
             [
                 'label'=>'备注',

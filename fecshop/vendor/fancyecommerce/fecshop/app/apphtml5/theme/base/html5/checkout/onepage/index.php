@@ -247,6 +247,30 @@
 		//###########################
 		//下单(这个部分未完成。)
 		$("#onestepcheckout-place-order").click(function(){
+            //var zm_score = '<?=$cart_address['zm_scroe']?>';
+			$.ajax({
+				async:false,
+				url:'/customer/zmauth/getzmstatus',
+				success:function(code){ 
+                    if(code == 1){
+                        if(confirm('您还没有芝麻信用认证，认证后才能进行后续操作，是否现在去认证？')){
+                            //window.open('http://www.ecshop.com/customer/editaccount');
+                            var newTab=window.open('about:blank');
+                            newTab.location.href="/customer/editaccount";
+                        }else{
+                            return false;
+                        }
+                    }else if(code == 2){
+                        alert('对不起！您的芝麻信用积分没有达到标准，不能后续操作');
+                        return false;
+                    }else{
+                        pay_submit();
+                    }
+                }
+			});
+
+        });
+        var pay_submit = function(){
 			$(".validation-advice").remove();
 			i = 0;
 			j = 0;
@@ -323,7 +347,7 @@
 				}
 			}
 			
-		});
+		}
 		//登录用户切换地址列表
 		$(".address_list").change(function(){
 			val = $(this).val();

@@ -11,6 +11,7 @@ namespace fecshop\app\appfront\modules\Catalog\controllers;
 
 use fecshop\app\appfront\modules\AppfrontController;
 use Yii;
+use fecshop\models\mysqldb\product\ProductSteam;
 
 /**
  * @author Terry Zhao <2358269014@qq.com>
@@ -118,5 +119,47 @@ class ProductController extends AppfrontController
             'price' =>Yii::$service->page->widget->render($priceView, $priceParam),
         ]);
         exit;
+    }
+
+    public function actionUpdatesteam()
+    {
+        $gameidArr = ['730', '578080'];
+        
+        $productSteam = new ProductSteam();
+        $productSteam->deleteNoRent();
+        
+        foreach($gameidArr as $gameid){
+            $c = file_get_contents('http://steamcommunity.com/inventory/76561198350673503/'.$gameid.'/2');
+            $arr = json_decode($c);
+        
+            
+            $descriptionsArr = $arr->descriptions;
+            $steamProduct = array();
+            foreach($descriptionsArr as $dInfo){
+                $steamProduct[$dInfo->classid] = array(
+                                            'name' => $dInfo->name,
+                                            'pic' => $dInfo->icon_url_large,
+                                        );
+            }
+
+            $assetsArr = $arr->assets;
+            foreach($assetsArr as $assetInfo){
+                $productSteam = new ProductSteam();
+                $r = $productSteam->findByAssetid($assetInfo->assetid);
+                if(!empty($r)){
+                    $r->gameid = $assetInfo->appid;
+                }
+
+                $productSteam->gameid = $assetInfo->appid;    
+                $productSteam->classid = $assetInfo->classid;    
+                $productSteam->assetid = $assetInfo->assetid;
+                $productSteam->name = $steamProduct[$assetInfo->classid]['name'];
+                $productSteam->pic = $steamProduct[$assetInfo->classid]['pic'];
+                
+                $productSteam->save();
+            }
+        }
+        
+        return true;
     }
 }

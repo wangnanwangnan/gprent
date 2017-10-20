@@ -45,10 +45,12 @@
 					</li>
 
 					<li class="clearfix">
+                    <!--
 						<div class="input-box input-firstname">
 							<label for="billing:firstname"><?= Yii::$service->page->translate->__('First Name');?><span class="required">*</span></label>
 							<input value="<?= $cart_address['first_name'] ?>" id="billing:firstname" name="billing[first_name]" class="required-entry input-text" type="text">
 						</div>
+                        -->
 						<div class="input-box input-lastname">
 							<label for="billing:lastname"><?= Yii::$service->page->translate->__('Last Name');?> <span class="required">*</span></label>
 							<input value="<?= $cart_address['last_name'] ?>" id="billing:lastname" name="billing[last_name]" class="required-entry input-text" type="text">
