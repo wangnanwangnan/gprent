@@ -162,8 +162,33 @@ Array
                             'asArray' => true,
                     ];
         $completeArr = Yii::$service->product->coll($filter);
+        if($completeArr){
+            foreach($completeArr['coll'] as $pInfo){
+                $url = $pInfo['igxe_url'];
+                $params = $this->getParams($url);
+                print_r($params);
+            }
+        }
+    }
 
-        print_r($completeArr);exit;
+    //匹配需要的数据
+    public function getParams($url)
+    {
+        $c = file_get_contents($url);
         
+        //图片
+        preg_match('/<div class="com-img">(.+?)<\/div>/is', $c, $img);
+        
+        //名称
+        preg_match('/<div class="mod-equipmentDetail-bd" .+?>.+?<h1 class="h3" .+?>(.+?)<\/h1>/is', $c, $match);
+        //市场价格
+        preg_match('/<div class="mod-equipmentDetail-bd" .+?>.+?<strong .+?>(.+?)<\/strong>/is', $c, $match1);
+        //起价
+        preg_match('/<div class="mod-equipmentDetail-bd" .+?>.+?<b .+?>(.+?)<\/b>/is', $c, $match2);
+
+        $res['qprice'] = $match2[1];
+
+        return $res;
+
     }
 }
