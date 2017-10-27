@@ -145,6 +145,26 @@ class Manageredit
         if($orderModel->order_status != $editForm['order_status']){
             $item_status_all = $editForm['order_status'];
             $orderModel->pay_updated_at = time();
+            
+            $p_info = [];
+            $total_day = 0;
+            $order_info = Yii::$service->order->getOrderInfoById($order_id);
+            foreach($order_info['products'] as $key => $pinfo){
+                $p_info[$key] = $pinfo['name'];
+                $total_day += $pinfo['qty'];
+            }
+            $sms_str = count($p_info).'件道具已经发货';
+            //短信发货通知 当前状态已支付 改为正在租用
+            if($orderModel->order_status == 'processing' && $editForm['order_status'] == 'holded'){
+                $params = [
+                    "smsUser" => "gprent",      
+                    "phone" => $orderModel->customer_telephone,   
+                    "templateId" => 9477, 
+                    "vars" => "{property:\"$sms_str\",days:$total_day}" 
+                ];
+                Yii::$service->sms->sendsms($params);
+            }
+
         }
         
         $ProductMongodb = new ProductMongodb();
@@ -205,6 +225,8 @@ class Manageredit
             }
             $orderModel->save();
         }
+        
+        
 
         echo  json_encode([
             'statusCode'=>'200',

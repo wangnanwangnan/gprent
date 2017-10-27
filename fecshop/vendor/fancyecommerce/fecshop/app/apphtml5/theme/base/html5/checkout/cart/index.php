@@ -20,7 +20,7 @@ use fecshop\app\apphtml5\helper\Format;
 			<div class="cart">
 				<div class="page-title title-buttons">
 					<div class="shopping-cart-img">
-						Shopping Cart
+                        <?= Yii::$service->page->translate->__('Shopping Cart');?>
 					</div>
 				</div>
 				<div class="cart_info">

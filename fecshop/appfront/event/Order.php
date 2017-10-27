@@ -62,7 +62,7 @@ class Order
             }
 
             if($info['qty'] > $maxCountAddToCart){
-                echo '<script>alert("内测阶段，所有商品最多只能租用'.$maxCountAddToCart.'天，请修改'.$info['name'].'的租用天数，请谅解");window.history.go(-2);</script>';
+                echo '<script>alert("商品目前最多只能租用'.$maxCountAddToCart.'天，请修改'.$info['name'].'的租用天数，请谅解");window.history.go(-2);</script>';
                 exit;
             }
             //获取订单的商品总金额
@@ -78,7 +78,13 @@ class Order
 
             if($t_price > $maxPriceAddToCart){
                 $p = $maxPriceAddToCart-$customerModel->summation_cost;
-                echo '<script>alert("所有在租商品总金额不能超过'.$maxPriceAddToCart.'，还可以租'.$p.'以内的道具 继续租用，请谅解");window.history.go(-2);</script>';
+                
+                if($maxPriceAddToCart < 2000){
+                    echo "<script>alert('你的会员等级对应租用的商品总金额不能超过".$maxPriceAddToCart."，还可以租".$p."以内的道具，如需提高租用商品金额，请到 我的账户 -> 账户信息 中充值押金。');window.history.go(-2);</script>";
+                }else{
+                    echo "<script>alert('你的会员等级对应租用的商品总金额不能超过".$maxPriceAddToCart."，还可以租".$p."以内的道具');window.history.go(-2);</script>";
+                }
+                    
                 exit;
             }
         }

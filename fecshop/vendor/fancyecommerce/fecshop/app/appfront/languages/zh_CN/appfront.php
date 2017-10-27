@@ -97,6 +97,7 @@ return [
  'Submit'                        => '提交',
  'Back'                            => '返回',
  'Invite'                       => '邀请码',
+ 'Invite Url'                       => '邀请链接',
  'This is a required field.'    => '这是一个必填选项',
  'Please enter a valid email address. For example johndoe@domain.com.' => '请填写一个正确的邮箱，譬如：johndoe@domain.com。',
  'first name length must between' => '名字的长度范围：',
@@ -119,6 +120,7 @@ return [
  'View'                            => '查看',
  'Account Dashboard'            => '帐户中心',
  'Account Zmauth'            => '芝麻账户认证',
+ 'Account Coupon'            => '我的优惠券',
  'Account Information'            => '账户信息',
  'Address Book'                    => '交易地址',
  'My Product Reviews'            => '我的产品评论',
@@ -174,6 +176,9 @@ return [
  'Ship To'                        => '收货人',
  'Order Total'                    => '订单总额',
  'Order Status'                    => '订单状态',
+ 'holded'                       => '正在租用物品',
+ 'back_money'                   => '已退款',
+ 'complete'                     => '已归还物品',
  // 用户中心 - 我的订单 - 详细
  'pending'                        => '未付款',
  'suspected_fraud'                => '涉嫌欺诈',
@@ -304,7 +309,7 @@ return [
  // 购物车优惠券
  'Coupon is not available or has expired'    => '优惠券不可用或已过期',
  'add coupon fail'                => '添加优惠券失败',
- 'The coupon can not be used if the product amount in the shopping cart is less than {conditions} dollars' => '如果您的购物车金额小于{conditions}美元，该优惠券是不可用的',
+ 'The coupon can not be used if the product amount in the shopping cart is less than {conditions} dollars' => '如果您的购物车金额小于{conditions}元，该优惠券是不可用的',
  // 下单页面
  'Checkout'                        => '支付',
  'Welcome to the checkout,Fill in the fields below to complete your purchase' => '欢迎结帐，填写以下字段以完成购买',

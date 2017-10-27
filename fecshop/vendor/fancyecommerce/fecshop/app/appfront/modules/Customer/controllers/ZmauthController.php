@@ -58,8 +58,15 @@ class ZmauthController extends AppfrontController
         if (Yii::$app->user->isGuest) {
             return Yii::$service->url->redirectByUrlKey('customer/account/login');
         }
-        $realname = Yii::$app->request->post('zm_realname');
-        $identity_card = Yii::$app->request->post('zm_identity_card');
+        $realname = $identity_card = '';
+
+        if (!empty(Yii::$app->request->get('zm_realname'))) {
+            $realname = Yii::$app->request->get('zm_realname');
+            $identity_card = Yii::$app->request->get('zm_identity_card');
+        } else {
+            $realname = Yii::$app->request->post('zm_realname');
+            $identity_card = Yii::$app->request->post('zm_identity_card');
+        }
         
         //搜索是否该用户已经被验证
         $db = \Yii::$app->db;
@@ -126,11 +133,17 @@ class ZmauthController extends AppfrontController
         $identity = Yii::$app->user->identity;
         
         $zmScoreLow = Yii::$app->params['zmScoreLow'];
+        $zmScore = Yii::$app->params['zmScore'];
         $errcode = 0;
         if(empty($identity['zm_scroe'])){
             $errcode = 1;
         }elseif($identity['zm_scroe'] < $zmScoreLow){
             $errcode = 2;
+        }elseif($identity['zm_scroe'] >= $zmScoreLow && $identity['zm_scroe'] < $zmScore){
+            //判断是否缴纳押金 ---- 没有交押金还是可以租的，超过600元给个交押金的提示和链接就好
+            //if(!$identity['level']){
+                //$errcode = 2;
+            //}
         }
         echo $errcode;
     }

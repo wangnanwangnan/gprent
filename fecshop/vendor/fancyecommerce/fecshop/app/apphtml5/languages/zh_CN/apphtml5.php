@@ -118,6 +118,7 @@ return [
  'View'                            => '查看',
  'Account Dashboard'            => '帐户中心',
  'Account Zmauth'            => '芝麻账户认证',
+ 'Account Coupon'            => '我的优惠券',
  'Account Information'            => '账户信息',
  'Address Book'                    => '交易地址',
  'My Product Reviews'            => '我的产品评论',
@@ -173,6 +174,9 @@ return [
  'Ship To'                        => '收货人',
  'Order Total'                    => '订单总额',
  'Order Status'                    => '订单状态',
+ 'holded'                       => '正在租用物品',
+ 'back_money'                   => '已退款',
+ 'complete'                     => '已归还物品',
  // 用户中心 - 我的订单 - 详细
  'pending'                        => '未付款',
  'suspected_fraud'                => '涉嫌欺诈',
@@ -283,6 +287,9 @@ return [
  'Show Per Page:'                => '每页个数',
  'Search results for \'{searchText}\' returns no results'        => '搜索词 \'{searchText}\',找不到搜索结果',
  // 购物车
+ 'Shopping Cart' => '我的购物车',
+ 'Product Favorite' => '我的收藏',
+ 'Edit Account' => '账户信息',
  'Your Shopping Cart is empty'    => '您的购物车为空',
  'Start shopping now!'            => '现在开始购物',
  'Please {urlB}log in{urlE} to view the products you have previously added to your Shopping Cart.' => '请{urlB}登录{urlE}您的账户来查看你之前加入购物车的产品',
@@ -301,7 +308,7 @@ return [
  // 购物车优惠券
  'Coupon is not available or has expired'    => '优惠券不可用或已过期',
  'add coupon fail'                => '添加优惠券失败',
- 'The coupon can not be used if the product amount in the shopping cart is less than {conditions} dollars' => '如果您的购物车金额小于{conditions}美元，该优惠券是不可用的',
+ 'The coupon can not be used if the product amount in the shopping cart is less than {conditions} dollars' => '如果您的购物车金额小于{conditions}元，该优惠券是不可用的',
  // 下单页面
  'Checkout'                        => '支付',
  'Welcome to the checkout,Fill in the fields below to complete your purchase' => '欢迎结帐，填写以下字段以完成购买',

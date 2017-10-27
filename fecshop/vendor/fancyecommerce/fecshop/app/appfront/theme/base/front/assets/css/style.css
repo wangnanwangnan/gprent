@@ -497,7 +497,7 @@ del.my_shop_price {
 
 
 
-#goTop, .cus_survey, .go_bottom {
+#goTop, .cus_survey, .cus_ph,.go_bottom {
     background: rgba(0, 0, 0, 0) url("../images/footer_fixed.png") no-repeat scroll 0 0;
     display: block;
     height: 40px;
@@ -508,13 +508,23 @@ del.my_shop_price {
 .go_top {
     height: 42px;
 }
+.cus_ph:hover{
+	 background-position: -45px -80px;
+}
 
-
+.cus_ph{
+    background-position: 0 -80px;
+    height:40px;
+}
 
 .cus_survey {
     background-position: 0 -41px;
+    height:40px;
 }
 
+.cus_survey:hover{
+	 background-position: -45px -41px;
+}
 
 .footer_fixed .ph {
     display: block;
@@ -1145,6 +1155,10 @@ button.redBtn:hover span{
     border-top: 1px solid #ccc;
 }
 
+.col2-set .col-3 {
+    float: left;
+    width: 68%;
+}
 .col2-set .col-1 {
     float: left;
     width: 49%;

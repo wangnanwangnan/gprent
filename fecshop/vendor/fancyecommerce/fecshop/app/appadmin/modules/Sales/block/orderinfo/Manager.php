@@ -283,11 +283,12 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
 
             //是否押金订单 并且判断是否申请退押金
             $memberStart = "";
-            if($one['is_membercard'] == 1){
+            if($one['is_membercard'] == 1 && $one['order_status'] != 'back_money'){
                 //查询押金订单状态
-                $member_info = $member->find()->where(['order_id' => $one['increment_id']])->one();
+                $member_info = $member->find()->where(['order_id' => $one['order_id']])->one();
                 if($member_info['is_cancel'] == 1){
-                    $nameStr .= "(申请退押金)";
+                    $style = 'style="color:red"';
+                    $nameStr .= "(退款申请)";
                 }
             }
 

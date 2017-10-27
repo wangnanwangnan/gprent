@@ -46,6 +46,7 @@ class Index
             'email'         => $identity['email'],
             'lastname'      => $identity['lastname'],
             'zm_scroe'      => $identity['zm_scroe'],
+            'invite'        => $identity['invite_code'],
             'is_level'      => $is_level,
             'cash_pledge'   => $cash_pledge,
             'actionUrl'     => Yii::$service->url->getUrl('customer/editaccount'),

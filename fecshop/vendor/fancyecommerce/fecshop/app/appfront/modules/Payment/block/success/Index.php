@@ -18,6 +18,7 @@ use Yii;
 class Index
 {
     protected $_customerMemberModelName = '\fecshop\models\mysqldb\customer\Member';
+    protected $_couponMemberModelName = '\fecshop\models\mysqldb\customer\Coupon';
     
     public function getLastData()
     {
@@ -26,7 +27,6 @@ class Index
             Yii::$service->url->redirectHome();
         }
         $order = Yii::$service->order->getInfoByIncrementId($increment_id);
-        
         //如果订单为会员卡押金
         if($order['is_membercard'] == 1){
             $this->insertCustomerMember($order);
@@ -68,6 +68,7 @@ class Index
 
     public function updateUserCost($order){
         $customer_id = $order['customer_id'];
+        $coupon_code = $order['coupon_code'];
         //$order_id = $order['order_id'];
         $customerModel = Yii::$service->customer->getByPrimaryKey($customer_id);
         //获取订单下所有的商品价格
@@ -82,10 +83,18 @@ class Index
                     $special_lock += 1;
                 }
             }
+            $customerModel->special_lock = $special_lock;
+            $customerModel->summation_cost = $customerModel->summation_cost+$total_cost_price;
+            $customerModel->save();
         }
-        $customerModel->special_lock = $special_lock;
-        $customerModel->summation_cost = $customerModel->summation_cost+$total_cost_price;
-        $customerModel->save();
+
+        //判断是否使用优惠券 如果使用判断是不是邀请好友得来的 如果是则更新成已使用状态
+        $couponMemberModelName = new $this->_couponMemberModelName;
+        $coupon_info = $couponMemberModelName->find()->where(['coupon' => $coupon_code,'customer_id' => $customer_id,'status' => 0])->one();
+        if($coupon_info){
+            $coupon_info->status = 1;
+            $coupon_info->save();
+        }
 
     }
 
@@ -142,23 +151,39 @@ class Index
         $customer = Yii::$service->customer->getByPrimaryKey($customer_id);
         $parent_invite_code = $customer->parent_invite_code;
         //$parent_invite_code = 'qwerty';
+        $couponMemberModelName = new $this->_couponMemberModelName;
         if(!empty($parent_invite_code)){
             //判断是否已经有过订单了 第一次下单生成优惠券
             $orderInfo = Yii::$service->order->getFristOrder($customer_id);
             $orderNum = count($orderInfo);
             if($orderNum == 1){
+                //获取优惠券规则
+                $invite_coupon_config = Yii::$app->params['invite_coupon_config'];
                 //生成优惠券
                 $coupon = [];
                 $coupon_code = $this->getRandomString(6);
                 $coupon['coupon_code'] = $coupon_code;
                 $coupon['users_per_customer'] = 1;
-                $coupon['type'] = 1;
-                $coupon['conditions'] = 5;
-                $coupon['discount'] = 60;
-                $coupon['expiration_date'] = strtotime('+7 day');
+                $coupon['type'] = $invite_coupon_config['type'];
+                $coupon['conditions'] = $invite_coupon_config['conditions'];
+                $coupon['discount'] = $invite_coupon_config['discount'];
+                $expiration_date = $invite_coupon_config['expiration_date'];
+                $coupon['expiration_date'] = strtotime("+$expiration_date day");
                 $one = Yii::$service->cart->coupon->save($coupon);
                 if($one){
-                    $parentCustomer = Yii::$service->customer->getUserIdentityByInviteCode($parent_invite_code);           
+                    $parentCustomer = Yii::$service->customer->getUserIdentityByInviteCode($parent_invite_code);
+                    if($parentCustomer){
+                        $couponMemberModelName['customer_id'] = $parentCustomer->id;
+                        $couponMemberModelName['coupon'] = $coupon_code;
+                        $couponMemberModelName['coupon_id'] = $one;
+                        $couponMemberModelName['expiration_date'] = strtotime("+$expiration_date day");
+                        $couponMemberModelName['add_time'] = date('Y-m-d H:i:s',time());
+                        $discount_arr = ['30' => 7,'40' => 6,'50' => 5,'60' => 4,'70' => 3,'80' => 2];
+                        $discount = $discount_arr[$invite_coupon_config['discount']];
+                        $couponMemberModelName['coupon_msg'] = '邀请好友'.$customer->lastname." 获取".$discount."折优惠券 满".$invite_coupon_config['conditions']."元可用";
+                        $couponMemberModelName->save();
+                    }
+                    /*
                     $parentCustomerEmail = $parentCustomer->email;
                     $htmlBody = '你邀请的用户'.$customer['realname'].'刚刚下了订单，Gprent赠送一张优惠券'.$coupon_code.'(六折优惠券 满5元可用)  有效期7天 赶快去享受去吧。。。';
                     $sendInfo = [
@@ -168,6 +193,7 @@ class Index
                                 'senderName'    => Yii::$service->store->currentStore,
                             ];
                     Yii::$service->email->send($sendInfo, 'default');
+                    */
                 }
             }
         }

@@ -23,7 +23,7 @@ return [
                 // 注册登录成功后，跳转的url
                 'loginSuccessRedirectUrlKey' => 'customer/account',
                 // 注册页面的验证码是否开启
-                'registerPageCaptcha' => true,
+                'registerPageCaptcha' => false,
 
             ],
             'login' => [
@@ -45,7 +45,7 @@ return [
             'leftMenu'  => [
                 'Account Dashboard'     => 'customer/account',
                 'Account Information'   => 'customer/editaccount',
-                //'Account Zmauth'        => 'customer/zmauth',
+                'Account Coupon'        => 'customer/coupon',
                 'Address Book'          => 'customer/address',
                 'My Orders'             => 'customer/order',
                 'My Product Reviews'    => 'customer/productreview',

@@ -124,12 +124,13 @@ class ProductController extends AppfrontController
     public function actionUpdatesteam()
     {
         $gameidArr = ['730', '578080'];
-        
+        $steamid = '76561198350673503';
+
         $productSteam = new ProductSteam();
         $productSteam->deleteNoRent();
         
         foreach($gameidArr as $gameid){
-            $c = file_get_contents('http://steamcommunity.com/inventory/76561198350673503/'.$gameid.'/2');
+            $c = file_get_contents('http://steamcommunity.com/inventory/'.$steamid.'/'.$gameid.'/2');
             $arr = json_decode($c);
         
             
@@ -151,6 +152,7 @@ class ProductController extends AppfrontController
                 }
 
                 $productSteam->gameid = $assetInfo->appid;    
+                $productSteam->steamid = $steamid;    
                 $productSteam->classid = $assetInfo->classid;    
                 $productSteam->assetid = $assetInfo->assetid;
                 $productSteam->name = $steamProduct[$assetInfo->classid]['name'];
@@ -159,7 +161,62 @@ class ProductController extends AppfrontController
                 $productSteam->save();
             }
         }
-        
         return true;
     }
+
+    public function actionSteamrobot(){
+        $twofa = 'T2NP4';
+        $res = Yii::$app->steam->robootLogin($twofa);
+        print_r($res);exit;
+    }
+    
+    public function actionSteam(){
+        $session = Yii::$app->session;
+        $steamid = $session['steamid'];
+    
+        $url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=3DC2EC41F468ADAB42B8A549A1BB0CF3&steamids='.$steamid;
+        $contents = file_get_contents($url);
+        print_r($contents);exit;
+    }
+
+    public function actionSteamsend(){                                                                                                            
+        $get = Yii::$app->request->get();
+        $session = Yii::$app->session;
+        
+        //$a = file_get_contents('https://pubg.me/');
+        //print_r($a);exit;
+    
+        //print_r($session);exit;
+        if(isset($session['steamid']) && !empty($session['steamid'])){
+    
+            //获取用户库存
+            //$inventory = Yii::$app->steam->getinventory();
+            //print_r($inventory);exit;
+    
+            //发起交易
+            $appId = 578080;//游戏id[steam启动游戏的ID]
+            $assetid = "2950281171442995516";//物品id[通过解析网页中div标签上为item_x_sssss中的ssss部分的数值]
+            $token="IJBy9XRG";//第三方交易秘钥[第三方交易链接上token的那个值]
+            $partner="462592369";//被交易者id[第三方交易链接上partner的那个值]
+    
+            $json=json_encode(array(
+                'newversion' => false,
+                'version' => 2, 
+                'me' => array("assets"=>[],"currency"=>[],"ready"=>false), 
+                'them' => array("assets"=> [array("appid"=>$appId,"contextid"=>"2","amount"=>1,"assetid"=>$assetid)],"currency"=> [],"ready"=>    
+false), 
+            ),true);//交易参数
+            
+            $id = Yii::$app->steam->send($token, $json, $partner);
+            echo $id;exit;
+        
+        }else{
+            if(isset($get['login'])){
+                echo Yii::$app->steam->login();
+            }
+   
+            echo "<a href='?login'><img src='http://cdn.steamcommunity.com/public/images/signinthroughsteam/sits_large_border.png'></a>";
+        }
+    }
+
 }

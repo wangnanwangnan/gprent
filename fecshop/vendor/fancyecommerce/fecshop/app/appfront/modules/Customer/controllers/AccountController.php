@@ -47,8 +47,12 @@ class AccountController extends AppfrontController
     public function actionLogin()
     {
         $steam = Yii::$app->request->get('steam');
+
         if($steam == 1){
+            $invite_code = Yii::$app->request->get('invite_code');
+            
             //邀请码放在session里
+            Yii::$app->session['invite_code'] = $invite_code;
 
             Yii::$service->customer->steam->login();
             /*
@@ -97,6 +101,9 @@ class AccountController extends AppfrontController
     {
         $session = Yii::$app->session;
         $steamid = $session['steamid'];
+ 
+        //得到邀请码
+        $invite_code = $session['invite_code'];
         
         $steamKey = Yii::$app->params['steam']['key'];
         $steamGetPlayerSummariesUrl = Yii::$app->params['steam']['GetPlayerSummariesUrl'];
@@ -111,6 +118,7 @@ class AccountController extends AppfrontController
         $param['confirmation']  = 'gprent';
         $param['steamid']       = $steamid;
         $param['steam_avatar']   = $steamInfoArr['avatarfull'];
+        $param['parent_invite_code']   = $invite_code;
         
         //是否为绑定
         if (!Yii::$app->user->isGuest) {
@@ -134,7 +142,8 @@ class AccountController extends AppfrontController
         if(!empty($isRegister)){
             $registerStatus = true;
         }else{
-            $registerStatus = $this->getBlock()->registerbysteam($param);
+            //$registerStatus = $this->getBlock()->registerbysteam($param);
+            $registerStatus = $this->getBlock()->register($param);
         }
         if ($registerStatus) {
             $params_register = Yii::$app->getModule('customer')->params['register'];
@@ -148,9 +157,12 @@ class AccountController extends AppfrontController
                 if (isset($params_register['loginSuccessRedirectUrlKey']) && $params_register['loginSuccessRedirectUrlKey']) {
                     $urlKey = $params_register['loginSuccessRedirectUrlKey'];
                 }
-
+                //添加新注册用户优惠券
+                $this->getBlock()->sendCoupon(Yii::$app->user->identity->id);
                 return Yii::$service->customer->loginSuccessRedirect($urlKey);
             }
+        }else{
+            return Yii::$service->url->redirectByUrlKey('customer/account/login?invite_code='.$invite_code);
         }
     }
 

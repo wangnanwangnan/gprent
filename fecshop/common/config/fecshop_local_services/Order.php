@@ -33,6 +33,7 @@ return [
         'payment_status_complete'                => '已归还物品',        // 已完成
         'payment_status_holded'                  => '正在出租物品',        // hold
         'payment_status_suspected_fraud'         => '欺诈', //欺诈
+        'payment_status_back_money'             => '已退款', //已退款
 
     ],
 ];

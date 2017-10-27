@@ -69,9 +69,10 @@ class Steam extends Component
 	}
 
 	public function robootLogin($twofa){
-		$username = 'wangnan_0';
-		$password = 'fanshuo0108';
-
+		//$username = 'wangnan_0';
+		//$password = 'fanshuo0108';
+        $username = 'ruilifei';
+        $password = 'Ruilifei910102';
 		$post = array ('username' => $username);
 		$url = "https://steamcommunity.com/login/getrsakey";
 		$json= json_decode($this->curl($url, $post),true);

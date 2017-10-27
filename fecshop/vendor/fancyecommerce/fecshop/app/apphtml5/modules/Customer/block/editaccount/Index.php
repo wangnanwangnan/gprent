@@ -34,7 +34,7 @@ class Index
             $customerMemberModel = new $this->_customerMemberModelName();
             $customerMemberInfo = $customerMemberModel->find()->where(['customer_id' => $identity['id'],'is_cancel' => 0])->one();
             if($customerMemberInfo){
-                $is_level = $customerMemberInfo->is_level;
+                $is_level = $customerMemberInfo->level;
                 //押金 金额
                 $cash_pledge = Yii::$app->params['memberCard']['member_level'][1];
             }

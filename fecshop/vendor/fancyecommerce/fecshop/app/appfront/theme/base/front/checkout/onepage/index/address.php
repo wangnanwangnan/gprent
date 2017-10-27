@@ -25,6 +25,7 @@
 						<div class="input-box input-steam">
 							<label for="billing:steam_link"><?= Yii::$service->page->translate->__('Steam Link');?><span class="required">*</span></label>
 							<input value="<?= $cart_address['steam_link'] ?>" id="billing:steam_link" name="billing[steam_link]" class="required-entry input-text" type="text">
+                            <br><a href="<?= $cart_address['trackLink'] ?>" style="color:#0b84d3;" target="_black"> 前往steam获取交易链接 >></a>
 						</div>
 						<div class="clear"></div>
 					</li>
@@ -44,7 +45,7 @@
 					<li class="clearfix">
 						<div style="width:100%;" class="  input-box input-email">
 							<label for="billing:email"><?= Yii::$service->page->translate->__('Email Address');?> <span class="required">*</span></label>
-							<input style="width:83%;" value="<?= $cart_address['email'] ?>" class="validate-email required-entry input-text" title="Email Address" id="billing:email" name="billing[email]" type="text">
+							<input style="width:83%;" value="" class="validate-email required-entry input-text" title="Email Address" id="billing:email" name="billing[email]" type="text">
 							<div class="customer_email_validation">
 							
 							</div>
@@ -53,7 +54,7 @@
 					<li>
 						<div style="width:100%;" class="input-box input-telephone">
 							<label for="billing:telephone"><?= Yii::$service->page->translate->__('Telephone');?> <span class="required">*</span></label>
-							<input style="width:83%;" value="<?= $cart_address['telephone'] ?>" id="billing:telephone" class="required-entry input-text" title="Telephone" name="billing[telephone]" type="text">
+							<input style="width:83%;" value="<?= $cart_address['telephone'] ?>" id="billing:telephone" class="validate-telephone required-entry input-text" title="Telephone" name="billing[telephone]" type="text">
 						</div>
 					</li>
                     <!--
@@ -106,10 +107,12 @@
 					-->
 					<?php else: ?>
 					<li class="clearfix">
+                    <!--
 						<div class="input-box">
 							<input value="1" name="create_account" id="id_create_account" type="checkbox">
 							<label style="display:inline" for="id_create_account"><?= Yii::$service->page->translate->__('Create an account for later use');?></label>
 						</div>
+                        -->
 						<div class="label_create_account">
 						
 						</div>

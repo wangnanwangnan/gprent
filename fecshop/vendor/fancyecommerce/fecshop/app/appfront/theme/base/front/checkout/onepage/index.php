@@ -114,6 +114,11 @@
 		var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		return re.test(email);
 	}
+	
+    function validateTelephone(telephone) {
+        var re = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+		return re.test(telephone);
+	}
 	// ajax
 	function ajaxreflush(){
 		shipping_method = $("input[name=shipping_method]:checked").val();
@@ -320,7 +325,15 @@
 					$("#billing_address .validate-email").after('<div style=""  class="validation-advice"><?= Yii::$service->page->translate->__('email address format is incorrect');?></div>');
 					i++;
 				}
-				// password 是否长度大于6，并且两个密码一致
+				
+				//telephone format validate
+                user_telephone = $("#billing_address .validate-telephone").val();
+				if(user_telephone && !validateTelephone(user_telephone)){
+					$("#billing_address .validate-telephone").after('<div style=""  class="validation-advice">手机号格式不正确</div>');
+					i++;
+                }
+
+                // password 是否长度大于6，并且两个密码一致
 				if($("#id_create_account").is(':checked')){
 					
 					new_user_pass = $(".customer_password").val();

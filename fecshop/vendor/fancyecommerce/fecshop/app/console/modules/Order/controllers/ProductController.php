@@ -151,4 +151,19 @@ Array
             $r = Yii::$service->email->send($sendInfo, 'default');
         }
     }
+
+    //同步所有商品的价格
+    public function actionGetproductprice()
+    {
+        $filter =   [
+                        'where' =>  [
+                                ['!=','igxe_url',''],
+                            ],
+                            'asArray' => true,
+                    ];
+        $completeArr = Yii::$service->product->coll($filter);
+
+        print_r($completeArr);exit;
+        
+    }
 }

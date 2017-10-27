@@ -45,6 +45,7 @@ return [
             'leftMenu'  => [
                 'Account Information' => 'customer/editaccount',
                 'Address Book' => 'customer/address',
+                'Account Coupon' => 'customer/coupon',
                 'My Orders' => 'customer/order',
                 'My Product Reviews' => 'customer/productreview',
                 'My Favorite' => 'customer/productfavorite',

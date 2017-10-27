@@ -18,6 +18,7 @@ use Yii;
  */
 class Registerbysteam
 {
+    protected $_couponMemberModelName = '\fecshop\models\mysqldb\customer\Coupon';
     public function getLastData($param)
     {
         $firstname = isset($param['firstname']) ? $param['firstname'] : '';
@@ -41,9 +42,8 @@ class Registerbysteam
     
     public function registerBySteam($param)
     {
-        $password = $this->randStr(6,'CHAR');
-        $param['invite_code'] = $password;
-        
+        //$password = $this->randStr(6,'CHAR');
+        //$param['invite_code'] = $password;
         Yii::$service->customer->register($param);
         $errors = Yii::$service->page->message->addByHelperErrors();
         if (!$errors) {
@@ -79,6 +79,38 @@ class Registerbysteam
 
             return true;
         }
+    }
+
+    /**
+      *生成优惠券
+      */
+    public function sendCoupon($customer_id)
+    {
+        $couponMemberModelName = new $this->_couponMemberModelName;
+        $newly_coupon_config = Yii::$app->params['newly_coupon_config'];
+        $coupon_code = $this->randStr(6,'CHAR');
+        $coupon['coupon_code'] = $coupon_code;
+        $coupon['users_per_customer'] = 1;
+        $coupon['type'] = $newly_coupon_config['type'];
+        $coupon['conditions'] = $newly_coupon_config['conditions'];
+        $coupon['discount'] = $newly_coupon_config['discount'];
+        $expiration_date = $newly_coupon_config['expiration_date'];
+        $coupon['expiration_date'] = strtotime("+$expiration_date day");
+        $one = Yii::$service->cart->coupon->save($coupon);
+        if($one){
+            if($customer_id){
+                $couponMemberModelName['customer_id'] = $customer_id;
+                $couponMemberModelName['coupon'] = $coupon_code;
+                $couponMemberModelName['coupon_id'] = $one;
+                $couponMemberModelName['expiration_date'] = strtotime("+$expiration_date day");
+                $couponMemberModelName['add_time'] = date('Y-m-d H:i:s',time());
+                $couponMemberModelName['coupon_msg'] = "新注册用户 获取".$newly_coupon_config['discount']."元优惠券 满".$newly_coupon_config['conditions']."元可用";
+                $couponMemberModelName->save();
+                return true;
+            }
+        }
+
+    
     }
 
     /**

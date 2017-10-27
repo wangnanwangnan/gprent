@@ -12,6 +12,8 @@ return [
         'assetManager' => [
             'forceCopy' => false,
         ],
-
+        'steam' => [
+            'class' => 'common\components\Steam',
+        ],
     ],
 ];

@@ -12,7 +12,7 @@
 		<a external class="button button-link button-nav pull-left" href="<?= Yii::$service->url->getUrl('customer/account/index'); ?>">
 			<span class="icon icon-left"></span>
 		</a>
-		<h1 class='title'><?= Yii::$service->page->translate->__('Edit Account'); ?></h1>
+		<h1 class='title'><?= Yii::$service->page->translate->__('Account Information'); ?></h1>
 	</div>
 </div>
 <?= Yii::$service->page->widget->render('flashmessage'); ?>
@@ -22,35 +22,50 @@
 		<?= \fec\helpers\CRequest::getCsrfInputHtml();  ?>
 		<ul>
 	        <li>
-                    <label for="zmauth"><?= Yii::$service->page->translate->__('Zm Authinfo');?></label>
-					<div class="input-box">
-                    芝麻信用是依法成立的独立信用评估及管理机构。授权后得到分数越高，代表信用越好。
+                <div class="item-content">
+					<div class="item-media">
+						<i class="icon icon-form-name"></i>
+					</div>
+					<div class="item-inner">
+						<div class="item-input">
+                            芝麻信用是依法成立的独立信用评估及管理机构。授权后得到分数越高，代表信用越好。
                             <?php
-                        if($zm_scroe) {
-                            echo '芝麻信用评估：'.$zm_scroe;
-                       }else{
-                        ?>
-                        <a style='color:#f05b72' id="go-zmauth" href='javascript:void(0)'><?= Yii::$service->page->translate->__('Zm Go Authorize');?></a>
-                        <?php } ?>
-                    </div>
+                            if($zm_scroe) {
+                                echo '芝麻信用评估：'.$zm_scroe;
+                           }else{
+                            ?>
+                            <a style='color:#f05b72' id="go-zmauth" href='javascript:void(0)'><?= Yii::$service->page->translate->__('Zm Go Authorize');?></a>
+                            <?php } ?>
+
+						</div>
+					</div>
+				</div>
             </li>
             <li>
                 <div class="item-content">
-                <?php
+					<div class="item-media">
+						<i class="icon icon-form-name"></i>
+					</div>
+					<div class="item-inner">
+						<div class="item-input">
+                            <?php
 
-                    $requireZMScore = Yii::$app->params['zmScore'];
-                     $requireZMScoreLow = Yii::$app->params['zmScoreLow'];
-                     if($zm_scroe < $requireZMScore && $zm_scroe >= $requireZMScoreLow){
-                         if($is_level==1){
-                            echo '<li>您的押金 '.$cash_pledge.'，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>退押金</li>';
-                         }else{
-                            echo '<li>您的芝麻分不足，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>充值信用押金</li>';
-                         }
-                     }
+                                $requireZMScore = Yii::$app->params['zmScore'];
+                                 $requireZMScoreLow = Yii::$app->params['zmScoreLow'];
+                                 if($zm_scroe < $requireZMScore && $zm_scroe >= $requireZMScoreLow){
+                                     if($is_level==1){
+                                        echo '您的押金 '.$cash_pledge.'，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>退押金';
+                                     }else{
+                                        echo '您的芝麻分不足，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>充值信用押金';
+                                     }
+                                 }
 
 
-                ?>
-                </div>
+                            ?>
+						</div>
+					</div>
+				</div>
+
             </li>
 			<li>
 				<div class="item-content">
@@ -64,21 +79,6 @@
 					</div>
 				</div>
 			</li>
-            <!--
-			<li>
-				<div class="item-content">
-					<div class="item-media">
-						<i class="icon icon-form-name"></i>
-					</div>
-					<div class="item-inner">
-						<div class="item-input">
-							<input  placeholder="First name" id="firstname" name="editForm[firstname]" value="<?= $firstname ?>" title="First Name"  class="input-text required-entry" type="text"  />
-							<div class="validation-advice" id="required_current_firstname" style="display:none;"><?= Yii::$service->page->translate->__('This is a required field.');?></div>
-						</div>
-					</div>
-				</div>
-			</li>
-            -->
 			<li>
 				<div class="item-content">
 					<div class="item-media">
@@ -93,7 +93,7 @@
 				</div>
 			</li>
 			
-			<li class="control">
+			<li class="control" style="display:none">
 				<div class="change_password_label item-content">
 					<input name="editForm[change_password]" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="Change Password" class="checkbox" type="checkbox">
 					<label for="change_password"><?= Yii::$service->page->translate->__('Change Password');?></label>

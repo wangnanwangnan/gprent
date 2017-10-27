@@ -12,7 +12,7 @@
 		<a external class="button button-link button-nav pull-left" href="<?= Yii::$service->url->getUrl('customer/address'); ?>">
 			<span class="icon icon-left"></span>
 		</a>
-		<h1 class='title'><?= Yii::$service->page->translate->__('Edit Address'); ?></h1>
+		<h1 class='title'><?= Yii::$service->page->translate->__('Address Book'); ?></h1>
 	</div>
 </div>
 <?= Yii::$service->page->widget->render('flashmessage'); ?>	

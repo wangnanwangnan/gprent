@@ -27,6 +27,7 @@ class Order extends Service
     public $payment_status_complete         = 'complete';
     public $payment_status_holded           = 'holded';
     public $payment_status_suspected_fraud  = 'suspected_fraud';
+    public $payment_status_back_money       = 'back_money';
 
     // 订单号格式。
     public $increment_id = 1000000000;
@@ -76,6 +77,7 @@ class Order extends Service
             'complete' => $this->payment_status_complete,
             'holded' => $this->payment_status_holded,
             'suspected_fraud' => $this->payment_status_suspected_fraud,
+            'back_money' => $this->payment_status_back_money,
             
             /*
             $this->payment_status_pending         => $this->payment_status_pending,
@@ -175,9 +177,8 @@ class Order extends Service
     //判断用户是不是第一次下单
     protected function actionGetFristOrder($customer_id)
     {
-        $one = $this->_orderModel->findOne(['customer_id' => $customer_id]);
-        $primaryKey = $this->getPrimaryKey();
-        if ($one[$primaryKey]) {
+        $one = $this->_orderModel->find()->where(['customer_id' => $customer_id])->all();
+        if ($one) {
             return $one;
         } else {
             return false;
@@ -445,6 +446,7 @@ class Order extends Service
         $myOrder['created_at']      = time();
         $myOrder['updated_at']      = time();
         $myOrder['customer_id']     = Yii::$app->user->identity->id;
+        $myOrder['customer_lastname'] = Yii::$app->user->identity->lastname;
         $myOrder['base_grand_total'] = $price;
         $myOrder['is_membercard'] = 1;
         $myOrder->save();

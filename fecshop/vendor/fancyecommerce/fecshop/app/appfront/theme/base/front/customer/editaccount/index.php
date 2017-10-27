@@ -43,7 +43,7 @@
                                     ?>
                                     <a style='color:#f05b72' id="go-zmauth" href='javascript:void(0)'><?= Yii::$service->page->translate->__('Zm Go Authorize');?></a>
                                     <?php } ?>
-                                </div>
+                                                                    </div>
 							</li>
                         
                             <?php
@@ -57,7 +57,13 @@
                                  }
                              }
                              ?>
-                            
+                                    <h5>
+                                        注:芝麻信用分700分以上免押金租借总价值2000元以下道具<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;芝麻信用分640-700分可免押金租借总价值500元以下道具<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;缴纳198元押金（无正在租借道具订单时刻随时申请退回）<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;芝麻信用分640-700分可免押金租借总价值2000元以下道具
+                                    </h5>
+
                             <?php
                                 if(!empty($steamid)){
                             ?>
@@ -103,11 +109,11 @@
                                     </div>
                                 </div>
 							</li>
-                            -->
 							<li class="control">
 								<input name="editForm[change_password]" id="change_password" value="1" onclick="setPasswordForm(this.checked)" title="Change Password" class="checkbox" type="checkbox">
 								<label style="display:inline;" for="change_password"><?= Yii::$service->page->translate->__('Change Password');?></label>
 							</li>
+                            -->
 						</ul>
 					</div>
 				
@@ -140,9 +146,13 @@
 							</li>
 						</ul>
 					</div>
+                    <?php
+                        if(empty($steamid)){
+                    ?>
 					<div class="buttons-set">
 						<button type="submit" title="Save" class="button" onclick="return check_edit()"><span><span><?= Yii::$service->page->translate->__('Submit');?></span></span></button>
 					</div>
+                    <?php } ?>
 				</form>
 			</div>
 		</div>
@@ -173,7 +183,7 @@
   </form>
 </div>
 
-<form id='zmauth_submit' style="display:none" action='/customer/zmauth' method='post' target='_blank'>
+<form id='zmauth_submit' style="display:none" action='/customer/zmauth' method='post' onsubmit="return false" <!-- target='_blank' -->>
     <input type="text" name='zm_realname' id='zm_realname'>
     <input type="text" name='zm_identity_card' id='zm_identity_card'>
 </form>
@@ -365,7 +375,9 @@
                     alert('提交失败！该用户已经被认证过');
                     return false;
                 }
-                $('#zmauth_submit').submit();
+                var zm_window = window.open();
+                zm_window.location = '/customer/zmauth?zm_realname=' + $('#realname').val() + '&zm_identity_card=' + $('#identity_card').val();
+                //$('#zmauth_submit').submit();
             }                
         })       
         

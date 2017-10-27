@@ -22,7 +22,7 @@
                 -->
 				<div class="box-account box-info">
 					<div class="col2-set">
-						<div class="col-1">
+						<div class="col-3">
 							<div class="box">
                             <!--
 								<div class="box-title">
@@ -36,7 +36,8 @@
 									</div>
 								</div>
                                 <div class="box-title">
-									<h3><?= Yii::$service->page->translate->__('Invite'); ?>:<span style="margin:0 10px;color:red;"><?= $invite ?></span></h3>
+									<h3><?= Yii::$service->page->translate->__('Invite Url'); ?>:<span style="margin:0 10px;color:red;" id='inviteurl'>http://www.gprent.cn/customer/account/login?invite_code=<?= $invite ?></span></h3>
+                                    <h5>注：使用您的专属推广链接，通过此链接进行注册并完成首次租赁的用户，您将获得5折租赁优惠券一张！</h5>
 								</div>
 
 							</div>

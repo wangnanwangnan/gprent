@@ -59,7 +59,7 @@ class EditaccountController extends AppfrontController
 
         $config_rent_price = $config_levels[0]['rent_price'];
         
-        if($summation_cost > $config_rent_price){
+        if($summation_cost > 0){
             Yii::$service->page->message->addError('请将手中饰品退还后退款');
         }else{
 
@@ -68,9 +68,12 @@ class EditaccountController extends AppfrontController
             $customerMemberInfo = $customerMemberModel->find()->where(['customer_id' => $identity['id'],'is_cancel' => 0])->one();
             
             if($customerMemberInfo){
+                $customerModel = Yii::$service->customer->getByPrimaryKey($identity['id']);
+                $customerModel->level = 0;
+                $customerModel->save();
                 $customerMemberInfo->is_cancel = 1;
                 if($customerMemberInfo->save()){
-                    Yii::$service->page->message->addCorrect('退款申请成功');
+                    Yii::$service->page->message->addCorrect('退款申请成功，预计5个工作日内到账(支付宝限制)');
                 }
             }
         }

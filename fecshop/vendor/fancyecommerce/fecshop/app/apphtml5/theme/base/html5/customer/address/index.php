@@ -12,7 +12,7 @@
 		<a external class="button button-link button-nav pull-left" href="<?= Yii::$service->url->getUrl('customer/account/index'); ?>">
 			<span class="icon icon-left"></span>
 		</a>
-		<h1 class='title'><?= Yii::$service->page->translate->__('Customer Address'); ?></h1>
+		<h1 class='title'><?= Yii::$service->page->translate->__('Address Book'); ?></h1>
 	</div>
 </div>
 <?= Yii::$service->page->widget->render('flashmessage'); ?>
@@ -43,7 +43,7 @@
 								<?= Yii::$service->helper->country->getStateByContryCode($one['country'],$one['state']); ?>
 								<?= Yii::$service->helper->country->getCountryNameByKey($one['country']); ?>
 								<?php  if($one['is_default'] == 1): ?>
-								<br/><span style=" color:#cc0000"><?= Yii::$service->page->translate->__('Default Address');?></span> 
+								<br/><span style=" color:#cc0000"><?= Yii::$service->page->translate->__('Is Default');?></span> 
 								<?php  endif; ?>	
 							</td>
 							<td class="ltp" valign="top ltp" align="center">

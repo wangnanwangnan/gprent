@@ -20,6 +20,8 @@ class Login
 {
     public function getLastData($param = '')
     {
+        $invite_code = Yii::$app->request->get('invite_code');
+
         $loginParam = \Yii::$app->getModule('customer')->params['login'];
         $loginPageCaptcha = isset($loginParam['loginPageCaptcha']) ? $loginParam['loginPageCaptcha'] : false;
         $email = isset($param['email']) ? $param['email'] : '';
@@ -27,8 +29,9 @@ class Login
         return [
             'loginPageCaptcha' => $loginPageCaptcha,
             'email' => $email,
-            'googleLoginUrl' => Yii::$service->customer->google->getLoginUrl('customer/google/loginv'),
-            'facebookLoginUrl' => Yii::$service->customer->facebook->getLoginUrl('customer/facebook/loginv'),
+            'invite_code' => $invite_code,
+            //'googleLoginUrl' => Yii::$service->customer->google->getLoginUrl('customer/google/loginv'),
+            //'facebookLoginUrl' => Yii::$service->customer->facebook->getLoginUrl('customer/facebook/loginv'),
         ];
     }
 
