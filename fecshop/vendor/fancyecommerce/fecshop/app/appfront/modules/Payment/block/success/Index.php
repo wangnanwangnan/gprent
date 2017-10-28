@@ -96,6 +96,14 @@ class Index
             $coupon_info->save();
         }
 
+        //发送短信提示
+        $params = [
+                    "smsUser" => "gprent",      
+                    "phone" => $order['customer_telephone'],   
+                    "templateId" => 9581, 
+                ];
+        Yii::$service->sms->sendsms($params);
+
     }
 
     public function noticePaySuccess($order){
