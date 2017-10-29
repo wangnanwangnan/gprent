@@ -34,6 +34,7 @@ return [
         'payment_status_holded'                  => '正在出租物品',        // hold
         'payment_status_suspected_fraud'         => '欺诈', //欺诈
         'payment_status_back_money'             => '已退款', //已退款
+        'payment_status_sales_return'             => '申请退还', //已退款
 
     ],
 ];

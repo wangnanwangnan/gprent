@@ -51,6 +51,25 @@ class AccountController extends AppfrontController
         \fecshop\app\appfront\modules\Mailer\Email::sendRegisterEmail($toEmail);
         exit;
         */
+        $steam = Yii::$app->request->get('steam');
+
+        if($steam == 1){
+            $invite_code = Yii::$app->request->get('invite_code');
+            
+            //邀请码放在session里
+            Yii::$app->session['invite_code'] = $invite_code;
+
+            Yii::$service->customer->steam->login();
+            /*
+            $openid = new LightOpenID($_SERVER['SERVER_NAME']);
+            
+            if(!$openid->mode) {
+                $openid->identity = 'http://steamcommunity.com/openid';
+                header('Location: ' . $openid->authUrl());exit;
+            }
+            */
+        }
+
         if (!Yii::$app->user->isGuest) {
             return Yii::$service->url->redirectByUrlKey('customer/account');
         }

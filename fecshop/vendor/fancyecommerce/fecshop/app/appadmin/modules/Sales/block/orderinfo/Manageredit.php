@@ -164,6 +164,18 @@ class Manageredit
                 ];
                 Yii::$service->sms->sendsms($params);
             }
+            //短信收货通知 当前状态正在租用 改为申请退还
+            $sms_str = '至少1件道具';
+            $total_day = 1;
+            if($orderModel->order_status == 'holded' && $editForm['order_status'] == 'sales_return'){
+                $params = [
+                    "smsUser" => "gprent",      
+                    "phone" => $orderModel->customer_telephone,   
+                    "templateId" => 9476, 
+                    "vars" => "{property:\"$sms_str\",days:$total_day,account:\"Gprent\"}" 
+                ];
+                Yii::$service->sms->sendsms($params);
+            }
 
         }
         

@@ -27,7 +27,8 @@ class Order extends Service
     public $payment_status_complete         = 'complete';
     public $payment_status_holded           = 'holded';
     public $payment_status_suspected_fraud  = 'suspected_fraud';
-    public $payment_status_back_money       = 'back_money';
+    public $payment_status_back_money       = 'back_money';//已退款
+    public $payment_status_sales_return     = 'sales_return';//发起退货通知
 
     // 订单号格式。
     public $increment_id = 1000000000;
@@ -78,6 +79,7 @@ class Order extends Service
             'holded' => $this->payment_status_holded,
             'suspected_fraud' => $this->payment_status_suspected_fraud,
             'back_money' => $this->payment_status_back_money,
+            'sales_return' => $this->payment_status_sales_return,
             
             /*
             $this->payment_status_pending         => $this->payment_status_pending,

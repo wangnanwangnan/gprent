@@ -68,12 +68,10 @@
 		</div>
 		<div class="clear"></div>
 		<div class="third_login">
-        <!--
 			<div class="fago_login">
-				<img onclick="facebooklogin()" src="<?= Yii::$service->image->getImgUrl("images/facebook.jpg") ?>" /><br/>
-				<img onclick="googlelogin()"src="<?=Yii::$service->image->getImgUrl("images/google.jpg") ?>" /><br/>
+				<a href="?steam=1&invite_code=<?= $invite_code; ?>" ><img src="http://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" /></a><br/>
+				<!--<img onclick="googlelogin()"src="<?=Yii::$service->image->getImgUrl("images/google.jpg") ?>" /><br/>-->
 			</div>
-            -->
 			<?= \fec\helpers\CRequest::getCsrfInputHtml();  ?>
 			<div class="col2-set">
 				<div class="col-1 new-users">
@@ -98,7 +96,11 @@
 	});
 	var newwindow;
 	var intId;
-	function facebooklogin(){
+    function steamlogin(){
+        $("#steam").val(1);
+        $("#login-form").submit();
+    }
+	function facebooklogina(){
 		var  screenX    = typeof window.screenX != 'undefined' ? window.screenX : window.screenLeft,
 			 screenY    = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop,
 			 outerWidth = typeof window.outerWidth != 'undefined' ? window.outerWidth : document.body.clientWidth,

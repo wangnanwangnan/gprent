@@ -42,12 +42,13 @@ class Index
         $this->initParam();
         $return_arr = [];
         if ($this->customer_id) {
+            $customer_id = $this->customer_id->id;
             $filter = [
                 'numPerPage'    => $this->numPerPage,
                 'pageNum'        => $this->pageNum,
                 'orderBy'        => $this->orderBy,
                 'where'            => [
-                    ['customer_id' => $this->customer_id],
+                    ['customer_id' => $customer_id],
                 ],
                 'asArray' => true,
             ];

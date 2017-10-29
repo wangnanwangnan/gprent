@@ -177,6 +177,7 @@ return [
  'holded'                       => '正在租用物品',
  'back_money'                   => '已退款',
  'complete'                     => '已归还物品',
+ 'sales_return'                     => '申请退还',
  // 用户中心 - 我的订单 - 详细
  'pending'                        => '未付款',
  'suspected_fraud'                => '涉嫌欺诈',
