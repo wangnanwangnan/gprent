@@ -57,8 +57,9 @@ class AccountController extends AppfrontController
             $invite_code = Yii::$app->request->get('invite_code');
             
             //邀请码放在session里
-            Yii::$app->session['invite_code'] = $invite_code;
-
+            if($invite_code){
+                Yii::$app->session['invite_code'] = $invite_code;
+            }
             Yii::$service->customer->steam->login();
             /*
             $openid = new LightOpenID($_SERVER['SERVER_NAME']);
@@ -84,6 +85,80 @@ class AccountController extends AppfrontController
 
        return $this->render($this->action->id, $data);
    }
+    /**
+     * steam注册并登陆.
+     */
+    public function actionRegisterbysteam()
+    {
+        $session = Yii::$app->session;
+        $steamid = $session['steamid'];
+ 
+        //得到邀请码
+        $invite_code = $session['invite_code'];
+        
+        $steamKey = Yii::$app->params['steam']['key'];
+        $steamGetPlayerSummariesUrl = Yii::$app->params['steam']['GetPlayerSummariesUrl'];
+        $url = $steamGetPlayerSummariesUrl.'?key='.$steamKey.'&steamids='.$steamid;
+        $steamContents = file_get_contents($url);
+        $steamResponse = json_decode($steamContents, true);
+        
+        $steamInfoArr = $steamResponse['response']['players'][0];
+        $param['lastname']      = $steamInfoArr['personaname'];
+        $param['email']         = $steamid.'@gprent.cn';
+        $param['password']      = 'gprent';
+        $param['confirmation']  = 'gprent';
+        $param['steamid']       = $steamid;
+        $param['steam_avatar']   = $steamInfoArr['avatarfull'];
+        $param['parent_invite_code']   = $invite_code;
+        
+        //是否为绑定
+        if (!Yii::$app->user->isGuest) {
+            $isRegister = Yii::$service->customer->getUserIdentityBySteamid($steamid);
+            if(!empty($isRegister)){
+                echo '<script>alert("该账号已经被绑定，请直接用steam帐号登陆");window.location.href="/customer/account";</script>';
+                exit;
+            }else{
+                $identity = Yii::$app->user->identity;
+            
+                $identity->steamid = $steamid;
+                $identity->steam_avatar = $steamInfoArr['avatarfull'];
+                $identity->lastname = $steamInfoArr['personaname'];
+                $identity->save();
+            }
+            return Yii::$service->url->redirectByUrlKey('customer/account');
+        }
+
+        //看是否已经注册过
+        $isRegister = Yii::$service->customer->getUserIdentityBySteamid($steamid);
+        if(!empty($isRegister)){
+            $registerStatus = true;
+        }else{
+            //$registerStatus = $this->getBlock()->registerbysteam($param);
+            $registerStatus = $this->getBlock()->register($param);
+            if($registerStatus){
+                //添加新注册用户优惠券
+                $this->getBlock()->sendCoupon(Yii::$app->user->identity->id);
+            }
+        }
+        if ($registerStatus) {
+            $params_register = Yii::$app->getModule('customer')->params['register'];
+            // 注册成功后，是否自动登录
+            if (isset($params_register['successAutoLogin']) && $params_register['successAutoLogin']) {
+                Yii::$service->customer->login($param);
+            }
+            if (!Yii::$app->user->isGuest) {
+                // 注册成功后，跳转的页面，如果值为false， 则不跳转。
+                $urlKey = 'customer/account';
+                if (isset($params_register['loginSuccessRedirectUrlKey']) && $params_register['loginSuccessRedirectUrlKey']) {
+                    $urlKey = $params_register['loginSuccessRedirectUrlKey'];
+                }
+                return Yii::$service->customer->loginSuccessRedirect($urlKey);
+            }
+        }else{
+            return Yii::$service->url->redirectByUrlKey('customer/account/login?invite_code='.$invite_code);
+        }
+    }
+
 
     /**
      * 注册.

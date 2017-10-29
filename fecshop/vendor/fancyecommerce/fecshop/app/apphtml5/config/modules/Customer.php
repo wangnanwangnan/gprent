@@ -23,7 +23,7 @@ return [
                 // 注册登录成功后，跳转的url
                 'loginSuccessRedirectUrlKey' => 'customer/account',
                 // 注册页面的验证码是否开启
-                'registerPageCaptcha' => true,
+                'registerPageCaptcha' => false,
 
             ],
             'login' => [
