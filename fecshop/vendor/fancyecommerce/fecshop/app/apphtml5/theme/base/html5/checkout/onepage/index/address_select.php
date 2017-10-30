@@ -71,7 +71,7 @@
 					<li>
 						<div  class="input-box input-telephone">
 							<label for="billing:telephone"><?= Yii::$service->page->translate->__('Telephone');?> <span class="required">*</span></label>
-							<input  value="<?= $cart_address['telephone'] ?>" id="billing:telephone" class="required-entry input-text" title="Telephone" name="billing[telephone]" type="text">
+							<input  value="<?= $cart_address['telephone'] ?>" id="telephone" class="required-entry input-text" title="Telephone" name="billing[telephone]" type="text">
 						</div>
 					</li>
                     <!--

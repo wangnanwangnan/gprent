@@ -68,7 +68,7 @@
 					</div>
 					<div class="item-inner">
 						<div class="item-input">
-							<input class="input-text required-entry" maxlength="255" placeholder="Telephone"  title="telephone" value="<?= $telephone ?>" name="address[telephone]" id="lastname" type="text">
+							<input class="input-text required-entry" maxlength="255" placeholder="Telephone"  title="telephone" value="<?= $telephone ?>" name="address[telephone]" id="telephone" type="text">
 						</div>
 					</div>
 				</div>
@@ -222,7 +222,16 @@
 				}
 			}
 		});
-		
+		var phone = $("#telephone").val();
+		if(phone){
+            var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
+            if(!myreg.test(phone)) 
+            { 
+                    alert('请输入有效的手机号码！'); 
+                    return false; 
+            } 
+        }
+
 		$(".addressedit select").each(function(){
 			value = $(this).val();
 			if(!value){
@@ -232,7 +241,7 @@
 		if(i){
 			$(".addressedit").submit();
 		}else{
-			alert("You Must Fill All Field");
+			alert("请将信息填写完整");
 		}
 	}
 	

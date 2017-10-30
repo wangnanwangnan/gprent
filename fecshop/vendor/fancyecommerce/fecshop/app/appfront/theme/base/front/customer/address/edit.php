@@ -46,7 +46,7 @@
 								<div class="field name-lastname">
 										<label class="required" for="lastname"><?= Yii::$service->page->translate->__('Telephone');?></label>
 										<div class="input-box">
-											<input class="input-text required-entry" maxlength="255" title="Last Name" value="<?= $telephone ?>" name="address[telephone]" id="lastname" type="text">
+											<input class="input-text required-entry" maxlength="255" title="Last Name" value="<?= $telephone ?>" name="address[telephone]" id="telephone" type="text">
 										</div>
 									</div>
 							</li>
@@ -125,7 +125,9 @@
                                         <?php
                                             if(!empty($trackLink)){
                                                 echo '<a href="'.$trackLink.'" style="color:#0b84d3;" target="_black"> 前往steam获取交易链接 >></a>';
-										    }
+										    }else{
+                                                echo '<a href="/customer/account/login?steam=1" style="color:#0b84d3;" target="_blank"> 绑定steam帐号 >></a>';
+                                            }
                                         ?>
                                         </div>
 									</div>
@@ -206,7 +208,16 @@
 				}
 			}
 		});
-		
+
+        var phone = $("#telephone").val();
+		if(phone){
+            var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
+            if(!myreg.test(phone)) 
+            { 
+                    alert('请输入有效的手机号码！'); 
+                    return false; 
+            } 
+        }
 		jQuery(".addressedit select").each(function(){
 			value = jQuery(this).val();
 			if(!value){

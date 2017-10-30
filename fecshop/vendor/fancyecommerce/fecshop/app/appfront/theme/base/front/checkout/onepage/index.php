@@ -327,9 +327,9 @@
 				}
 				
 				//telephone format validate
-                user_telephone = $("#billing_address .validate-telephone").val();
+                user_telephone = $("#telephone").val();
 				if(user_telephone && !validateTelephone(user_telephone)){
-					$("#billing_address .validate-telephone").after('<div style=""  class="validation-advice">手机号格式不正确</div>');
+					$("#telephone").after('<div style=""  class="validation-advice">手机号格式不正确</div>');
 					i++;
                 }
 
