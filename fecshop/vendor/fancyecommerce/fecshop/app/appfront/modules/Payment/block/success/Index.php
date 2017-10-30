@@ -123,7 +123,10 @@ class Index
                         'htmlBody'      => $htmlBody,
                         'senderName'    => Yii::$service->store->currentStore,
                     ];
-            Yii::$service->email->send($sendInfo, 'default');
+
+            if(!empty($customer['realname'])){
+                Yii::$service->email->send($sendInfo, 'default');
+            }
         }
     }
     public function sendRentUserMail($order){
