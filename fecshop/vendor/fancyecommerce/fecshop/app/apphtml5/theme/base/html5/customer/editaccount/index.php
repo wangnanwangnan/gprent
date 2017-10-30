@@ -56,7 +56,7 @@
                                      if($is_level==1){
                                         echo '您的押金 '.$cash_pledge.'，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>退押金';
                                      }else{
-                                        echo '您的芝麻分不足，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>充值信用押金';
+                                        echo '恭喜您！您已具备我们的租赁条件，请快去挑选喜爱的道具吧，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>充值信用押金';
                                      }
                                  }
 
