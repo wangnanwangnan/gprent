@@ -136,6 +136,17 @@ Array
                 }
             }
         }
+        $emailArr = ['gprent@163.com', '2366629496@qq.com'];
+        //$emailArr = ['617990822@qq.com'];
+        foreach($emailArr as $email){
+            $sendInfo = [
+                'to'        => $email,
+                'subject'    => '总共'.$n.'件道具将马上到期！请及时收回 共'.$j.'单需要确认状态',
+                'htmlBody'    => $htmlBody,
+                'senderName'=> Yii::$service->store->currentStore,
+            ];
+            $r = Yii::$service->email->send($sendInfo, 'default');
+        }
 
         //已支付订单数量
         $filter =   [
@@ -148,16 +159,14 @@ Array
                     ];
         $prolist = Yii::$service->order->coll($filter);
         $j = 0;
+        $orderBody = '';
         if($prolist){
             foreach($prolist['coll'] as $complete){
                 $addtime = date('Y-m-d H:i:s',$complete['create_at']);
-                $htmlBody .= $complete['customer_lastname'].$complete['customer_firstname'].'的订单('.$complete['increment_id'].'金额：('.$complete['grand_total'].'),在'.$addtime.')已支付,Steam链接：'.$complete['steam_link']." 请尽快确认是忘记改状态 还是没有发货\r\n<br><br>\r\n\r\n<br><br>\r\n";
+                $orderBody .= $complete['customer_lastname'].$complete['customer_firstname'].'的订单('.$complete['increment_id'].'金额：('.$complete['grand_total'].'),在'.$addtime.')已支付,Steam链接：'.$complete['steam_link']." 请尽快确认是忘记改状态 还是没有发货\r\n<br><br>\r\n\r\n<br><br>\r\n";
             }
             $j = count($prolist['coll']);
         }
-
-
-
         
         //$emailArr = ['617990822@qq.com', '2366629496@qq.com'];
         $emailArr = ['gprent@163.com', '2366629496@qq.com'];
@@ -165,12 +174,14 @@ Array
         foreach($emailArr as $email){
             $sendInfo = [
                 'to'        => $email,
-                'subject'    => '总共'.$n.'件道具将马上到期！请及时收回 共'.$j.'单需要确认状态',
-                'htmlBody'    => $htmlBody,
+                'subject'    => '当前共有'.$j.'单已支付 需尽快处理',
+                'htmlBody'    => $orderBody,
                 'senderName'=> Yii::$service->store->currentStore,
             ];
             $r = Yii::$service->email->send($sendInfo, 'default');
         }
+
+
     }
 
     //同步所有商品的价格
