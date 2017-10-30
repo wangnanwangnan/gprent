@@ -200,8 +200,12 @@ class Steam extends Component
 		$steamauth['apikey'] = $steamKey; // Your Steam WebAPI-Key found at http://steamcommunity.com/dev/apikey
 		//$steamauth['domainname'] = ""; // The main URL of your website displayed in the login page
 		$steamauth['logoutpage'] = ""; // Page to redirect to after a successfull logout (from the directory the SteamAuth-folder is located in) - NO slash at the beginning!
-		$steamauth['loginpage'] = "http://www.gprent.cn/customer/account/registerbysteam"; // Page to redirect to after a successfull login (from the directory the SteamAuth-folder is located in) - NO slash at the beginning!
+	    if($_SERVER['SERVER_NAME'] == 'wap.gprent.cn'){
+            $steamauth['loginpage'] = "http://wap.gprent.cn/customer/account/registerbysteam";
+        }else{
+            $steamauth['loginpage'] = "http://www.gprent.cn/customer/account/registerbysteam"; // Page to redirect to after a successfull login (from the directory the SteamAuth-folder is located in) - NO slash at the beginning!
 	// System stuff
+        }
 		//if (empty($steamauth['domainname'])) {$steamauth['domainname'] = $_SERVER['SERVER_NAME'];}
 		if (empty($steamauth['logoutpage'])) {$steamauth['logoutpage'] = $_SERVER['PHP_SELF'];}
 		if (empty($steamauth['loginpage'])) {$steamauth['loginpage'] = $_SERVER['PHP_SELF'];}
