@@ -24,15 +24,18 @@
 						<div class="input-box input-steam">
 							<label for="billing:steam_link"><?= Yii::$service->page->translate->__('Steam Link');?><span class="required">*</span></label>
 							<input value="<?= $cart_address['steam_link'] ?>" id="billing:steam_link" name="billing[steam_link]" class="required-entry input-text" type="text">
-						</div>
+					
+                            <br><a href="<?= $cart_address['trackLink'] ?>" style="color:#0b84d3;" target="_black"> 前往steam获取交易链接 >></a>
+                            </div>
 						<div class="clear"></div>
 					</li>
-	
                 <li class="clearfix">
+	<!--
 						<div class="input-box input-firstname">
 							<label for="billing:firstname"><?= Yii::$service->page->translate->__('First Name');?><span class="required">*</span></label>
 							<input value="<?= $cart_address['first_name'] ?>" id="billing:firstname" name="billing[first_name]" class="required-entry input-text" type="text">
 						</div>
+                        -->
 						<div class="input-box input-lastname">
 							<label for="billing:lastname"><?= Yii::$service->page->translate->__('Last Name');?> <span class="required">*</span></label>
 							<input value="<?= $cart_address['last_name'] ?>" id="billing:lastname" name="billing[last_name]" class="required-entry input-text" type="text">

@@ -49,7 +49,8 @@ return [
                     // 支付完成后，跳转的地址。
                     'return_url'            => '@homeUrl/payment/alipay/standard/review',
                     // 支付宝发送消息，接收的地址。
-                    'ipn_url'               => '@homeUrl/payment/alipay/standard/ipn',
+                    //'ipn_url'               => '@homeUrl/payment/alipay/standard/ipn',
+                    'ipn_url'               => '@homeUrl/payment/success/ipn',
                     'success_redirect_url'  => '@homeUrl/payment/success',
                 ],
                 

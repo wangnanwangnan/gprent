@@ -23,4 +23,16 @@ class SuccessController extends AppfrontController
 
         return $this->render($this->action->id, $data);
     }
+    //支付成功后异步通知地址
+    public function actionIpn()
+    {
+        $data = $this->getBlock()->getLastData();
+        if($data){
+            echo 'success';
+            return;
+
+        }
+        //return $this->render($this->action->id, $data);
+    }
+
 }

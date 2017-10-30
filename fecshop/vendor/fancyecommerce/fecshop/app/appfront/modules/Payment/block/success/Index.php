@@ -27,6 +27,7 @@ class Index
             Yii::$service->url->redirectHome();
         }
         $order = Yii::$service->order->getInfoByIncrementId($increment_id);
+        /*
         //如果订单为会员卡押金
         if($order['is_membercard'] == 1){
             $this->insertCustomerMember($order);
@@ -47,6 +48,7 @@ class Index
         if (Yii::$app->user->isGuest) {
             Yii::$service->cart->clearCartProductAndCoupon();
         }
+        */
         // 清空session中存储的当前订单编号。
         Yii::$service->order->removeSessionIncrementId();
 

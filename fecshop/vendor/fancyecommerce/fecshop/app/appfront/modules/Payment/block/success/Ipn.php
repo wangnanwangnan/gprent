@@ -7,7 +7,7 @@
  * @license http://www.fecshop.com/license/
  */
 
-namespace fecshop\app\apphtml5\modules\Payment\block\success;
+namespace fecshop\app\appfront\modules\Payment\block\success;
 
 use Yii;
 
@@ -15,42 +15,46 @@ use Yii;
  * @author Terry Zhao <2358269014@qq.com>
  * @since 1.0
  */
-class Index
+class Ipn
 {
     protected $_customerMemberModelName = '\fecshop\models\mysqldb\customer\Member';
     protected $_couponMemberModelName = '\fecshop\models\mysqldb\customer\Coupon';
     
     public function getLastData()
     {
-        $increment_id = Yii::$service->order->getSessionIncrementId();
+        //$increment_id = Yii::$service->order->getSessionIncrementId();
+        $post = Yii::$app->request->post();
+        $increment_id = $post['out_trade_no'];
         if (!$increment_id) {
             Yii::$service->url->redirectHome();
         }
         $order = Yii::$service->order->getInfoByIncrementId($increment_id);
-        /*
-        //如果订单为会员卡押金
-        if($order['is_membercard'] == 1){
-            $this->insertCustomerMember($order);
+        if($increment_id){
+            //如果订单为会员卡押金
+            if($order['is_membercard'] == 1){
+                $this->insertCustomerMember($order);
+            }
+            //支付成功通知
+            $this->noticePaySuccess($order);
+            //佣金
+            //$this->sendRentUserMail($order);
+            //优惠券
+            $this->sendCouponUserMail($order);
+            //更新用户租借额度 特价商品数量
+            $this->updateUserCost($order);
         }
-        //支付成功通知
-        $this->noticePaySuccess($order);
-        //佣金
-        //$this->sendRentUserMail($order);
-        //优惠券
-        $this->sendCouponUserMail($order);
-        //更新用户租借额度 特价商品数量
-        $this->updateUserCost($order);
         //$custoner_id = $order['customer_id'];
         //$customerModel = $this->_customerModel->findIdentity($customer_id);
         //$customerModel->summation_cost = ;
-        */
+
         // 清空购物车。这里针对的是未登录用户进行购物车清空。
+        /*
         if (Yii::$app->user->isGuest) {
             Yii::$service->cart->clearCartProductAndCoupon();
         }
         // 清空session中存储的当前订单编号。
         Yii::$service->order->removeSessionIncrementId();
-
+        */
         return [
             'increment_id' => $increment_id,
             'order'            => $order,
@@ -96,6 +100,14 @@ class Index
             $coupon_info->status = 1;
             $coupon_info->save();
         }
+
+        //发送短信提示
+        $params = [
+                    "smsUser" => "gprent",      
+                    "phone" => $order['customer_telephone'],   
+                    "templateId" => 9581, 
+                ];
+        Yii::$service->sms->sendsms($params);
 
     }
 
@@ -172,14 +184,18 @@ class Index
                 $coupon['expiration_date'] = strtotime("+$expiration_date day");
                 $one = Yii::$service->cart->coupon->save($coupon);
                 if($one){
-                    $parentCustomer = Yii::$service->customer->getUserIdentityByInviteCode($parent_invite_code);           
-                    $couponMemberModelName['customer_id'] = $parentCustomer->id;
-                    $couponMemberModelName['coupon'] = $coupon_code;
-                    $couponMemberModelName['coupon_id'] = $one;
-                    $couponMemberModelName['expiration_date'] = strtotime("+$expiration_date day");
-                    $couponMemberModelName['add_time'] = date('Y-m-d H:i:s',time());
-                    $couponMemberModelName['coupon_msg'] = '邀请好友'.$customer->lastname." 获取".$invite_coupon_config['discount']."折优惠券 满".$invite_coupon_config['conditions']."元可用";
-                    $couponMemberModelName->save();
+                    $parentCustomer = Yii::$service->customer->getUserIdentityByInviteCode($parent_invite_code);
+                    if($parentCustomer){
+                        $couponMemberModelName['customer_id'] = $parentCustomer->id;
+                        $couponMemberModelName['coupon'] = $coupon_code;
+                        $couponMemberModelName['coupon_id'] = $one;
+                        $couponMemberModelName['expiration_date'] = strtotime("+$expiration_date day");
+                        $couponMemberModelName['add_time'] = date('Y-m-d H:i:s',time());
+                        $discount_arr = ['30' => 7,'40' => 6,'50' => 5,'60' => 4,'70' => 3,'80' => 2];
+                        $discount = $discount_arr[$invite_coupon_config['discount']];
+                        $couponMemberModelName['coupon_msg'] = '邀请好友'.$customer->lastname." 获取".$discount."折优惠券 满".$invite_coupon_config['conditions']."元可用";
+                        $couponMemberModelName->save();
+                    }
                     /*
                     $parentCustomerEmail = $parentCustomer->email;
                     $htmlBody = '你邀请的用户'.$customer['realname'].'刚刚下了订单，Gprent赠送一张优惠券'.$coupon_code.'(六折优惠券 满5元可用)  有效期7天 赶快去享受去吧。。。';
