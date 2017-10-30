@@ -143,6 +143,7 @@
 				</div>
 			</li>
 		</ul>
+        <?php if(empty($steamid)){ ?>
 		<div class="clear"></div>
 		<div class="buttons-set">
 			<p>
@@ -151,7 +152,7 @@
 				</a>
 			</p>
 		</div>
-		
+		<?php } ?>
 	</form>
 </div>
 

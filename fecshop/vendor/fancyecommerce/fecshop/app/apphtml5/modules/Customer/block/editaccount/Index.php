@@ -48,6 +48,7 @@ class Index
             'is_level'      => $is_level,
             'cash_pledge'   => $cash_pledge,
             'actionUrl'     => Yii::$service->url->getUrl('customer/editaccount'),
+            'steamid'       => $identity['steamid'],
         ];
 /*
         $identity = Yii::$app->user->identity;
