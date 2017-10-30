@@ -54,7 +54,7 @@
                                  $requireZMScoreLow = Yii::$app->params['zmScoreLow'];
                                  if($zm_scroe < $requireZMScore && $zm_scroe >= $requireZMScoreLow){
                                      if($is_level==1){
-                                        echo '您的押金 '.$cash_pledge.'，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>退押金';
+                                        echo '您的押金 '.$cash_pledge.'，<a href="javascript:;" onclick="backmoney()" style="color:red">点击这里</a>退押金';
                                      }else{
                                         echo '您的芝麻分不足，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>充值信用押金';
                                      }
@@ -413,6 +413,12 @@ $( function() {
         return false;
     });
 });
+function backmoney()
+{
+    if(confirm('确定申请退回押金?')){
+        self.location = "/customer/editaccount/backmoney";
+    }
+} 
 
 <?php $this->endBlock(); ?>  
 </script>  
