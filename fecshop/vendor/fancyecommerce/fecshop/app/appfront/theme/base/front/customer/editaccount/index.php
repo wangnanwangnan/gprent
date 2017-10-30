@@ -53,17 +53,16 @@
                                  if($is_level){
                                     echo '<li>您的押金 '.$cash_pledge.'，<a href="javascript:;" onclick="backmoney()"  style="color:red">点击这里</a>退押金</li>';
                                  }else{
-                                    echo '<li>您的芝麻分不足，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>充值信用押金</li>';
+                                    echo '<li>恭喜您！您已具备我们的租赁条件，请快去挑选喜爱的道具吧，<a href="/customer/editaccount/pay"  style="color:red">点击这里</a>充值信用押金</li>';
                                  }
                              }
                              ?>
-                                    <h5>
+                             <div style="font-size:80%;color:#0b84d3;">
                                         注:芝麻信用分700分以上免押金租借总价值2000元以下道具<br>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;芝麻信用分640-700分可免押金租借总价值500元以下道具<br>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;缴纳198元押金（无正在租借道具订单时刻随时申请退回）<br>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;芝麻信用分640-700分可免押金租借总价值2000元以下道具
-                                    </h5>
-
+                                        &nbsp;&nbsp;&nbsp;&nbsp;芝麻信用分640-700分可免押金租借总价值500元以下道具<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;缴纳198元押金（无正在租借道具订单时刻随时申请退回）<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;芝麻信用分640-700分可免押金租借总价值2000元以下道具
+                            </div>
                             <?php
                                 if(!empty($steamid)){
                             ?>
