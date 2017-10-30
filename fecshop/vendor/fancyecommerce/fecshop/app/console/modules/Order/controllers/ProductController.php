@@ -141,7 +141,7 @@ Array
         foreach($emailArr as $email){
             $sendInfo = [
                 'to'        => $email,
-                'subject'    => '总共'.$n.'件道具将马上到期！请及时收回 共'.$j.'单需要确认状态',
+                'subject'    => '总共'.$n.'件道具将马上到期!',
                 'htmlBody'    => $htmlBody,
                 'senderName'=> Yii::$service->store->currentStore,
             ];
