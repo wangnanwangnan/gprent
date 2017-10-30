@@ -141,6 +141,8 @@ Array
         $filter =   [
                         'where' =>  [
                                 ['order_status' => 'processing'],
+                                ['is_membercard' => 0],
+                                ['is_delete' => 0],
                             ],
                             'asArray' => true,
                     ];
