@@ -177,6 +177,23 @@ class Manageredit
                 Yii::$service->sms->sendsms($params);
             }
 
+            //如果状态从正在租用 改为已归还 查看是否有特价商品 归还特价商品后将用户的锁解开
+            $special_num = 0;
+            if($editForm['order_status'] == 'complete'){
+                foreach($order_info['products'] as $key => $pinfo){
+                    $product = Yii::$service->product->getByPrimaryKey($pinfo['product_id']);
+                    if(!empty($product->special_price)){
+                        $special_num += 1;
+                    }
+                }
+                if($special_num){
+                    $customer_id = $order_info['customer_id'];
+                    $customerModel = Yii::$service->customer->getByPrimaryKey($customer_id);
+                    $customerModel->special_lock = 0;
+                    $customerModel->save();
+                }
+            }
+
         }
         
         $ProductMongodb = new ProductMongodb();
