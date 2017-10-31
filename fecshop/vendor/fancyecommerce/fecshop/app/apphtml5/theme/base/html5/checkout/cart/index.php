@@ -105,7 +105,7 @@ use fecshop\app\apphtml5\helper\Format;
 						
 						<div class="row no-gutter">
 							<div class="col-80"><?= Yii::$service->page->translate->__('Discount');?>  :</div>
-							<div class="col-20">-<?=  $currency_info['symbol'];  ?><?= Format::price($cart_info['coupon_cost']); ?>%</div>
+							<div class="col-20">-<?=  $currency_info['symbol'];  ?><?= Format::price($cart_info['coupon_cost']); ?></div>
 						</div>
 						
 						<div class="row no-gutter">
