@@ -129,25 +129,32 @@ class AccountController extends AppfrontController
         }
 
         //看是否已经注册过
+        $is_new = 0;
         $isRegister = Yii::$service->customer->getUserIdentityBySteamid($steamid);
         if(!empty($isRegister)){
             $registerStatus = true;
         }else{
             //$registerStatus = $this->getBlock()->registerbysteam($param);
             $registerStatus = $this->getBlock()->register($param);
+            if($registerStatus){
+                //添加新注册用户优惠券
+                $is_new = 1;
+            }
         }
         if ($registerStatus) {
             $params_register = Yii::$app->getModule('customer')->params['register'];
             // 注册成功后，是否自动登录
             if (isset($params_register['successAutoLogin']) && $params_register['successAutoLogin']) {
                 Yii::$service->customer->login($param);
-                $this->getBlock()->sendCoupon(Yii::$app->user->identity->id);
             }
             if (!Yii::$app->user->isGuest) {
                 // 注册成功后，跳转的页面，如果值为false， 则不跳转。
                 $urlKey = 'customer/account';
                 if (isset($params_register['loginSuccessRedirectUrlKey']) && $params_register['loginSuccessRedirectUrlKey']) {
                     $urlKey = $params_register['loginSuccessRedirectUrlKey'];
+                }
+                if($is_new){
+                    $this->getBlock()->sendCoupon(Yii::$app->user->identity->id);
                 }
                 return Yii::$service->customer->loginSuccessRedirect($urlKey);
             }
