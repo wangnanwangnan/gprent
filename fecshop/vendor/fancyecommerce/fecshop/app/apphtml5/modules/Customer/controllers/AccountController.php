@@ -135,16 +135,13 @@ class AccountController extends AppfrontController
         }else{
             //$registerStatus = $this->getBlock()->registerbysteam($param);
             $registerStatus = $this->getBlock()->register($param);
-            if($registerStatus){
-                //添加新注册用户优惠券
-                $this->getBlock()->sendCoupon(Yii::$app->user->identity->id);
-            }
         }
         if ($registerStatus) {
             $params_register = Yii::$app->getModule('customer')->params['register'];
             // 注册成功后，是否自动登录
             if (isset($params_register['successAutoLogin']) && $params_register['successAutoLogin']) {
                 Yii::$service->customer->login($param);
+                $this->getBlock()->sendCoupon(Yii::$app->user->identity->id);
             }
             if (!Yii::$app->user->isGuest) {
                 // 注册成功后，跳转的页面，如果值为false， 则不跳转。
