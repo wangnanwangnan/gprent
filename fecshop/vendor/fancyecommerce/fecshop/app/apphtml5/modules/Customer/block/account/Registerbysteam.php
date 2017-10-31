@@ -90,6 +90,7 @@ class Registerbysteam
         $newly_coupon_config = Yii::$app->params['newly_coupon_config'];
         $coupon_code = $this->randStr(6,'CHAR');
         $coupon['coupon_code'] = $coupon_code;
+        $coupon['created_person'] = $customer_id;
         $coupon['users_per_customer'] = 1;
         $coupon['type'] = $newly_coupon_config['type'];
         $coupon['conditions'] = $newly_coupon_config['conditions'];
