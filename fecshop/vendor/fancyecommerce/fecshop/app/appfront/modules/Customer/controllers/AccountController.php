@@ -138,12 +138,16 @@ class AccountController extends AppfrontController
         }
 
         //看是否已经注册过
+        $is_new = 0;
         $isRegister = Yii::$service->customer->getUserIdentityBySteamid($steamid);
         if(!empty($isRegister)){
             $registerStatus = true;
         }else{
             //$registerStatus = $this->getBlock()->registerbysteam($param);
             $registerStatus = $this->getBlock()->register($param);
+            if($registerStatus){
+                $is_new = 1;
+            }
         }
         if ($registerStatus) {
             $params_register = Yii::$app->getModule('customer')->params['register'];
@@ -157,8 +161,10 @@ class AccountController extends AppfrontController
                 if (isset($params_register['loginSuccessRedirectUrlKey']) && $params_register['loginSuccessRedirectUrlKey']) {
                     $urlKey = $params_register['loginSuccessRedirectUrlKey'];
                 }
-                //添加新注册用户优惠券
-                $this->getBlock()->sendCoupon(Yii::$app->user->identity->id);
+                if($is_new){
+                    //添加新注册用户优惠券
+                    $this->getBlock()->sendCoupon(Yii::$app->user->identity->id);
+                }
                 return Yii::$service->customer->loginSuccessRedirect($urlKey);
             }
         }else{
