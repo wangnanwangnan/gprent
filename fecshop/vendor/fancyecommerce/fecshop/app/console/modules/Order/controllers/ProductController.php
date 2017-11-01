@@ -18,6 +18,8 @@ use yii\console\Controller;
  */
 class ProductController extends Controller
 {
+    protected $_num;
+
     public function actionReturnpendingstock()
     {
         Yii::$service->order->returnPendingStock();
@@ -197,19 +199,22 @@ Array
         if($completeArr){
             foreach($completeArr['coll'] as $pInfo){
                 $url = $pInfo['igxe_url'];
+                $this->_num = 0;
                 $params = $this->getParams($url);
                 if($params['qprice']){
                     $pInfo['starting_price'] = $params['qprice'];
-                    $a = Yii::$service->product->save($pInfo);
+                    //$a = Yii::$service->product->save($pInfo);
                 }
-                print_r($params);
+                print_r($params);exit;
             }
         }
     }
 
+
     //匹配需要的数据
     public function getParams($url)
     {
+        $this->_num += 1;
         $c = file_get_contents($url);
         
         //图片
@@ -221,10 +226,15 @@ Array
         preg_match('/<div class="mod-equipmentDetail-bd" .+?>.+?<strong .+?>(.+?)<\/strong>/is', $c, $match1);
         //起价
         preg_match('/<div class="mod-equipmentDetail-bd" .+?>.+?<b .+?>(.+?)<\/b>/is', $c, $match2);
-
-        $res['qprice'] = $match2[1];
-
-        return $res;
-
+        
+        if(empty($match2[1])){
+            sleep(10);
+            if($this->_num < 4){
+                $this->getParams($url);
+            }
+        }else{
+            $res['qprice'] = $match2[1];
+            return $res;
+        }
     }
 }
