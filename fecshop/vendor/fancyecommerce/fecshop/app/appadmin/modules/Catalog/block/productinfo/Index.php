@@ -209,7 +209,13 @@ class Index extends AppadminbaseBlock implements AppadminbaseBlockInterface
             [
                 'orderField'    => 'cost_price',
                 'label'            => '成本价',
-                'width'            => '50',
+                'width'            => '20',
+                'align'        => 'center',
+            ],
+            [
+                'orderField'    => 'starting_price',
+                'label'            => '实时起价',
+                'width'            => '20',
                 'align'        => 'center',
             ],
 
