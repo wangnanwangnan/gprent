@@ -90,6 +90,7 @@ class Registerbysteam
         $newly_coupon_config = Yii::$app->params['newly_coupon_config'];
         $coupon_code = $this->randStr(6,'CHAR');
         $coupon['coupon_code'] = $coupon_code;
+        $coupon['created_person'] = $customer_id;
         $coupon['users_per_customer'] = 1;
         $coupon['type'] = $newly_coupon_config['type'];
         $coupon['conditions'] = $newly_coupon_config['conditions'];
@@ -111,6 +112,26 @@ class Registerbysteam
         }
 
     
+    }
+    /**
+      *测试生成优惠券
+      */
+    public function sendCoupont($customer_id)
+    {
+        for($i=0;$i<5;$i++){
+            $couponMemberModelName = new $this->_couponMemberModelName;
+            //$newly_coupon_config = Yii::$app->params['newly_coupon_config'];
+            $coupon_code = $this->randStr(6,'CHAR');
+            $coupon['coupon_code'] = $coupon_code;
+            $coupon['created_person'] = $customer_id;
+            $coupon['users_per_customer'] = 1;
+            $coupon['type'] = 1;
+            $coupon['conditions'] = 1;
+            $coupon['discount'] = 50;
+            $expiration_date = 30;
+            $coupon['expiration_date'] = strtotime("+$expiration_date day");
+            $one = Yii::$service->cart->coupon->save($coupon);
+        }
     }
 
     /**
