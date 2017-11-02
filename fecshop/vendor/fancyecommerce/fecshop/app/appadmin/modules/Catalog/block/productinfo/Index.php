@@ -109,6 +109,7 @@ class Index extends AppadminbaseBlock implements AppadminbaseBlockInterface
                 'columns_type'    =>'string',
                 'lang'            => true,
             ],
+            /*
             [    // 字符串类型
                 'type'=>'inputtext',
                 'title'=>'Spu',
@@ -139,6 +140,7 @@ class Index extends AppadminbaseBlock implements AppadminbaseBlockInterface
                     'lt' =>'库存结束',
                 ],
             ],
+            */
         ];
 
         return $data;

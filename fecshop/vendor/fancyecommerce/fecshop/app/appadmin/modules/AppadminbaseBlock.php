@@ -164,7 +164,7 @@ class AppadminbaseBlock extends Object
     {
         if (is_array($data) && !empty($data)) {
             $html_chosen_select = '<select class="combox" name="'.$name.'">';
-            $html_chosen_select .= '<option value="">'.$title.'</option>';
+            //$html_chosen_select .= '<option value="">'.$title.'</option>';
             $selected = $this->_param[$name];
             if (is_array($selected)) {
                 $selected = $selected['$regex'];

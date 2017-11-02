@@ -200,12 +200,13 @@ Array
             foreach($completeArr['coll'] as $pInfo){
                 $url = $pInfo['igxe_url'];
                 $this->_num = 0;
+                sleep(10);
                 $params = $this->getParams($url);
                 if($params['qprice']){
                     $pInfo['starting_price'] = $params['qprice'];
-                    //$a = Yii::$service->product->save($pInfo);
+                    $a = Yii::$service->product->save($pInfo);
                 }
-                print_r($params);exit;
+                print_r($params);
             }
         }
     }
