@@ -11,7 +11,7 @@ namespace fecshop\app\console\modules\Order\controllers;
 
 use Yii;
 use yii\console\Controller;
-
+use fecshop\models\mysqldb\product\ProductSteam;
 /**
  * @author Terry Zhao <2358269014@qq.com>
  * @since 1.0
@@ -183,6 +183,87 @@ Array
             $r = Yii::$service->email->send($sendInfo, 'default');
         }
 
+
+    }
+
+
+    //自动发货程序开发
+    public function actionOutosendproduct()
+    {
+        //验证steam链接
+        //$url = "https://steamcommunity.com/tradeoffer/new/?partner=421440810&token=0yzrXjp9";
+        //$url = "https://steamcommunity.com/tradeoffer/new/?partner=470288534&token=LFs_bvUi";
+        //Yii::$app->steam->verifySteamUrl($url);
+        //已支付订单数量
+        $filter =   [
+                        'where' =>  [
+                                ['order_status' => 'processing'],
+                                ['is_membercard' => 0],
+                                ['is_delete' => 0],
+                            ],
+                            'asArray' => true,
+                    ];
+        $prolist = Yii::$service->order->coll($filter);
+        $orderBody = '';
+        if($prolist){
+            foreach($prolist['coll'] as $complete){
+                $steam_url = $complete['steam_link'];
+                //$addtime = date('Y-m-d H:i:s',$complete['create_at']);
+                //查询订单的商品 判断商品属于哪个steamid
+                $orderInfo = Yii::$service->order->getInfoByIncrementId($complete['increment_id']);
+                if($orderInfo['items']){
+                    foreach($orderInfo['items'] as $item){
+                        //获取库里有的商品进行发货 如果没有则提示管理员采购
+                        $this->getOkSendProduct($item['product_id'],$steam_url,$complete['increment_id']);
+                    }
+                }
+                print_r($orderInfo);exit;
+            }
+        }
+
+    }
+
+    public function getOkSendProduct($id,$steam_url,$order_id)
+    {
+        $steamid = 0;
+
+        $formate_url = parse_url($steam_url);
+        $pt = explode('&',$formate_url['query']);
+        $p_arrt = explode('=',$pt[0]);
+        $t_arrt = explode('=',$pt[1]);
+
+        $completeArr = Yii::$service->product->getByPrimaryKey($id);
+        $steam_classid = $completeArr->steam_classid;
+        
+        //查询是否有可以发货的商品
+        $productSteam = new ProductSteam();
+        $productInfo = $productSteam->find()->where(['classid' => $steam_classid,'status' => 0])->one();
+        if($productInfo){
+            $steamid = $productInfo['steamid'];
+            $appId=$productInfo['gameid'];//游戏id[steam启动游戏的ID]
+            $assetid=$productInfo['assetid'];//物品id[通过解析网页中div标签上为item_x_sssss中的ssss部分的数值]
+            $token=$t_arrt[1];//第三方交易秘钥[第三方交易链接上token的那个值]
+            $partner=$p_arrt[1];//被交易者id[第三方交易链接上partner的那个值]
+            $json=json_encode(array(
+                     'newversion' => true,
+                     'version' => 2,
+                     'me' => array("assets"=>[array("appid"=>$appId,"contextid"=>"2","amount"=>1,"assetid"=>$assetid)],"currency"=>[],"ready"=>false),
+                     'them' => array("assets"=> [],"currency"=> [],"ready"=> false)
+                     ),true);//交易参数
+            
+            //登录
+            $twofa = '98F46';
+            $session_info = Yii::$app->steam->robootLogin($steamid,$twofa);
+            $res = Yii::$app->steam->send($token,$json,$partner);
+
+            //更新steam_product表中的订单id 和 商品状态
+            $productInfo['order_id'] = $order_id;
+            $productInfo['status'] = 1;
+            $productInfo->save();
+        }else{
+            //发送短信邮件提醒 采购
+        }
+        print_r($res);
 
     }
 
