@@ -34,7 +34,8 @@ return [
     ],
     //黑名单
     'blacklist' => [
-        '370782199904217438'
+        '370782199904217438',
+        '330402196310130010',
     ],
     'steam' => [
         'key' => '3DC2EC41F468ADAB42B8A549A1BB0CF3',
@@ -51,5 +52,14 @@ return [
         'expiration_date' => 7, //有效期
         'conditions' => 2.01,//满多少金额
         'discount' => 2, //减金额
+    ],
+
+    //steam账号管理
+    'steam_user' => [
+        '76561198350673503' => ['name' => 'wangnan_0','pass' => 'fanshuo0108','cookie' => '/tmp/wnsteam.cookie'],
+        '76561198422858097' => ['name' => 'gprent','pass' => 'Gprent!@#','cookie' => '/tmp/gpsteam.cookie'],
+        '76561198381706538' => ['name' => 'ruilifei','pass' => 'Ruilifei910102','cookie' => '/tmp/rsteam.cookie'],
+        '76561198438205725' => ['name' => '18931672705','pass' => 'Ruilifei910102','cookie' => '/tmp/fsteam.cookie'],
+    
     ],
 ];
