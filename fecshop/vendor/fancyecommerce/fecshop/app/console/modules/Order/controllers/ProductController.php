@@ -164,12 +164,11 @@ Array
         $orderBody = '';
         if($prolist){
             foreach($prolist['coll'] as $complete){
-                $addtime = date('Y-m-d H:i:s',$complete['create_at']);
+                $addtime = date('Y-m-d H:i:s',$complete['created_at']);
                 $orderBody .= $complete['customer_lastname'].$complete['customer_firstname'].'的订单('.$complete['increment_id'].'金额：('.$complete['grand_total'].'),在'.$addtime.')已支付,Steam链接：'.$complete['steam_link']." 请尽快确认是忘记改状态 还是没有发货\r\n<br><br>\r\n\r\n<br><br>\r\n";
             }
             $j = count($prolist['coll']);
         }
-        
         //$emailArr = ['617990822@qq.com', '2366629496@qq.com'];
         $emailArr = ['gprent@163.com', '2366629496@qq.com'];
         //$emailArr = ['617990822@qq.com'];
@@ -281,13 +280,12 @@ Array
             foreach($completeArr['coll'] as $pInfo){
                 $url = $pInfo['igxe_url'];
                 $this->_num = 0;
-                sleep(10);
                 $params = $this->getParams($url);
                 if($params['qprice']){
                     $pInfo['starting_price'] = $params['qprice'];
-                    $a = Yii::$service->product->save($pInfo);
+                    //$a = Yii::$service->product->save($pInfo);
                 }
-                print_r($params);
+                print_r($params);exit;
             }
         }
     }
