@@ -203,7 +203,7 @@ class Manageredit
                 $itemModel = Yii::$service->order->item->getByPrimaryKey($itemId);
                 $currentItemStatus = $itemModel->item_status;
                 
-                if($currentItemStatus == 'holded'){
+                if($currentItemStatus == 'holded' || $currentItemStatus == 'sales_return'){
                     if(($item_status_all && $item_status_all == 'complete') || ($itemVal == 'complete')){
                         $product_id = $itemModel->product_id;
                         $product_info = $ProductMongodb->getByPrimaryKey($product_id);
