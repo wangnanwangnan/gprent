@@ -26,13 +26,20 @@ class SuccessController extends AppfrontController
     //支付成功后异步通知地址
     public function actionIpn()
     {
-        $data = $this->getBlock()->getLastData();
-        if($data){
-            echo 'success';
-            return;
+        file_put_contents('/tmp/a.txt','----99999999999');
+        $post = \Yii::$app->request->post();
+        if (is_array($post) && !empty($post)) {
+            file_put_contents('/tmp/t.txt',json_encode($post).'----99999999999');
+            $data = $this->getBlock()->getLastData();
+            if($data){
+                $post = \Yii::$service->helper->htmlEncode($post);
+                $ipnStatus = \Yii::$service->payment->alipay->receiveIpn($post);
+                echo 'success';
+                return;
 
+            }
         }
-        //return $this->render($this->action->id, $data);
+            //return $this->render($this->action->id, $data);
     }
 
 }
