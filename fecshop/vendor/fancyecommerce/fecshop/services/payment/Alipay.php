@@ -111,9 +111,6 @@ class Alipay extends Service
         }
         $base_grand_total = $this->_order['base_grand_total'];
         $order_total_amount = Yii::$service->page->currency->getCurrencyPrice($base_grand_total,'CNY');
-        if(Yii::$app->user->identity->id == 8){
-            $order_total_amount = 0.01;
-        }
         if($order_total_amount != $total_amount){
             Yii::$service->helper->errors->add('order increment id:'.$out_trade_no.' , total_amount('.$total_amount.') is not equal to order_total_amount('.$order_total_amount.')');
             
@@ -347,9 +344,6 @@ class Alipay extends Service
                 $subject = implode(',',$subject_arr);
                 $increment_id = $currentOrderInfo['increment_id'];
                 $base_grand_total = $currentOrderInfo['base_grand_total'];
-                if(Yii::$app->user->identity->id == 8){
-                    $base_grand_total = 0.01;
-                }
                 $total_amount = Yii::$service->page->currency->getCurrencyPrice($base_grand_total,'CNY');
                 Yii::$service->payment->setPaymentMethod($currentOrderInfo['payment_method']);
                 return json_encode([
