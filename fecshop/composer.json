@@ -17,8 +17,16 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
 		"yiisoft/yii2-apidoc": "~2.0.0",
-        "fancyecommerce/fecshop": ">=1.1.4.3",
-        "greedying/zhima": "dev-master"
+        "greedying/zhima": "dev-master",
+        "firebase/php-jwt": "^5.0",
+        "sizeg/yii2-jwt": "^1.0"
+        "imagine/imagine": "0.5.*",
+        "yiisoft/yii2-redis": "~2.0.0",
+        "phpoffice/phpexcel": "1.8.*",
+        "yiisoft/yii2-mongodb": "~2.1.0" ,
+        "skeeks/yii2-assets-auto-compress": "*",
+        "ramsey/uuid": "*",
+        "hightman/xunsearch": "*@beta"    
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
