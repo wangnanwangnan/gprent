@@ -138,7 +138,9 @@ Array
                 }
             }
         }
-        $emailArr = ['gprent@163.com', '2366629496@qq.com'];
+
+
+        $emailArr = ['2366629496@qq.com', 'gprent@163.com'];
         //$emailArr = ['617990822@qq.com'];
         foreach($emailArr as $email){
             $sendInfo = [

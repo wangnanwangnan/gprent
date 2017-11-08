@@ -13,6 +13,7 @@ return [
             // 默认通用配置
             'default' => [
                 'class'     => 'yii\swiftmailer\Mailer',
+                
                 'transport' => [
                     'class'       => 'Swift_SmtpTransport',
                     'host'        => 'smtp.qq.com',            //SMTP Host

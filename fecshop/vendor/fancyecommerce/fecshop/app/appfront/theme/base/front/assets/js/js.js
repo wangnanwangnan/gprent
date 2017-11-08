@@ -1,5 +1,11 @@
+var _hmt = _hmt || [];
 $(document).ready(function(){
-	currentBaseUrl = $(".currentBaseUrl").val();
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?75fc3ab2bba10587876d192ad5de22aa";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+	
+    currentBaseUrl = $(".currentBaseUrl").val();
 	$(".top_currency .currency_list ul li").click(function(){
 		currency = $(this).attr("rel");
 		

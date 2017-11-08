@@ -116,7 +116,7 @@ class Index
         $emailArr = ['gprent@163.com', '2366629496@qq.com'];
         foreach($emailArr as $email){
         
-            $htmlBody = '用户'.$customer['realname'].'刚刚订单支付成功，总价为'.$order['grand_total'].'，竟快发货';
+            $htmlBody = '用户'.$customer['lastname'].'('.$customer['realname'].')刚刚订单支付成功，总价为'.$order['grand_total'].'，竟快发货';
             $sendInfo = [
                         'to'            => $email,
                         'subject'       => '有人已经付款完成！',
