@@ -327,7 +327,7 @@ class Review extends Service
                 if ($model[$this->getPrimaryKey()]) {
                     $model->audit_user = $user_id;
                     $model->audit_date = time();
-                    $model->status = $reviewModel->ACTIVE_STATUS;
+                    $model->status = $reviewModel->getActiveStatus();
                     $model->save();
                     // 更新评论信息到产品表中。
                     $this->updateProductSpuReview($model['product_spu'], $model['lang_code']);
@@ -370,7 +370,7 @@ class Review extends Service
         $filter = [
             'where'            => [
                 ['product_spu' => $spu],
-                ['status' => $reviewModel->ACTIVE_STATUS],
+                ['status' => $reviewModel->getActiveStatus()],
             ],
         ];
         $coll = $this->coll($filter);
