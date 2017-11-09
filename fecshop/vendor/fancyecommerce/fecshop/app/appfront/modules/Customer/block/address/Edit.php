@@ -221,7 +221,7 @@ class Edit
             return;
         }
         if ($steam_link) {
-            //验证steam连接
+            //验证steam连接a
             $ver_str = Yii::$app->steam->verifySteamUrl($steam_link);
             if($ver_str){
                 Yii::$service->page->message->addError($ver_str);
