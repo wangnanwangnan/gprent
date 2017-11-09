@@ -60,6 +60,6 @@ return [
         '76561198422858097' => ['name' => 'gprent','pass' => 'Gprent!@#','cookie' => '/tmp/gpsteam.cookie'],
         '76561198381706538' => ['name' => 'ruilifei','pass' => 'Ruilifei910102','cookie' => '/tmp/rsteam.cookie'],
         '76561198438205725' => ['name' => '18931672705','pass' => 'Ruilifei910102','cookie' => '/tmp/fsteam.cookie'],
-    
+        '76561198258709745' => ['name' => 'naive_zeng','pass' => 'wssg54ZX','cookie' => '/tmp/zxsteam.cookie'],
     ],
 ];
