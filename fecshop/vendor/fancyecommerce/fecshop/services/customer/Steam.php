@@ -35,6 +35,18 @@ class Steam extends Component
 		return $rs;	
 	}
 
+    //判断steam交易链接地址是否正确
+    public function verifySteamUrl($steam_url)
+    {
+        //$twofa = 'H4X8M';
+        //$res = Yii::$app->steam->robootLogin($twofa);
+        //print_r($res);exit;
+        $contents = $this->curl('https://steamcommunity.com/');
+        //preg_match('/<div id="error_msg">(.+?)<\/div>/is', $contents, $match);
+        //file_put_contents('/tmp/aa.txt',$contents);
+        var_dump($contents);exit;
+    }
+
 	public function getinventory(){
 		$session = Yii::$app->session;
 		
@@ -200,10 +212,10 @@ class Steam extends Component
 		$steamauth['apikey'] = $steamKey; // Your Steam WebAPI-Key found at http://steamcommunity.com/dev/apikey
 		//$steamauth['domainname'] = ""; // The main URL of your website displayed in the login page
 		$steamauth['logoutpage'] = ""; // Page to redirect to after a successfull logout (from the directory the SteamAuth-folder is located in) - NO slash at the beginning!
-	    if($_SERVER['SERVER_NAME'] == 'wap.gprent.cn'){
-            $steamauth['loginpage'] = "http://wap.gprent.cn/customer/account/registerbysteam";
+	    if($_SERVER['SERVER_NAME'] == 'wap-test.gprent.cn'){
+            $steamauth['loginpage'] = "http://wap-test.gprent.cn/customer/account/registerbysteam";
         }else{
-            $steamauth['loginpage'] = "http://www.gprent.cn/customer/account/registerbysteam"; // Page to redirect to after a successfull login (from the directory the SteamAuth-folder is located in) - NO slash at the beginning!
+            $steamauth['loginpage'] = "http://test.gprent.cn/customer/account/registerbysteam"; // Page to redirect to after a successfull login (from the directory the SteamAuth-folder is located in) - NO slash at the beginning!
 	// System stuff
         }
 		//if (empty($steamauth['domainname'])) {$steamauth['domainname'] = $_SERVER['SERVER_NAME'];}
