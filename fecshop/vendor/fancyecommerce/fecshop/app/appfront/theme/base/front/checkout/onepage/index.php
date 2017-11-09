@@ -333,6 +333,23 @@
 					i++;
                 }
 
+                //steam_link validate
+                steam_link = $("#steam_link").val();
+                if(steam_link){
+                    	$.ajax({
+                            async:false,
+                            url:'/checkout/onepage/steamlink',
+							type:'get',
+							data: {"steamlink":steam_link},
+                            success:function(err){ 
+                                if(err){
+                                    $("#steam_link").after('<div style=""  class="validation-advice">'+err+'</div>');
+                                    i++;
+                                }
+                            }
+                        });
+ 
+                }
                 // password 是否长度大于6，并且两个密码一致
 				if($("#id_create_account").is(':checked')){
 					

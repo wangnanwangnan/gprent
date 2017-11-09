@@ -8,7 +8,8 @@
  */
 ?>
 <div class="main container two-columns-left">
-	<div class="col-main account_center">
+    <?= Yii::$service->page->widget->render('flashmessage'); ?>
+    <div class="col-main account_center">
 		<div class="std">
 			<div>
 				<form class="addressedit" action="<?= Yii::$service->url->getUrl('customer/address/edit'); ?>" id="form-validate" method="post">

@@ -55,4 +55,11 @@ class OnepageController extends AppfrontController
     {
         $this->getBlock('index')->ajaxUpdateOrderAndShipping();
     }
+
+    public function actionSteamlink()
+    {
+        $steamlink = Yii::$app->request->get('steamlink');
+        $res = Yii::$app->steam->verifySteamUrl($steamlink);
+        return $res;
+    }
 }
