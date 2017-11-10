@@ -62,4 +62,9 @@ return [
         '76561198438205725' => ['name' => '18931672705','pass' => 'Ruilifei910102','cookie' => '/tmp/fsteam.cookie'],
         '76561198258709745' => ['name' => 'naive_zeng','pass' => 'wssg54ZX','cookie' => '/tmp/zxsteam.cookie'],
     ],
+    //邮件提示邮箱
+    'admin_email' => [
+        'gprent@163.com', 
+        '2366629496@qq.com'
+    ],
 ];

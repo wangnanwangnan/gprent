@@ -74,6 +74,24 @@ class EditaccountController extends AppfrontController
                 $customerMemberInfo->is_cancel = 1;
                 if($customerMemberInfo->save()){
                     Yii::$service->page->message->addCorrect('退款申请成功，预计5个工作日内到账(支付宝限制)');
+ 
+                    //发送邮件提示
+                    $emailArr = Yii::$app->params['admin_email'];
+                    foreach($emailArr as $email){
+                    
+                        $htmlBody = '用户'.$identity->realname.'申请退款 订单ID('.$customerMemberInfo->order_id.')';
+                        $sendInfo = [
+                                    'to'            => $email,
+                                    'subject'       => '有人已经申请退款！',
+                                    'htmlBody'      => $htmlBody,
+                                    'senderName'    => Yii::$service->store->currentStore,
+                                ];
+
+                        if(!empty($identity->realname)){
+                            Yii::$service->email->send($sendInfo, 'default');
+                        }
+                    }
+
                 }
             }
         }

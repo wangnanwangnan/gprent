@@ -76,7 +76,7 @@ class EditaccountController extends AppfrontController
                     Yii::$service->page->message->addCorrect('退款申请成功，预计5个工作日内到账(支付宝限制)');
                 
                     //发送邮件提示
-                    $emailArr = ['gprent@163.com', '2366629496@qq.com'];
+                    $emailArr = Yii::$app->params['admin_email'];
                     foreach($emailArr as $email){
                     
                         $htmlBody = '用户'.$identity->realname.'申请退款 订单ID('.$customerMemberInfo->order_id.')';
