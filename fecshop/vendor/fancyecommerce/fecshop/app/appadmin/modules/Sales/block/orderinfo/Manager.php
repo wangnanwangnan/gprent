@@ -53,6 +53,7 @@ class Manager extends AppadminbaseBlock implements AppadminbaseBlockInterface
         $is_membercard = Yii::$app->request->get('ismember');
         if($is_membercard){
             $this->_param['is_membercard'] = $is_membercard;
+            $this->_param['order_status'] = 'processing';
         }
         // hidden section ,that storage page info
         $pagerForm = $this->getPagerForm();
